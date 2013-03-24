@@ -19,5 +19,6 @@ $plugin_tx['keymaster']['about']="Über Keymaster_XH";
 
 $plugin_tx['keymaster']['cf_logout']="Der Zeitraum der Inaktivität (in Sekunden), nach dem der Anwender automatisch abgemeldet wird.";
 $plugin_tx['keymaster']['cf_warn']="Der Zeitraum der Inaktivität (in Sekunden), nach dem der Anwendern vorgewarnt wird, dass er abgemeldet werden wird.";
+$plugin_tx['keymaster']['cf_poll']="Die Zeitspanne für die Abfrage des Schlüsselmeisters (in Milliseconden). Kleine Werte lassen den Schlüsselmeister schneller reagieren, aber belasten den Server mehr. Sinnvoller Bereich: 1000-60000."
 
 ?>

@@ -19,5 +19,6 @@ $plugin_tx['keymaster']['about']="About Keymaster_XH";
 
 $plugin_tx['keymaster']['cf_logout']="The period of inactivity (in seconds) after the user is automatically logged out.";
 $plugin_tx['keymaster']['cf_warn']="The period of inactivity (in seconds) after the user is warned that he will be logged out.";
+$plugin_tx['keymaster']['cf_poll']="The interval for polling the keymaster (in milliseconds). Small values make the keymaster more responsive, but strain the server more. Reasonable range: 1000-60000."
 
 ?>
