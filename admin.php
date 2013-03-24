@@ -147,19 +147,22 @@ function Keymaster_JS()
     return '<script type="text/javascript">/* <![CDATA[ */keymaster = '
         . json_encode($data) . '/* ]]> */</script>'
         . '<script type="text/javascript" src="'
-        . $pth['folder']['plugins'] . 'keymaster/admin.js"></script>';
+        . $pth['folder']['plugins'] . 'keymaster/admin.min.js"></script>';
 }
 
 
 /*
  * Handle login request.
  */
-if (isset($login) && $login == 'true' && gc('status') != 'adm' && !logincheck())
+if (isset($login) && $login == 'true' && (gc('status') != 'adm' || !logincheck()))
 {
     if ($_Keymaster->isFree()) {
         if (!$_Keymaster->give()) {
             e('cntwriteto', 'file', $_Keymaster->getFilename());
-        }
+        } else {
+	    // important, as filemtime() is called later for the same file:
+	    clearstatcache();
+	}
     } else {
         setcookie('status', '', 0, CMSIMPLE_ROOT);
         setcookie('passwd', '', 0, CMSIMPLE_ROOT);
@@ -179,10 +182,15 @@ if (isset($_GET['keymaster_time'])) {
 } elseif (isset($_POST['keymaster_reset'])) {
     $_Keymaster->reset();
     exit;
-} else {
+} elseif ($_Keymaster->remainingTime() > 0) {
     if (!$_Keymaster->reset()) {
         e('cntwriteto', 'file', $_Keymaster->getFilename());
     }
+} else {
+    setcookie('status', '', 0, CMSIMPLE_ROOT);
+    setcookie('passwd', '', 0, CMSIMPLE_ROOT);
+    header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
+    exit;
 }
 
 

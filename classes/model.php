@@ -86,7 +86,6 @@ class Keymaster
      */
     function loggedInTime()
     {
-        assert(!$this->hasKey());
         return time() - filemtime($this->filename);
     }
 
