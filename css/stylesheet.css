@@ -1,0 +1,28 @@
+#keymaster {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    background: rgba(0, 0, 0, 0.8);
+}
+#keymaster div.keymaster_message {
+    width: 20em;
+    margin: 1em auto;
+    padding: 1em;
+    border-radius: 1em;
+    background: #fc0;
+    color: black;
+    overflow: auto;
+}
+#keymaster p {
+    font-weight: bold;
+}
+#keymaster div.keymaster_buttons {
+    text-align: right;
+}
+#keymaster button {
+    padding: 0.5em 1em;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Keymaster_XH - Manual</title>
+<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+</head>
+
+<body>
+
+<h1>Keymaster_XH - a CMSimple_XH Plugin</h1>
+<img src="../keymaster.png" style="float:left">
+<p style="text-align:justify">Keymaster_XH facilitates to lock the
+administration area of a CMSimple_XH webiste, if a user has already logged in.
+This is necessary, if there is more than one user, who has access to the
+back-end, as CMSimple_XH's back-end doesn't take any precautions against
+concurrent editing. To avoid locking the site forever, if a user forgets to log
+out properly, after a configurable period of inactivity the logging in is
+possible again for other users.</p>
+
+<ul id="nav">
+<li><a href="#notice">Important Notice</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#settings">Settings</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#credits">Credits</a></li>
+</ul>
+
+<div id="body">
+
+<p><strong>Please do read this documentation <em>before</em> you encounter any
+problems!</strong></p>
+
+<h2><a name="notice">Important Notice</a></h2>
+<p><strong>Keymaster_XH couldn't be tested so far in various environments. It
+is a so called beta version. Use with caution!</strong></p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="requirements">Requirements</a></h2>
+<p>Keymaster_XH is a plugin for CMSimple_XH. It requires a UTF-8 encoded
+version.</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="installation">Installation</a></h2>
+<p>The installation is done as with many other CMSimple_XH plugins. See the <a
+href="http://www.cmsimple-xh.org/wiki/doku.php/installation">CMSimple_XH
+wiki</a> for further details.</p>
+<ol>
+<li><strong>Backup the data on your server.</strong></li>
+<li>Unzip the distribution on your computer.</li>
+<li>Upload the whole directory keymaster/ to your server into CMSimple_XH's
+plugins/ directory.</li>
+<li>Set write permissions for the subdirectories config/, css/, languages/ and
+the file "key".</li>
+<li><strong>Switch to "Plugins&rarr;Keymaster" in the back-end to check if all
+requirements are fulfilled.</strong></li>
+</ol>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="settings">Settings</a></h2>
+<p>The plugin's configuration is done as with many other CMSimple_XH plugins in
+the website's back-end. Select "Keymaster" from "Plugins".</p>
+<p>You can change the default settings of Keymaster_XH in "Config". Hints for
+the options will be displayed when hovering over the help icon with your
+mouse.</p>
+<p>Localization is done in "Language". You can translate the character strings
+to your own language, or customize them according to your needs.</p>
+<p>The look of the Keymaster_XH can be customized in "Stylesheet".</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="usage">Usage</a></h2>
+<p>After installation, the plugin already works.</p>
+<h3>How does it work?</h3>
+<p>If no user is logged in to the administration mode, the keymaster holds a
+single key. As soon as a user logs in, the key is given to this user and access
+to CMSimple_XH's back-end is granted. As there is only one key, another user
+can't log in; he's simply rejected with an appropriate message (but see <a
+href="#limitations">limitations</a>).</p>
+<p>After some configurable period of inactivity, the user is logged out, what
+returns the key to the keymaster. Inactivity means a period, in which no request
+to the server is made, which can be recognized by the keymaster. A configurable
+time before the user is logged out, he is prompted to prolong the session, which
+then triggers a recognizable request.</p>
+<p>Having multiple browser windows (resp. tabs; in the following the term
+browser window refers to browser tabs as well) open for the same CMSimple_XH
+installation is possible; activity in one window is recognized in the others by
+the keymaster, what may take a little while, though (depending on the poll
+interval).</p>
+<p style="font-weight: bold">Caveat: editing a CMSimple_XH site in more than one
+browser window does not generally work. Unless you know exactly what you're
+doing, make modifications only in a single window, and <em>treat</em> the others
+as read-only.</p>
+<p>In case you have missed to prolong the session in time, and you have been
+logged out by the keymaster, while there were some unsaved changes, there is a
+<em>chance</em> to get them back: Log in to the site from another window of the
+same browser and press the back button in the original window. If you're lucky,
+your changes are still there.</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="limitations">Limitations</a></h2>
+<p>For security_type="javascript" resp. "wwwaut" the login attempt of a second
+user will not show any message; the user simply can't login. Solution: switch to
+security_type="page".</p>
+<p>Some extensions (e.g. Chat_XH) periodically send background requests to the
+server, which might be recognized by the keymaster as activity. If such an
+extension is active, the automatic logout does not work, i.e. other users will
+not be able to log in until the browser window is closed.</p>
+<p>If a logged in user closes the browser window (but not the complete
+browser), and another user logs in later, the first user is able to circumvent
+the keymaster's check by browsing to the CMSimple_XH installation again.
+Solution: log out properly when you're done with the editing (at least close the
+browser).</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="license">License</a></h2>
+<p>Keymaster_XH is licensed under <a
+href="http://www.gnu.org/licenses/gpl.html">GPLv3</a>.</p>
+<p>&copy; 2013 Christoph M. Becker</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+<h2><a name="credits">Credits</a></h2>
+<p>Keymaster_XH was inspired by Martin Damken's and Gert Ebersbach's <a
+href="http://ge-webdesign.de/cmsimpleplugins/?Eigene_Plugins/LoginLocker">LoginLocker</a>
+and a brilliant Movie (guess which ;)).</p>
+<p>The plugin icon is designed by <a href="http://www.mentalrey.it/">Alessandro
+Rei</a>. Many thanks for publishing this icon under GPL.</p>
+<p>This plugin uses free applications icons from <a
+href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making these icons
+freely available.</p>
+<!--<p>Many thanks to the community at the <a
+href="http://www.cmsimpleforum.com/">CMSimple_XH-Forum</a> for tips, suggestions
+and testing.</p>
+--><p>And last but not least many thanks to <a href="http://www.harteg.dk/">Peter
+Harteg</a>, the "father" of CMSimple, and all developers of <a
+href="http://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS
+wouldn't exist.</p>
+<div class="toplink"><a href="#">back to top</a></div>
+
+</div>
+
+</body>
+
+</html>
