@@ -35,6 +35,16 @@ if (!function_exists('json_encode')) {
 }
 
 
+function Keymaster_logout()
+{
+    global $su;
+
+    setcookie('status', '', 0, CMSIMPLE_ROOT);
+    setcookie('passwd', '', 0, CMSIMPLE_ROOT);
+    header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
+}
+
+
 /**
  * Returns a text with special characters converted to HTML entities.
  *
@@ -164,9 +174,7 @@ if (isset($login) && $login == 'true' && (gc('status') != 'adm' || !logincheck()
 	    clearstatcache();
 	}
     } else {
-        setcookie('status', '', 0, CMSIMPLE_ROOT);
-        setcookie('passwd', '', 0, CMSIMPLE_ROOT);
-        header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
+        Keymaster_logout();
         exit;
     }
 }
@@ -187,9 +195,7 @@ if (isset($_GET['keymaster_time'])) {
         e('cntwriteto', 'file', $_Keymaster->getFilename());
     }
 } else {
-    setcookie('status', '', 0, CMSIMPLE_ROOT);
-    setcookie('passwd', '', 0, CMSIMPLE_ROOT);
-    header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
+    Keymaster_logout();
     exit;
 }
 
