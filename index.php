@@ -23,7 +23,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version number of the plugin.
  */
-define('KEYMASTER_VERSION', '1beta1');
+define('KEYMASTER_VERSION', '1beta2');
 
 
 /**
@@ -50,7 +50,7 @@ require_once $pth['folder']['plugin_classes'] . 'model.php';
 $_Keymaster = new Keymaster($pth['folder']['plugins'] . 'keymaster/key',
                             $plugin_cf['keymaster']['logout']);
 
-   
+
 /*
  * Handle login screen, logout
  * and secondary browser windows after the user has logged out.
