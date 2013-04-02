@@ -120,7 +120,7 @@ function Keymaster_info() // RELEASE-TODO
     $checks[$ptx['syscheck_encoding']] =
         strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
     $folders = array();
-    foreach (array('config/', 'css', 'languages/') as $folder) {
+    foreach (array('config/', 'css/', 'languages/') as $folder) {
 	$folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
     }
     foreach ($folders as $folder) {
