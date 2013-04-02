@@ -149,7 +149,6 @@ function Keymaster_JS()
     $pcf = $plugin_cf['keymaster'];
     $ptx = $plugin_tx['keymaster'];
     $data = array(
-        'baseUrl' => KEYMASTER_URL,
         'warn' => $pcf['logout'] - $pcf['warn'],
         'pollInterval' => $pcf['poll'],
         'text' => $ptx

@@ -14,7 +14,7 @@
  * @returns {undefined}
  */
 keymaster.getTime = function() {
-    var url = keymaster.baseUrl + "?&keymaster_time";
+    var url = "./?&keymaster_time";
     var request = new XMLHttpRequest();
     request.open("GET", url);
     request.onreadystatechange = function() {
@@ -28,7 +28,7 @@ keymaster.getTime = function() {
             } else if (remaining < 0) {
                 window.location.href = window.location.href;
             } else if (remaining == 0) {
-                window.location.href = keymaster.baseUrl + "?&logout";
+                window.location.href = "./?&logout";
             } else if (remaining < keymaster.warn) {
                 keymaster.updateWarning(remaining);
                 keymaster.dialog.style.display = "block";
@@ -48,7 +48,7 @@ keymaster.getTime = function() {
  */
 keymaster.reset = function() {
     var request = new XMLHttpRequest();
-    request.open("POST", keymaster.baseUrl);
+    request.open("POST", "./");
     request.setRequestHeader("Content-Type",
                              "application/x-www-form-urlencoded");
     request.send("keymaster_reset");
