@@ -59,9 +59,7 @@ if (isset($f) && $f == 'login' && !$_Keymaster->isFree()) {
     $o .= '<div class="cmsimplecore_warning">'
         . $plugin_tx['keymaster']['editing'] . '</div>';
     $f = '';
-} elseif (isset($logout) && $logout == 'true'
-          && $_COOKIE['status'] == 'adm' && logincheck())
-{
+} elseif ($logout && $_COOKIE['status'] == 'adm' && logincheck()) {
     if (!$_Keymaster->take()) {
         e('cntwriteto', 'file', $_Keymaster->getFilename());
     }
