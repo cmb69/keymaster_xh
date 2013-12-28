@@ -25,7 +25,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version number of the plugin.
  */
-define('KEYMASTER_VERSION', '1beta2');
+define('KEYMASTER_VERSION', '@KEYMASTER_VERSION@');
 
 /**
  * The base URL.

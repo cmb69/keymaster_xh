@@ -181,7 +181,7 @@ function Keymaster_js()
     return '<script type="text/javascript">/* <![CDATA[ */keymaster = '
         . json_encode($data) . '/* ]]> */</script>'
         . '<script type="text/javascript" src="'
-        . $pth['folder']['plugins'] . 'keymaster/admin.min.js"></script>';
+        . $pth['folder']['plugins'] . 'keymaster/admin.js"></script>';
 }
 
 /*
