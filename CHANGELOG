@@ -1,5 +1,5 @@
 Version 1beta2 - released 2013-04-03
-cmb     fixed bug, where XHR didn't work for www. sites (using relative URLs now)
+* fixed bug, where XHR didn't work for www. sites (using relative URLs now)
 
 Version 1beta1 - released 2013-03-25
-cmb	initial release
+* initial release

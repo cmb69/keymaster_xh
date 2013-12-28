@@ -3,11 +3,11 @@
 /**
  * Front-end of Keymaster_XH.
  *
- * @package	Keymaster
- * @copyright	Copyright (c) 2013 Christoph M. Becker <http://3-magi.net/>
- * @license	http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @package     Keymaster
+ * @copyright   Copyright (c) 2013 Christoph M. Becker <http://3-magi.net/>
+ * @license     http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @version     $Id$
- * @link	http://3-magi.net/?CMSimple_XH/Keymaster_XH
+ * @link        http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
 
