@@ -3,13 +3,16 @@
 /**
  * Back-end of Keymaster_XH.
  *
- * @package     Keymaster
- * @copyright   Copyright (c) 2013 Christoph M. Becker <http://3-magi.net/>
- * @license     http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @version     $Id$
- * @link        http://3-magi.net/?CMSimple_XH/Keymaster_XH
+ * PHP versions 4 and 5
+ *
+ * @category  CMSimple_XH
+ * @package   Keymaster
+ * @author    Christoph M. Becker <cmbecker69@gmx.de>
+ * @copyright 2013 Christoph M. Becker <http://3-magi.net/>
+ * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @version   SVN: $Id$
+ * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-
 
 /*
  * Prevent direct access.
@@ -19,7 +22,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
-
 /**
  * Fallback for missing json_encode().
  */
@@ -27,6 +29,15 @@ if (!function_exists('json_encode')) {
     if (!class_exists('CMB_JSON')) {
         include_once $pth['folder']['plugin'] . 'JSON.php';
     }
+    /**
+     * Converts a value to a JSON string.
+     *
+     * @param mixed $value A value.
+     *
+     * @return string
+     *
+     * @todo Don't define json_encode().
+     */
     function json_encode($value)
     {
         $json = CMB_JSON::instance();
@@ -34,7 +45,16 @@ if (!function_exists('json_encode')) {
     }
 }
 
-
+/**
+ * Logs out the admin.
+ *
+ * @return void
+ *
+ * @global string The current page URL.
+ *
+ * @todo Decouple that from knowledge about login credentials,
+ *       i.e. use redirect to ?logout.
+ */
 function Keymaster_logout()
 {
     global $su;
@@ -44,27 +64,30 @@ function Keymaster_logout()
     header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
 }
 
-
 /**
  * Returns a text with special characters converted to HTML entities.
  *
- * @param  string $text
- * @return string  The (X)HTML.
+ * @param string $string A string.
+ *
+ * @return string (X)HTML.
+ *
+ * @todo Improve wrt. ENT_SUBSTITUTE.
  */
-function Keymaster_hsc($text)
+function Keymaster_hsc($string)
 {
-    return htmlspecialchars($text, ENT_COMPAT, 'UTF-8');
+    return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
 }
-
 
 /**
  * Renders a template.
  *
+ * @param string $_template A template name.
+ * @param string $_bag      An array of variables needed in the template.
+ *
+ * @return string (X)HTML.
+ *
  * @global array  The paths of system files and folders.
  * @global array  The configuration of the core.
- * @param  string  $_template  The name of the template.
- * @param  string  $_bag  Variables available in the template.
- * @return string  The (X)HTML.
  */
 function Keymaster_render($_template, $_bag)
 {
@@ -83,17 +106,16 @@ function Keymaster_render($_template, $_bag)
     return $o;
 }
 
-
 /**
  * Returns the plugin information view.
+ *
+ * @return string (X)HTML.
  *
  * @global array  The paths of system files and folders.
  * @global array  The localization of the core.
  * @global array  The localization of the plugins.
- * @global Boilerplate_Model  The model.
- * @return string  The (X)HTML.
  */
-function Keymaster_info() // RELEASE-TODO
+function Keymaster_info()
 {
     global $pth, $tx, $plugin_tx;
 
@@ -109,42 +131,45 @@ function Keymaster_info() // RELEASE-TODO
             . "keymaster/images/$state.png";
     }
     $checks = array();
-    $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)] =
-        version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
+    $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
+        = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
     foreach (array('date', 'pcre') as $ext) {
-        $checks[sprintf($ptx['syscheck_extension'], $ext)] =
-            extension_loaded($ext) ? 'ok' : 'fail';
+        $checks[sprintf($ptx['syscheck_extension'], $ext)]
+            = extension_loaded($ext) ? 'ok' : 'fail';
     }
-    $checks[$ptx['syscheck_magic_quotes']] =
-        !get_magic_quotes_runtime() ? 'ok' : 'fail';
-    $checks[$ptx['syscheck_encoding']] =
-        strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
+    $checks[$ptx['syscheck_magic_quotes']]
+        = !get_magic_quotes_runtime() ? 'ok' : 'fail';
+    $checks[$ptx['syscheck_encoding']]
+        = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
     $folders = array();
     foreach (array('config/', 'css/', 'languages/') as $folder) {
         $folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
     }
     foreach ($folders as $folder) {
-        $checks[sprintf($ptx['syscheck_writable_folder'], $folder)] =
-            is_writable($folder) ? 'ok' : 'warn';
+        $checks[sprintf($ptx['syscheck_writable_folder'], $folder)]
+            = is_writable($folder) ? 'ok' : 'warn';
     }
     $file = $pth['folder']['plugins'] . 'keymaster/key';
-    $checks[sprintf($ptx['syscheck_writable_file'], $file)] =
-        is_writable($file) ? 'ok' : 'fail';
+    $checks[sprintf($ptx['syscheck_writable_file'], $file)]
+        = is_writable($file) ? 'ok' : 'fail';
     $icon = $pth['folder']['plugins'] . 'keymaster/keymaster.png';
     $version = KEYMASTER_VERSION;
     $bag = compact('labels', 'images', 'checks', 'icon', 'version');
     return Keymaster_render('info', $bag);
 }
 
-
 /**
  * Returns the script elements.
  *
- * @return void
+ * @return string (X)HTML.
+ *
+ * @global array The paths of system files and folders.
+ * @global array The configuration of the plugins.
+ * @global array The localization of the plugins.
  */
-function Keymaster_JS()
+function Keymaster_js()
 {
-    global $o, $pth, $plugin_cf, $plugin_tx;
+    global $pth, $plugin_cf, $plugin_tx;
 
     $pcf = $plugin_cf['keymaster'];
     $ptx = $plugin_tx['keymaster'];
@@ -159,12 +184,12 @@ function Keymaster_JS()
         . $pth['folder']['plugins'] . 'keymaster/admin.min.js"></script>';
 }
 
-
 /*
  * Handle login request.
  */
-if (isset($login) && $login == 'true' && (gc('status') != 'adm' || !logincheck()))
-{
+if (isset($login) && $login == 'true'
+    && (gc('status') != 'adm' || !logincheck())
+) {
     if ($_Keymaster->isFree()) {
         if (!$_Keymaster->give()) {
             e('cntwriteto', 'file', $_Keymaster->getFilename());
@@ -177,7 +202,6 @@ if (isset($login) && $login == 'true' && (gc('status') != 'adm' || !logincheck()
         exit;
     }
 }
-
 
 /*
  * Handle Keymaster XHRs and other requests.
@@ -198,16 +222,14 @@ if (isset($_GET['keymaster_time'])) {
     exit;
 }
 
-
 /*
  * Emit the script elements.
  */
 if (isset($bjs)) {
-    $bjs .= Keymaster_JS();
+    $bjs .= Keymaster_js();
 } else {
-    $o .= Keymaster_JS();
+    $o .= Keymaster_js();
 }
-
 
 /*
  * Handle the plugin adminstration.

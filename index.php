@@ -3,13 +3,16 @@
 /**
  * Front-end of Keymaster_XH.
  *
- * @package     Keymaster
- * @copyright   Copyright (c) 2013 Christoph M. Becker <http://3-magi.net/>
- * @license     http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @version     $Id$
- * @link        http://3-magi.net/?CMSimple_XH/Keymaster_XH
+ * PHP versions 4 and 5
+ *
+ * @category  CMSimple_XH
+ * @package   Keymaster
+ * @author    Christoph M. Becker <cmbecker69@gmx.de>
+ * @copyright 2013 Christoph M. Becker <http://3-magi.net/>
+ * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @version   SVN: $Id$
+ * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-
 
 /*
  * Prevent direct access.
@@ -19,37 +22,39 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
-
 /**
  * The version number of the plugin.
  */
 define('KEYMASTER_VERSION', '1beta2');
 
-
 /**
- * The base URI.
+ * The base URL.
+ *
+ * @todo Fix.
  */
-define('KEYMASTER_URL', 'http'
-   . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '')
-   . '://' . $_SERVER['SERVER_NAME']
-   . ($_SERVER['SERVER_PORT'] < 1024 ? '' : ':' . $_SERVER['SERVER_PORT'])
-   . preg_replace('/index.php$/', '', $_SERVER['SCRIPT_NAME']));
-
+define(
+    'KEYMASTER_URL',
+    'http'
+    . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '')
+    . '://' . $_SERVER['SERVER_NAME']
+    . ($_SERVER['SERVER_PORT'] < 1024 ? '' : ':' . $_SERVER['SERVER_PORT'])
+    . preg_replace('/index.php$/', '', $_SERVER['SCRIPT_NAME'])
+);
 
 /**
  * The model class.
  */
 require_once $pth['folder']['plugin_classes'] . 'model.php';
 
-
 /**
  * The model object.
  *
- * var Keymaster
+ * @var Keymaster
  */
-$_Keymaster = new Keymaster($pth['folder']['plugins'] . 'keymaster/key',
-                            $plugin_cf['keymaster']['logout']);
-
+$_Keymaster = new Keymaster(
+    $pth['folder']['plugins'] . 'keymaster/key',
+    $plugin_cf['keymaster']['logout']
+);
 
 /*
  * Handle login screen, logout
