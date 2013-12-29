@@ -43,22 +43,6 @@ class Keymaster_Views
     }
 
     /**
-     * Returns a text with special characters converted to HTML entities.
-     *
-     * @param string $string A string.
-     *
-     * @return string (X)HTML.
-     *
-     * @access protected
-     *
-     * @todo Improve wrt. ENT_SUBSTITUTE.
-     */
-    function hsc($string)
-    {
-        return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
-    }
-
-    /**
      * Returns a string with TAGCs adjusted for (X)HTML.
      *
      * @param string $string A string.
