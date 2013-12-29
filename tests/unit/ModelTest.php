@@ -131,6 +131,43 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $actual = $this->model->isFree();
         $this->assertFalse($actual);
     }
+
+    public function testJsConfigHasThreeElements()
+    {
+        $actual = $this->model->jsConfig();
+        $this->assertCount(3, $actual);
+    }
+
+    //public function testJsConfigHasPollIntervalFromConfig()
+    //{
+    //    global $plugin_cf;
+    //
+    //    $plugin_cf = array('keymaster' => array('pollInterval' => '7000'));
+    //    $poll = 7000;
+    //    $actual = $this->model->jsConfig();
+    //    $this->assertEquals($poll, $actual['pollInterval']);
+    //}
+
+    public function testPluginIconPath()
+    {
+        global $pth;
+
+        $pth['folder']['plugins'] = './';
+        $expected = './keymaster/keymaster.png';
+        $actual = $this->model->pluginIconPath();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testStateIconPath()
+    {
+        global $pth;
+
+        $state = 'warn';
+        $pth['folder']['plugins'] = './';
+        $expected = './keymaster/images/' . $state . '.png';
+        $actual = $this->model->stateIconPath($state);
+        $this->assertEquals($expected, $actual);
+    }
 }
 
 ?>

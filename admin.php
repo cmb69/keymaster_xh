@@ -65,71 +65,20 @@ function Keymaster_logout()
 }
 
 /**
- * Returns a text with special characters converted to HTML entities.
+ * Returns an array with system checks.
  *
- * @param string $string A string.
- *
- * @return string (X)HTML.
- *
- * @todo Improve wrt. ENT_SUBSTITUTE.
- */
-function Keymaster_hsc($string)
-{
-    return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
-}
-
-/**
- * Renders a template.
- *
- * @param string $_template A template name.
- * @param string $_bag      An array of variables needed in the template.
- *
- * @return string (X)HTML.
- *
- * @global array  The paths of system files and folders.
- * @global array  The configuration of the core.
- */
-function Keymaster_render($_template, $_bag)
-{
-    global $pth, $cf;
-
-    $_template = "{$pth['folder']['plugins']}keymaster/views/$_template.htm";
-    $_xhtml = $cf['xhtml']['endtags'];
-    unset($pth, $cf);
-    extract($_bag);
-    ob_start();
-    include $_template;
-    $o = ob_get_clean();
-    if (!$_xhtml) {
-        $o = str_replace('/>', '>', $o);
-    }
-    return $o;
-}
-
-/**
- * Returns the plugin information view.
- *
- * @return string (X)HTML.
+ * @return array
  *
  * @global array  The paths of system files and folders.
  * @global array  The localization of the core.
  * @global array  The localization of the plugins.
  */
-function Keymaster_info()
+function Keymaster_systemChecks()
 {
     global $pth, $tx, $plugin_tx;
 
     $ptx = $plugin_tx['keymaster'];
-    $labels = array(
-        'syscheck' => $ptx['syscheck_title'],
-        'about' => $ptx['about']
-    );
-    $labels = array_map('Keymaster_hsc', $labels);
     $phpVersion = '4.3.0';
-    foreach (array('ok', 'warn', 'fail') as $state) {
-        $images[$state] = $pth['folder']['plugins']
-            . "keymaster/images/$state.png";
-    }
     $checks = array();
     $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
         = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
@@ -152,36 +101,7 @@ function Keymaster_info()
     $file = $pth['folder']['plugins'] . 'keymaster/key';
     $checks[sprintf($ptx['syscheck_writable_file'], $file)]
         = is_writable($file) ? 'ok' : 'fail';
-    $icon = $pth['folder']['plugins'] . 'keymaster/keymaster.png';
-    $version = KEYMASTER_VERSION;
-    $bag = compact('labels', 'images', 'checks', 'icon', 'version');
-    return Keymaster_render('info', $bag);
-}
-
-/**
- * Returns the script elements.
- *
- * @return string (X)HTML.
- *
- * @global array The paths of system files and folders.
- * @global array The configuration of the plugins.
- * @global array The localization of the plugins.
- */
-function Keymaster_js()
-{
-    global $pth, $plugin_cf, $plugin_tx;
-
-    $pcf = $plugin_cf['keymaster'];
-    $ptx = $plugin_tx['keymaster'];
-    $data = array(
-        'warn' => $pcf['logout'] - $pcf['warn'],
-        'pollInterval' => $pcf['poll'],
-        'text' => $ptx
-    );
-    return '<script type="text/javascript">/* <![CDATA[ */keymaster = '
-        . json_encode($data) . '/* ]]> */</script>'
-        . '<script type="text/javascript" src="'
-        . $pth['folder']['plugins'] . 'keymaster/admin.js"></script>';
+    return $checks;
 }
 
 /*
@@ -226,9 +146,9 @@ if (isset($_GET['keymaster_time'])) {
  * Emit the script elements.
  */
 if (isset($bjs)) {
-    $bjs .= Keymaster_js();
+    $bjs .= $_Keymaster_views->js($pth['folder']['plugins'] . 'keymaster/admin.js');
 } else {
-    $o .= Keymaster_js();
+    $o .= $_Keymaster_views->js($pth['folder']['plugins'] . 'keymaster/admin.js');
 }
 
 /*
@@ -238,7 +158,7 @@ if (isset($keymaster) && $keymaster == 'true') {
     $o .= print_plugin_admin('off');
     switch ($admin) {
     case '':
-        $o .= Keymaster_info();
+        $o .= $_Keymaster_views->info(Keymaster_systemChecks());
         break;
     default:
         $o .= plugin_admin_common($action, $admin, $plugin);

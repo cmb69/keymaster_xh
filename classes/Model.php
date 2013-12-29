@@ -130,6 +130,62 @@ class Keymaster_Model
     {
         return $this->keyfile->extend();
     }
+
+    /**
+     * Returns the JavaScript configuration.
+     *
+     * @return array
+     *
+     * @global array The configuration of the plugins.
+     * @global array The localization of the plugins.
+     */
+    function jsConfig()
+    {
+        global $plugin_cf, $plugin_tx;
+
+        $pcf = $plugin_cf['keymaster'];
+        $ptx = $plugin_tx['keymaster'];
+        $config = array(
+            'warn' => $pcf['logout'] - $pcf['warn'],
+            'pollInterval' => (int) $pcf['poll'],
+            'text' => $ptx
+        );
+        return $config;
+    }
+
+    /**
+     * Returns the path of the plugin icon.
+     *
+     * @return string
+     *
+     * @access public
+     *
+     * @global array The paths of system files and folders.
+     */
+    function pluginIconPath()
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'keymaster/keymaster.png';
+    }
+
+    /**
+     * Returns the path of a state icon.
+     *
+     * @param string $state A state.
+     *
+     * @return string
+     *
+     * @access public
+     *
+     * @global array The paths of system files and folders.
+     */
+    function stateIconPath($state)
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'keymaster/images/' . $state . '.png';
+    }
 }
 
 ?>

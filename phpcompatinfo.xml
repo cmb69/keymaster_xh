@@ -16,7 +16,6 @@
             <directory name="images"/>
             <directory name="languages"/>
             <directory name="tests"/>
-            <directory name="views"/>
         </exclude>
     </excludes>
 </phpcompatinfo>

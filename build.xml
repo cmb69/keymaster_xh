@@ -79,7 +79,7 @@
     <target name="php-doc">
         <phpdoc title="Keymaster_XH Developer Documentation" destdir="doc/php"
                 output="HTML:frames:default" defaultpackagename="Keymaster"
-                defaultcategoryname="CMSimple_XH">
+                defaultcategoryname="CMSimple_XH" parseprivate="true">
             <fileset refid="php-sources"/>
             <projdocfileset dir=".">
                <include name="README"/>

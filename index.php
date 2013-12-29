@@ -42,19 +42,33 @@ define(
 );
 
 /**
+ * The key file class.
+ */
+require_once $pth['folder']['plugin_classes'] . 'Keyfile.php';
+/**
  * The model class.
  */
-require_once $pth['folder']['plugin_classes'] . 'model.php';
+require_once $pth['folder']['plugin_classes'] . 'Model.php';
 
+/**
+ * The views class.
+ */
+require_once $pth['folder']['plugin_classes'] . 'Views.php';
+
+$temp = new Keymaster_Keyfile($pth['folder']['plugins'] . 'keymaster/key');
 /**
  * The model object.
  *
- * @var Keymaster
+ * @var Keymaster_Model
  */
-$_Keymaster = new Keymaster_Model(
-    $pth['folder']['plugins'] . 'keymaster/key',
-    $plugin_cf['keymaster']['logout']
-);
+$_Keymaster = new Keymaster_Model($temp, $plugin_cf['keymaster']['logout']);
+
+/**
+ * The views object.
+ *
+ * @var Keymaster_Views
+ */
+$_Keymaster_views = new Keymaster_Views($_Keymaster);
 
 /*
  * Handle login screen, logout

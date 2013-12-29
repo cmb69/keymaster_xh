@@ -29,7 +29,7 @@ require_once './classes/Keyfile.php';
  */
 class KeyfileTest extends PHPUnit_Framework_TestCase
 {
-    protected $basePath;
+    protected $filename;
 
     protected $keyfile;
 
@@ -37,11 +37,31 @@ class KeyfileTest extends PHPUnit_Framework_TestCase
     {
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('keyfile'));
-        $this->basePath = vfsStream::url('keyfile') . '/';
-        $filename = $this->basePath . '/key';
-        file_put_contents($filename, '');
+        $this->filename = vfsStream::url('keyfile') . '/key';
+        file_put_contents($this->filename, '');
 
-        $this->keyfile = new Keymaster_Keyfile($filename);
+        $this->keyfile = new Keymaster_Keyfile($this->filename);
+    }
+
+    public function testFilename()
+    {
+        $expected = $this->filename;
+        $actual = $this->keyfile->filename();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testMtimeIsNotInTheFuture()
+    {
+        $actual = $this->keyfile->mtime();
+        $this->assertTrue($actual <= time());
+    }
+
+    /**
+     * @expectedException PHPUnit_Framework_Error_Warning
+     */
+    public function testTouchThrowsWarningWithOldVfs()
+    {
+        $actual = $this->keyfile->touch();
     }
 
     public function testExtendIncreasesSizeByOne()
