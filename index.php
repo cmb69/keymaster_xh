@@ -45,6 +45,7 @@ define(
  * The key file class.
  */
 require_once $pth['folder']['plugin_classes'] . 'Keyfile.php';
+
 /**
  * The model class.
  */
@@ -55,37 +56,16 @@ require_once $pth['folder']['plugin_classes'] . 'Model.php';
  */
 require_once $pth['folder']['plugin_classes'] . 'Views.php';
 
-$temp = new Keymaster_Keyfile($pth['folder']['plugins'] . 'keymaster/key');
 /**
- * The model object.
- *
- * @var Keymaster_Model
+ * The controller class.
  */
-$_Keymaster = new Keymaster_Model($temp, $plugin_cf['keymaster']['logout']);
+require_once $pth['folder']['plugin_classes'] . 'Controller.php';
 
 /**
- * The views object.
+ * The controller object.
  *
- * @var Keymaster_Views
+ * @var Keymaster_Controller
  */
-$_Keymaster_views = new Keymaster_Views($_Keymaster);
-
-/*
- * Handle login screen, logout
- * and secondary browser windows after the user has logged out.
- */
-if (isset($f) && $f == 'login' && !$_Keymaster->isFree()) {
-    $o .= '<div class="cmsimplecore_warning">'
-        . $plugin_tx['keymaster']['editing'] . '</div>';
-    $f = '';
-} elseif ($logout && $_COOKIE['status'] == 'adm' && logincheck()) {
-    if (!$_Keymaster->take()) {
-        e('cntwriteto', 'file', $_Keymaster->getFilename());
-    }
-} elseif (!$adm && isset($_GET['keymaster_time'])) {
-    header('Content-Type: text/plain');
-    echo -1;
-    exit;
-}
+$_Keymaster = new Keymaster_Controller();
 
 ?>

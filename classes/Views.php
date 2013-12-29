@@ -80,6 +80,34 @@ class Keymaster_Views
     }
 
     /**
+     * Returns a JSON encoded value.
+     *
+     * @param mixed $value A value.
+     *
+     * @return string
+     *
+     * @access protected
+     *
+     * @global array The paths of system files and folders.
+     *
+     * @todo Test fallback.
+     */
+    function json($value)
+    {
+        global $pth;
+
+        if (function_exists('json_encode')) {
+            return json_encode($value);
+        } else {
+            if (!class_exists('CMB_JSON')) {
+                include_once $pth['folder']['plugin'] . 'JSON.php';
+            }
+            $json = CMB_JSON::instance();
+            return $json->encode($value);
+        }
+    }
+
+    /**
      * Returns a system check item view.
      *
      * @param string $check A system check label.
@@ -171,6 +199,8 @@ EOT;
     /**
      * Returns the plugin information view.
      *
+     * @param array $checks An array of system checks.
+     *
      * @return string (X)HTML.
      *
      * @access public
@@ -194,7 +224,7 @@ EOT;
      */
     function js($filename)
     {
-        $config = json_encode($this->_model->jsConfig());
+        $config = $this->json($this->_model->jsConfig());
         return <<<EOT
 <script type="text/javascript">/* <![CDATA[ */
     keymaster = $config;

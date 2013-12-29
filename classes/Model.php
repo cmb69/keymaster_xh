@@ -29,112 +29,148 @@ class Keymaster_Model
      * The path of the lock file.
      *
      * var Keymaster_Keyfile
+     *
+     * @access private
      */
-    var $keyfile;
+    var $_keyfile;
 
     /**
      * The maximum duration of a session in seconds.
      *
      * var int
+     *
+     * @access private
      */
-    var $duration;
+    var $_duration;
 
     /**
      * Initializes a new instance.
      *
      * @param Keymaster_Keyfile $keyfile  A key file.
      * @param int               $duration Maximum duration of a session in seconds.
+     *
+     * @access public
      */
     function Keymaster_Model(Keymaster_Keyfile $keyfile, $duration)
     {
-        $this->keyfile = $keyfile;
-        $this->duration = $duration;
+        $this->_keyfile = $keyfile;
+        $this->_duration = $duration;
     }
 
     /**
      * Returns the path of the lock file.
      *
      * @return string
+     *
+     * @access public
      */
     function filename()
     {
-        return $this->keyfile->filename();
+        return $this->_keyfile->filename();
     }
 
     /**
      * Returns whether the key is on the server.
      *
      * @return bool
+     *
+     * @access public
      */
     function hasKey()
     {
-        return $this->keyfile->size() > 0;
+        return $this->_keyfile->size() > 0;
     }
 
     /**
      * Returns whether the key is free to be given away.
      *
      * @return bool
+     *
+     * @access public
      */
     function isFree()
     {
-        return $this->hasKey() || $this->loggedInTime() > $this->duration;
+        return $this->hasKey() || $this->loggedInTime() > $this->_duration;
     }
 
     /**
      * Returns the number of seconds the user is logged in.
      *
      * @return int
+     *
+     * @access public
      */
     function loggedInTime()
     {
-        return time() - $this->keyfile->mtime();
+        return time() - $this->_keyfile->mtime();
     }
 
     /**
      * Returns the number of seconds remaining for the session.
      *
      * @return int
+     *
+     * @access public
      */
     function remainingTime()
     {
-        return max($this->duration - $this->loggedInTime(), 0);
+        return max($this->_duration - $this->loggedInTime(), 0);
+    }
+
+    /**
+     * Returns whether the session has expired.
+     *
+     * @return bool
+     *
+     * @access public
+     */
+    function sessionHasExpired()
+    {
+        return $this->remainingTime() <= 0;
     }
 
     /**
      * Resets the logged in time and returns whether that succeeded.
      *
      * @return bool
+     *
+     * @access public
      */
     function reset()
     {
-        return $this->keyfile->touch();
+        return $this->_keyfile->touch();
     }
 
     /**
      * Gives the key away and returns whether that succeeded.
      *
      * @return bool
+     *
+     * @access public
      */
     function give()
     {
-        return $this->keyfile->purge();
+        return $this->_keyfile->purge();
     }
 
     /**
      * Takes the key back and returns whether that succeeded.
      *
      * @return bool
+     *
+     * @access public
      */
     function take()
     {
-        return $this->keyfile->extend();
+        return $this->_keyfile->extend();
     }
 
     /**
      * Returns the JavaScript configuration.
      *
      * @return array
+     *
+     * @access public
      *
      * @global array The configuration of the plugins.
      * @global array The localization of the plugins.

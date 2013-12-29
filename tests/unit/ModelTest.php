@@ -92,6 +92,15 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testSessionHasExpiredWhenRemainingTimeIsZero()
+    {
+        $this->keyfile->expects($this->any())
+            ->method('mtime')
+            ->will($this->returnValue(time() - $this->duration));
+        $actual = $this->model->sessionHasExpired();
+        $this->assertTrue($actual);
+    }
+
     public function testFilenameEqualsKeyfilename()
     {
         $this->keyfile->expects($this->any())
