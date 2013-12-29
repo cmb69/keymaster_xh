@@ -43,7 +43,7 @@ class Keymaster_Model
      * Initializes a new instance.
      *
      * @param Keymaster_Keyfile $keyfile  A key file.
-     * @param int               $duration The maximum duration of a session in seconds.
+     * @param int               $duration Maximum duration of a session in seconds.
      */
     function Keymaster_Model(Keymaster_Keyfile $keyfile, $duration)
     {
