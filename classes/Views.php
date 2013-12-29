@@ -122,8 +122,7 @@ class Keymaster_Views
         $icon = $this->_model->stateIconPath($state);
         return <<<EOT
 <li>
-    <img src="$icon" alt="$state"
-         style="margin: 0; height: 1em; padding-right: 1em" />
+    <img src="$icon" alt="$state" class="keymaster_state_icon" />
     <span>$check</span>
 </li>
 EOT;
@@ -151,7 +150,7 @@ EOT;
         }
         return <<<EOT
 <h4>$ptx[syscheck_title]</h4>
-<ul style="list-style: none">
+<ul class="keymaster_syscheck">
     $items
 </ul>
 EOT;

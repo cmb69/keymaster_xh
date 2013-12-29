@@ -9,11 +9,11 @@ $plugin_tx['keymaster']['error']="The server sent spurious output, which disable
 
 $plugin_tx['keymaster']['syscheck_title']="System check";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version &ge; %s";
-$plugin_tx['keymaster']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['keymaster']['syscheck_encoding']="Encoding 'UTF-8' configured";
+$plugin_tx['keymaster']['syscheck_extension']="Extension \"%s\" loaded";
+$plugin_tx['keymaster']['syscheck_encoding']="Encoding \"UTF-8\" configured";
 $plugin_tx['keymaster']['syscheck_magic_quotes']="magic_quotes_runtime off";
-$plugin_tx['keymaster']['syscheck_writable_folder']="Folder '%s' writable";
-$plugin_tx['keymaster']['syscheck_writable_file']="File '%s' writable";
+$plugin_tx['keymaster']['syscheck_writable_folder']="Folder \"%s\" writable";
+$plugin_tx['keymaster']['syscheck_writable_file']="File \"%s\" writable";
 
 $plugin_tx['keymaster']['about']="About Keymaster_XH";
 
