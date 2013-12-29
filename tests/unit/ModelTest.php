@@ -141,21 +141,28 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($actual);
     }
 
-    public function testJsConfigHasThreeElements()
+    public function testJsConfigHasRequiredElements()
     {
         $actual = $this->model->jsConfig();
-        $this->assertCount(3, $actual);
+        $this->assertArrayHasKey('warn', $actual);
+        $this->assertArrayHasKey('pollInterval', $actual);
     }
 
-    //public function testJsConfigHasPollIntervalFromConfig()
-    //{
-    //    global $plugin_cf;
-    //
-    //    $plugin_cf = array('keymaster' => array('pollInterval' => '7000'));
-    //    $poll = 7000;
-    //    $actual = $this->model->jsConfig();
-    //    $this->assertEquals($poll, $actual['pollInterval']);
-    //}
+    public function testJsL10nIsPluginL10n()
+    {
+        global $plugin_tx;
+
+        $plugin_tx = array(
+            'keymaster' => array(
+                'one' => '1',
+                'two' => '2',
+                'three' => '3'
+            )
+        );
+        $expected = $plugin_tx['keymaster'];
+        $actual = $this->model->jsL10n();
+        $this->assertEquals($expected, $actual);
+    }
 
     public function testPluginIconPath()
     {
