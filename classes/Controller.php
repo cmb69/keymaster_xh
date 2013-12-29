@@ -65,6 +65,22 @@ class Keymaster_Controller
     }
 
     /**
+     * The absolute URL of the CMSimple_XH installation.
+     *
+     * @return string
+     *
+     * @global string The script name.
+     */
+    function baseUrl()
+    {
+        global $sn;
+
+        return 'http'
+            . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '')
+            . '://' . $_SERVER['HTTP_HOST'] . preg_replace('/index.php$/', '', $sn);
+    }
+
+    /**
      * Handles a login.
      *
      * @return void
@@ -94,9 +110,6 @@ class Keymaster_Controller
      * @access protected
      *
      * @global string The current page URL.
-     *
-     * @todo Decouple that from knowledge about login credentials,
-     *       i.e. use redirect to ?logout.
      */
     function logout()
     {
@@ -104,7 +117,7 @@ class Keymaster_Controller
 
         setcookie('status', '', 0, CMSIMPLE_ROOT);
         setcookie('passwd', '', 0, CMSIMPLE_ROOT);
-        header('Location: ' . KEYMASTER_URL . '?' . $su, true, 303);
+        header('Location: ' . $this->baseUrl() . '?' . $su, true, 303);
         exit;
     }
 

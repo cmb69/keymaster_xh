@@ -28,20 +28,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 define('KEYMASTER_VERSION', '@KEYMASTER_VERSION@');
 
 /**
- * The base URL.
- *
- * @todo Fix.
- */
-define(
-    'KEYMASTER_URL',
-    'http'
-    . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '')
-    . '://' . $_SERVER['SERVER_NAME']
-    . ($_SERVER['SERVER_PORT'] < 1024 ? '' : ':' . $_SERVER['SERVER_PORT'])
-    . preg_replace('/index.php$/', '', $_SERVER['SCRIPT_NAME'])
-);
-
-/**
  * The key file class.
  */
 require_once $pth['folder']['plugin_classes'] . 'Keyfile.php';
