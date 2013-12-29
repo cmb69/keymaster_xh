@@ -225,11 +225,13 @@ EOT;
     function js($filename)
     {
         $config = $this->json($this->_model->jsConfig());
+        $l10n = $this->json($this->_model->jsL10n());
         return <<<EOT
-<script type="text/javascript">/* <![CDATA[ */
-    keymaster = $config;
-/* ]]> */</script>
 <script type="text/javascript" src="$filename"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    KEYMASTER.config = $config;
+    KEYMASTER.l10n = $l10n;
+/* ]]> */</script>
 EOT;
     }
 }

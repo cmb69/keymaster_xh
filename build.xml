@@ -88,10 +88,10 @@
         </phpdoc>
     </target>
 
-<!--    <target name="js-doc">
-        <exec command="jsdoc -d doc/js admin.js" checkreturn="true"/>
+    <target name="js-doc">
+        <exec command="jsdoc -d doc/js -p admin.js" checkreturn="true"/>
     </target>
--->
+
     <target name="doc" depends="php-doc"/>
 
     <!-- Build -->

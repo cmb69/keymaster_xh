@@ -173,20 +173,33 @@ class Keymaster_Model
      * @access public
      *
      * @global array The configuration of the plugins.
-     * @global array The localization of the plugins.
      */
     function jsConfig()
     {
-        global $plugin_cf, $plugin_tx;
+        global $plugin_cf;
 
         $pcf = $plugin_cf['keymaster'];
-        $ptx = $plugin_tx['keymaster'];
         $config = array(
             'warn' => $pcf['logout'] - $pcf['warn'],
-            'pollInterval' => (int) $pcf['poll'],
-            'text' => $ptx
+            'pollInterval' => (int) $pcf['poll']
         );
         return $config;
+    }
+
+    /**
+     * Returns the JavaScript localization.
+     *
+     * @return array
+     *
+     * @access public
+     *
+     * @global array The localization of the plugins.
+     */
+    function jsL10n()
+    {
+        global $plugin_tx;
+
+        return $plugin_tx['keymaster'];
     }
 
     /**
