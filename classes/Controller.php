@@ -60,6 +60,7 @@ class Keymaster_Controller
         $duration = $plugin_cf['keymaster']['logout'];
         $this->_model = new Keymaster_Model($keyfile, $duration);
         $this->_views = new Keymaster_Views($this->_model);
+        $this->emitScripts();
         $this->dispatch();
     }
 
