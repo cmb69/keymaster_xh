@@ -51,7 +51,7 @@ require_once $pth['folder']['plugin_classes'] . 'model.php';
  *
  * @var Keymaster
  */
-$_Keymaster = new Keymaster(
+$_Keymaster = new Keymaster_Model(
     $pth['folder']['plugins'] . 'keymaster/key',
     $plugin_cf['keymaster']['logout']
 );

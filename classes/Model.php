@@ -23,14 +23,14 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class Keymaster
+class Keymaster_Model
 {
     /**
      * The path of the lock file.
      *
-     * var string
+     * var Keymaster_Keyfile
      */
-    var $filename;
+    var $keyfile;
 
     /**
      * The maximum duration of a session in seconds.
@@ -42,12 +42,12 @@ class Keymaster
     /**
      * Initializes a new instance.
      *
-     * @param string $filename The path of the lock file.
-     * @param int    $duration The maximum duration of a session in seconds.
+     * @param Keymaster_Keyfile $keyfile  A key file.
+     * @param int               $duration The maximum duration of a session in seconds.
      */
-    function Keymaster($filename, $duration)
+    function Keymaster_Model(Keymaster_Keyfile $keyfile, $duration)
     {
-        $this->filename = $filename;
+        $this->keyfile = $keyfile;
         $this->duration = $duration;
     }
 
@@ -56,9 +56,9 @@ class Keymaster
      *
      * @return string
      */
-    function getFilename()
+    function filename()
     {
-        return $this->filename;
+        return $this->keyfile->filename();
     }
 
     /**
@@ -68,7 +68,7 @@ class Keymaster
      */
     function hasKey()
     {
-        return filesize($this->filename) > 0;
+        return $this->keyfile->size() > 0;
     }
 
     /**
@@ -88,7 +88,7 @@ class Keymaster
      */
     function loggedInTime()
     {
-        return time() - filemtime($this->filename);
+        return time() - $this->keyfile->mtime();
     }
 
     /**
@@ -108,7 +108,7 @@ class Keymaster
      */
     function reset()
     {
-        return touch($this->filename);
+        return $this->keyfile->touch();
     }
 
     /**
@@ -118,11 +118,7 @@ class Keymaster
      */
     function give()
     {
-        $ok = ($fp = fopen($this->filename, 'w')) !== false;
-        if ($fp !== false) {
-            $ok = fclose($fp) && $ok;
-        }
-        return $ok;
+        return $this->keyfile->purge();
     }
 
     /**
@@ -132,12 +128,7 @@ class Keymaster
      */
     function take()
     {
-        $ok = ($fp = fopen($this->filename, 'a')) !== false
-            && fwrite($fp, '*') !== false;
-        if ($fp !== false) {
-            $ok = fclose($fp) && $ok;
-        }
-        return $ok;
+        return $this->keyfile->extend();
     }
 }
 

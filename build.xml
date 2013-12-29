@@ -31,7 +31,7 @@
 
     <!-- Tests -->
 
-<!--    <target name="unit-tests">
+    <target name="unit-tests">
         <phpunit haltonerror="true" haltonfailure="true">
             <formatter type="plain" usefile="false"/>
             <batchtest>
@@ -41,7 +41,7 @@
             </batchtest>
         </phpunit>
     </target>
--->
+
 <!--    <target name="attack-tests">
         <fail unless="env.CMSIMPLEDIR" message="CMSIMPLEDIR undefined!"/>
         <phpunit haltonerror="true" haltonfailure="true">
@@ -56,7 +56,7 @@
 -->
     <!-- Code coverage -->
 
-<!--    <target name="coverage">
+    <target name="coverage">
         <coverage-setup database="tests/coverage/coverage.db">
             <fileset dir="classes">
                 <include name="*.php"/>
@@ -73,7 +73,7 @@
             <report todir="tests/coverage" styledir="${styledir}"/>
         </coverage-report>
     </target>
--->
+
     <!-- Documentation -->
 
     <target name="php-doc">
