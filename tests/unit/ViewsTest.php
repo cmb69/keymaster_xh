@@ -41,6 +41,18 @@ class ViewsTest extends PHPUnit_Framework_TestCase
         $this->_views = new Keymaster_Views($model);
     }
 
+    public function testMessage()
+    {
+        $message = 'foobar';
+        $actual = $this->_views->message('fail', $message);
+        $matcher = array(
+            'tag' => 'p',
+            'attributes' => array('class' => 'cmsimplecore_warning'),
+            'content' => $message
+        );
+        $this->assertTag($matcher, $actual);
+    }
+
     public function testInfo()
     {
         $matcher = array('tag' => 'h4');

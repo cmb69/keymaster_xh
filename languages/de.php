@@ -1,6 +1,6 @@
 <?php
 
-$plugin_tx['keymaster']['editing']="<p>Die Website wird bereits von jemand anderem bearbeitet. Versuchen Sie es später noch einmal.</p>";
+$plugin_tx['keymaster']['editing']="Die Website wird bereits von jemand anderem bearbeitet. Versuchen Sie es später noch einmal.";
 $plugin_tx['keymaster']['warning_singular']="Sie werden in weniger als {{{TIME}}} Minute ausgeloggt.";
 $plugin_tx['keymaster']['warning_paucal']="Sie werden in weniger als {{{TIME}}} Minuten ausgeloggt.";
 $plugin_tx['keymaster']['warning_plural']="Sie werden in weniger als {{{TIME}}} Minuten ausgeloggt.";

@@ -1,6 +1,6 @@
 <?php
 
-$plugin_tx['keymaster']['editing']="<p>The site is already been edited by someone else. Try again later.</p>";
+$plugin_tx['keymaster']['editing']="The site is already been edited by someone else. Try again later.";
 $plugin_tx['keymaster']['warning_singular']="You will be logged out in less than {{{TIME}}} minute.";
 $plugin_tx['keymaster']['warning_paucal']="You will be logged out in less than {{{TIME}}} minutes.";
 $plugin_tx['keymaster']['warning_plural']="You will be logged out in less than {{{TIME}}} minutes.";

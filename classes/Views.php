@@ -90,6 +90,26 @@ class Keymaster_Views
     }
 
     /**
+     * Returns a message.
+     *
+     * @param string $type    A message type ('success', 'info', 'warning', 'fail').
+     * @param string $message A message.
+     *
+     * @return string (X)HTML.
+     */
+    function message($type, $message)
+    {
+        if (function_exists('XH_message')) {
+            return XH_message($type, $message);
+        } else {
+            $class = in_array($type, array('warning', 'fail'))
+                ? 'cmsimplecore_warning'
+                : '';
+            return '<p class="' . $class . '">' . $message . '</p>';
+        }
+    }
+
+    /**
      * Returns a system check item view.
      *
      * @param string $check A system check label.
