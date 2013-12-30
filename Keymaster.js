@@ -35,7 +35,7 @@ Keymaster = function () {
     this._warningText = '';
 
     /**
-     * The timer.
+     * The timer handle.
      *
      * @type {Number}
      *
@@ -44,7 +44,7 @@ Keymaster = function () {
     this._timer = null;
 
     this.createWarningDialog();
-    setInterval(this.bind(this.requestRemainingTime),
+    this._timer = setInterval(this.bind(this.requestRemainingTime),
             Keymaster.config.pollInterval);
 };
 
