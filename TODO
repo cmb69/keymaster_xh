@@ -1,3 +1,2 @@
-* document limitation: after changing the password, the website is locked until
-  timeout
 * CSRF protection
+* adjust for XH 1.6
