@@ -229,7 +229,7 @@ class Keymaster_Controller
         global $pth, $bjs, $o, $adm;
 
         if ($adm) {
-            $filename = $pth['folder']['plugins'] . 'keymaster/admin.js';
+            $filename = $pth['folder']['plugins'] . 'keymaster/Keymaster.js';
             $js = $this->_views->js($filename);
             if (isset($bjs)) {
                 $bjs .= $js;

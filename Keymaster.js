@@ -1,5 +1,5 @@
 /**
- * JavaScript of Keymaster_XH.
+ * The Keymaster class.
  *
  * @file
  *
@@ -10,32 +10,61 @@
  */
 
 /**
- * The plugin namespace.
- *
- * @namespace
- *
- * @property {Object} config The configuration.
- * @property {Object} l10n   The localization.
- */
-var KEYMASTER = KEYMASTER || {};
-
-/**
  * The Keymaster class.
  *
  * @constructor
  *
- * @property {HTMLDivElement} _warningDialog The warning dialog.
- * @property {Text}           _warningText   The warning message.
- * @property {Number}         _timer         The timer for checking the time.
  */
-KEYMASTER.Keymaster = function () {
+Keymaster = function () {
+    /**
+     * The warning dialog.
+     *
+     * @type {HTMLDivElement}
+     *
+     * @private
+     */
     this._warningDialog = null;
+
+    /**
+     * The warning text.
+     *
+     * @type {Text}
+     *
+     * @private
+     */
     this._warningText = '';
+
+    /**
+     * The timer.
+     *
+     * @type {Number}
+     *
+     * @private
+     */
     this._timer = null;
+
     this.createWarningDialog();
     setInterval(this.bind(this.requestRemainingTime),
-            KEYMASTER.config.pollInterval);
+            Keymaster.config.pollInterval);
 };
+
+/**
+ * The configuration.
+ *
+ * @type {Object}
+ *
+ * @static
+ */
+Keymaster.config = null;
+
+/**
+ * The localization
+ *
+ * @type {Object}
+ *
+ * @static
+ */
+Keymaster.l10n = null;
 
 /**
  * Creates the warning dialog.
@@ -44,7 +73,7 @@ KEYMASTER.Keymaster = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.createWarningDialog = function () {
+Keymaster.prototype.createWarningDialog = function () {
     var dialog, message, para, text, div, button;
 
     dialog = document.createElement("div");
@@ -61,7 +90,7 @@ KEYMASTER.Keymaster.prototype.createWarningDialog = function () {
     div.className = "keymaster_buttons";
     button = document.createElement("button");
     button.onclick = this.bind(this.resetSession);
-    text = document.createTextNode(KEYMASTER.l10n.button);
+    text = document.createTextNode(Keymaster.l10n.button);
     button.appendChild(text);
     div.appendChild(button);
     message.appendChild(div);
@@ -77,7 +106,7 @@ KEYMASTER.Keymaster.prototype.createWarningDialog = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.showWarningDialog = function () {
+Keymaster.prototype.showWarningDialog = function () {
     this._warningDialog.style.display = "block";
 };
 
@@ -88,7 +117,7 @@ KEYMASTER.Keymaster.prototype.showWarningDialog = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.hideWarningDialog = function () {
+Keymaster.prototype.hideWarningDialog = function () {
     this._warningDialog.style.display = "none";
 };
 
@@ -99,7 +128,7 @@ KEYMASTER.Keymaster.prototype.hideWarningDialog = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.requestRemainingTime = function () {
+Keymaster.prototype.requestRemainingTime = function () {
     var request = new XMLHttpRequest();
     var url = "./?&keymaster_time";
 
@@ -124,19 +153,19 @@ KEYMASTER.Keymaster.prototype.requestRemainingTime = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.receiveRemainingTime = function (request) {
+Keymaster.prototype.receiveRemainingTime = function (request) {
     if (request.readyState == 4 && request.status == 200) {
         var remaining = +request.responseText;
         if (remaining != remaining) {
             clearInterval(this._timer);
-            if (confirm(KEYMASTER.l10n.error)) {
+            if (confirm(Keymaster.l10n.error)) {
                 open(url);
             }
         } else if (remaining < 0) {
             location.href = location.href;
         } else if (remaining == 0) {
             location.href = "./?&logout";
-        } else if (remaining < KEYMASTER.config.warn) {
+        } else if (remaining < Keymaster.config.warn) {
             this.updateWarning(remaining);
             this.showWarningDialog();
         } else {
@@ -152,7 +181,7 @@ KEYMASTER.Keymaster.prototype.receiveRemainingTime = function (request) {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.resetSession = function () {
+Keymaster.prototype.resetSession = function () {
     var request = new XMLHttpRequest();
 
     request.open("POST", "./");
@@ -171,15 +200,15 @@ KEYMASTER.Keymaster.prototype.resetSession = function () {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.updateWarning = function (seconds) {
+Keymaster.prototype.updateWarning = function (seconds) {
     var min = Math.ceil(seconds / 60);
 
     if (min == 1) {
-        text = KEYMASTER.l10n.warning_singular;
+        text = Keymaster.l10n.warning_singular;
     } else if (min >= 2 && min <= 4) {
-        text = KEYMASTER.l10n.warning_paucal;
+        text = Keymaster.l10n.warning_paucal;
     } else {
-        text = KEYMASTER.l10n.warning_plural;
+        text = Keymaster.l10n.warning_plural;
     }
     this._warningText.nodeValue = text.replace(/{{{TIME}}}/, min);
 };
@@ -196,7 +225,7 @@ KEYMASTER.Keymaster.prototype.updateWarning = function (seconds) {
  *
  * @protected
  */
-KEYMASTER.Keymaster.prototype.bind = function (func) {
+Keymaster.prototype.bind = function (func) {
     var that = this;
 
     return function () {
@@ -209,10 +238,10 @@ KEYMASTER.Keymaster.prototype.bind = function (func) {
  */
 if (typeof addEventListener != "undefined") {
     addEventListener("load", function () {
-        new KEYMASTER.Keymaster();
+        new Keymaster();
     });
 } else if (typeof attachEvent != "undefined") {
     attachEvent("onload", function () {
-        new KEYMASTER.Keymaster();
+        new Keymaster();
     });
 }

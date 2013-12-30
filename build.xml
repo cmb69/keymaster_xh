@@ -89,7 +89,7 @@
     </target>
 
     <target name="js-doc">
-        <exec command="jsdoc -d doc/js -p admin.js" checkreturn="true"/>
+        <exec command="jsdoc -d doc/js -p Keymaster.js" checkreturn="true"/>
     </target>
 
     <target name="doc" depends="php-doc"/>
@@ -112,7 +112,7 @@
         </move>
         <jsMin targetDir="dist" suffix="" failonerror="true">
             <fileset dir="export">
-                <include name="admin.js"/>
+                <include name="Keymaster.js"/>
             </fileset>
         </jsMin>
         <move todir="dist">

@@ -209,8 +209,8 @@ EOT;
         return <<<EOT
 <script type="text/javascript" src="$filename"></script>
 <script type="text/javascript">/* <![CDATA[ */
-    KEYMASTER.config = $config;
-    KEYMASTER.l10n = $l10n;
+    Keymaster.config = $config;
+    Keymaster.l10n = $l10n;
 /* ]]> */</script>
 EOT;
     }
