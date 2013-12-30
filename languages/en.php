@@ -4,7 +4,9 @@ $plugin_tx['keymaster']['editing']="<p>The site is already been edited by someon
 $plugin_tx['keymaster']['warning_singular']="You will be logged out in less than {{{TIME}}} minute.";
 $plugin_tx['keymaster']['warning_paucal']="You will be logged out in less than {{{TIME}}} minutes.";
 $plugin_tx['keymaster']['warning_plural']="You will be logged out in less than {{{TIME}}} minutes.";
-$plugin_tx['keymaster']['button']="Prolong session";
+$plugin_tx['keymaster']['warning_loggedout']="You have been effectively logged out.";
+$plugin_tx['keymaster']['button_prolong']="Prolong session";
+$plugin_tx['keymaster']['button_ok']="OK";
 $plugin_tx['keymaster']['error']="The server sent spurious output, which disables the automatic logout by Keymaster_XH.\n\nView details?";
 
 $plugin_tx['keymaster']['syscheck_title']="System check";

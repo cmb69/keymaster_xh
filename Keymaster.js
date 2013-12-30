@@ -35,6 +35,15 @@ Keymaster = function () {
     this._warningText = '';
 
     /**
+     * The button text.
+     *
+     * @type {Text}
+     *
+     * @private
+     */
+    this._buttonText = '';
+
+    /**
      * The timer handle.
      *
      * @type {Number}
@@ -90,7 +99,8 @@ Keymaster.prototype.createWarningDialog = function () {
     div.className = "keymaster_buttons";
     button = document.createElement("button");
     button.onclick = this.bind(this.resetSession);
-    text = document.createTextNode(Keymaster.l10n.button);
+    text = document.createTextNode(Keymaster.l10n.button_prolong);
+    this._buttonText = text;
     button.appendChild(text);
     div.appendChild(button);
     message.appendChild(div);
@@ -162,8 +172,12 @@ Keymaster.prototype.receiveRemainingTime = function (request) {
                 open(url);
             }
         } else if (remaining < 0) {
+            clearInterval(this._timer);
+            this.updateWarning(remaining);
             location.href = location.href;
         } else if (remaining == 0) {
+            clearInterval(this._timer);
+            this.updateWarning(remaining);
             location.href = "./?&logout";
         } else if (remaining < Keymaster.config.warn) {
             this.updateWarning(remaining);
@@ -201,16 +215,22 @@ Keymaster.prototype.resetSession = function () {
  * @protected
  */
 Keymaster.prototype.updateWarning = function (seconds) {
-    var min = Math.ceil(seconds / 60);
+    var min;
 
-    if (min == 1) {
-        text = Keymaster.l10n.warning_singular;
-    } else if (min >= 2 && min <= 4) {
-        text = Keymaster.l10n.warning_paucal;
+    if (seconds > 0) {
+        min = Math.ceil(seconds / 60);
+        if (min == 1) {
+            text = Keymaster.l10n.warning_singular;
+        } else if (min >= 2 && min <= 4) {
+            text = Keymaster.l10n.warning_paucal;
+        } else {
+            text = Keymaster.l10n.warning_plural;
+        }
+        this._warningText.nodeValue = text.replace(/{{{TIME}}}/, min);
     } else {
-        text = Keymaster.l10n.warning_plural;
+        this._warningText.nodeValue = Keymaster.l10n.warning_loggedout;
+        this._buttonText.nodeValue = Keymaster.l10n.button_ok;
     }
-    this._warningText.nodeValue = text.replace(/{{{TIME}}}/, min);
 };
 
 /**

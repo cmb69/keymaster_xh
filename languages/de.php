@@ -4,7 +4,9 @@ $plugin_tx['keymaster']['editing']="<p>Die Website wird bereits von jemand ander
 $plugin_tx['keymaster']['warning_singular']="Sie werden in weniger als {{{TIME}}} Minute ausgeloggt.";
 $plugin_tx['keymaster']['warning_paucal']="Sie werden in weniger als {{{TIME}}} Minuten ausgeloggt.";
 $plugin_tx['keymaster']['warning_plural']="Sie werden in weniger als {{{TIME}}} Minuten ausgeloggt.";
-$plugin_tx['keymaster']['button']="Sitzung verlängern.";
+$plugin_tx['keymaster']['warning_loggedout']="Sie wurden praktisch ausgeloggt.";
+$plugin_tx['keymaster']['button_prolong']="Sitzung verlängern.";
+$plugin_tx['keymaster']['button_ok']="OK";
 $plugin_tx['keymaster']['error']="Der Server hat störende Ausgaben gesendet, die die automatische Abmeldung durch Keymaster_XH unmöglich macht.\n\nDetails ansehen?";
 
 $plugin_tx['keymaster']['syscheck_title']="Systemprüfung";
