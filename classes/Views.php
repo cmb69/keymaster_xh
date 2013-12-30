@@ -73,8 +73,6 @@ class Keymaster_Views
      * @access protected
      *
      * @global array The paths of system files and folders.
-     *
-     * @todo Test fallback.
      */
     function json($value)
     {

@@ -28,7 +28,7 @@ class Keymaster_Model
     /**
      * The path of the lock file.
      *
-     * var Keymaster_Keyfile
+     * @var Keymaster_Keyfile
      *
      * @access private
      */
@@ -37,7 +37,7 @@ class Keymaster_Model
     /**
      * The maximum duration of a session in seconds.
      *
-     * var int
+     * @var int
      *
      * @access private
      */
