@@ -1,3 +1,15 @@
+Version 1rc1 - released 2013-12-30
+* updated for CMSimple_XH 1.6
+* fixed bug, where key initially was not on server after installation
+* improved behavior, when automatic logout doesn't work due to an registered
+  handler for the beforeunload event
+* improved base URL construction for redirects
+* added version.nfo
+* revised manuals
+* improved QA (Phing, PHPCS, PHPCI, PHPDoc, PHPUnit)
+* refactored to MVC architecture
+* refactored JS ("class" instead of namespace)
+
 Version 1beta2 - released 2013-04-03
 * fixed bug, where XHR didn't work for www. sites (using relative URLs now)
 
