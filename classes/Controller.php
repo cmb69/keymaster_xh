@@ -108,16 +108,10 @@ class Keymaster_Controller
      * @return void
      *
      * @access protected
-     *
-     * @global string The current page URL.
      */
     function logout()
     {
-        global $su;
-
-        setcookie('status', '', 0, CMSIMPLE_ROOT);
-        setcookie('passwd', '', 0, CMSIMPLE_ROOT);
-        header('Location: ' . $this->baseUrl() . '?' . $su, true, 303);
+        header('Location: ' . $this->baseUrl() . '?&logout', true, 303);
         exit;
     }
 
