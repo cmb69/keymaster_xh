@@ -122,7 +122,6 @@
                 <exclude name="phpcompatinfo.xml"/>
                 <exclude name="TODO"/>
                 <exclude name="admin.js"/>
-                <exclude name="keymaster.komodoproject"/>
             </fileset>
         </move>
         <delete dir="export"/>
