@@ -120,7 +120,6 @@
                 <exclude name="tests/**"/>
                 <exclude name="build.xml"/>
                 <exclude name="phpcompatinfo.xml"/>
-                <exclude name="TODO"/>
                 <exclude name="admin.js"/>
             </fileset>
         </move>
