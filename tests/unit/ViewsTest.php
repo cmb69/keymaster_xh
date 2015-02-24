@@ -49,14 +49,14 @@ class ViewsTest extends PHPUnit_Framework_TestCase
             'attributes' => array('class' => 'cmsimplecore_warning'),
             'content' => $message
         );
-        $this->assertTag($matcher, $actual);
+        @$this->assertTag($matcher, $actual);
     }
 
     public function testInfo()
     {
         $matcher = array('tag' => 'h4');
         $actual = $this->_views->info(array('a check' => 'ok'));
-        $this->assertTag($matcher, $actual);
+        @$this->assertTag($matcher, $actual);
     }
 
     public function testJs()
@@ -66,7 +66,7 @@ class ViewsTest extends PHPUnit_Framework_TestCase
             'attributes' => array('src' => 'foobar')
         );
         $actual = $this->_views->js('foobar');
-        $this->assertTag($matcher, $actual);
+        @$this->assertTag($matcher, $actual);
     }
 }
 
