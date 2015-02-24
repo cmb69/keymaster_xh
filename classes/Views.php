@@ -177,9 +177,10 @@ EOT;
         $ptx = $plugin_tx['keymaster'];
         $version = KEYMASTER_VERSION;
         $icon = $this->_model->pluginIconPath();
+        $alt = $ptx['alt_logo'];
         return <<<EOT
 <h4>$ptx[about]</h4>
-<img src="$icon" class="keymaster_plugin_icon" alt="Plugin Icon" />
+<img src="$icon" class="keymaster_plugin_icon" alt="$alt" />
 <p>Version: $version</p>
 <p>Copyright &copy; 2013-2015 <a href="http://3-magi.net/">Christoph M. Becker</a>
 </p>

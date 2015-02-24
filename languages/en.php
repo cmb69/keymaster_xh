@@ -18,6 +18,7 @@ $plugin_tx['keymaster']['syscheck_writable_folder']="Folder \"%s\" writable";
 $plugin_tx['keymaster']['syscheck_writable_file']="File \"%s\" writable";
 
 $plugin_tx['keymaster']['about']="About Keymaster_XH";
+$plugin_tx['keymaster']['alt_logo']="Key";
 
 $plugin_tx['keymaster']['cf_logout']="The period of inactivity (in seconds) after the user is automatically logged out.";
 $plugin_tx['keymaster']['cf_warn']="The period of inactivity (in seconds) after the user is warned that he will be logged out.";
