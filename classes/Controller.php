@@ -274,7 +274,9 @@ class Keymaster_Controller
      *
      * @access protected
      *
-     * @global
+     * @global string The (X)HTML to insert into the content area.
+     * @global string The value of the <var>admin</var> parameter.
+     * @global string The value of the <var>action</var> parameter.
      */
     function administration()
     {
