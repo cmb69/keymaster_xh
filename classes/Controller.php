@@ -45,6 +45,8 @@ class Keymaster_Controller
     /**
      * Initializes a new instance.
      *
+     * @return void
+     *
      * @access public
      *
      * @global array The paths of system files and folders.
@@ -208,7 +210,6 @@ class Keymaster_Controller
      * @return bool
      *
      * @access protected
-     *
      */
     function isLogin()
     {
@@ -250,7 +251,6 @@ class Keymaster_Controller
      * @global string The (X)HTML to insert at the bottom of the document.
      * @global string The (X)HTML to insert in the contents area.
      * @global bool   Whether we're in admin mode.
-     *
      */
     function emitScripts()
     {

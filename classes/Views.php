@@ -25,6 +25,8 @@
 class Keymaster_Views
 {
     /**
+     * The model.
+     *
      * @var array
      *
      * @access private
@@ -35,6 +37,8 @@ class Keymaster_Views
      * Initializes a new instance.
      *
      * @param Keymaster_Model $model A model.
+     *
+     * @return void
      */
     function Keymaster_Views(Keymaster_Model $model)
     {
@@ -177,7 +181,8 @@ EOT;
 <h4>$ptx[about]</h4>
 <img src="$icon" class="keymaster_plugin_icon" alt="Plugin Icon" />
 <p>Version: $version</p>
-<p>Copyright &copy; 2013-2015 <a href="http://3-magi.net/">Christoph M. Becker</a></p>
+<p>Copyright &copy; 2013-2015 <a href="http://3-magi.net/">Christoph M. Becker</a>
+</p>
 <p class="keymaster_license">
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

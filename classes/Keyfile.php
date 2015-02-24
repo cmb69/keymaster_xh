@@ -40,6 +40,8 @@ class Keymaster_Keyfile
      *
      * @param string $filename A filename.
      *
+     * @return void
+     *
      * @access public
      */
     function Keymaster_Keyfile($filename)

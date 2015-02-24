@@ -48,6 +48,8 @@ class Keymaster_Model
      * @param Keymaster_Keyfile $keyfile  A key file.
      * @param int               $duration Maximum duration of a session in seconds.
      *
+     * @return void
+     *
      * @access public
      */
     function Keymaster_Model(Keymaster_Keyfile $keyfile, $duration)
