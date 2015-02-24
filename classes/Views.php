@@ -8,7 +8,7 @@
  * @category  CMSimple_XH
  * @package   Keymaster
  * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2013 Christoph M. Becker <http://3-magi.net/>
+ * @copyright 2013-2015 Christoph M. Becker <http://3-magi.net/>
  * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @version   SVN: $Id$
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
@@ -178,7 +178,7 @@ EOT;
 <h4>$ptx[about]</h4>
 <img src="$icon" class="keymaster_plugin_icon" alt="Plugin Icon" />
 <p>Version: $version</p>
-<p>Copyright &copy; 2013 <a href="http://3-magi.net/">Christoph M. Becker</a></p>
+<p>Copyright &copy; 2013-2015 <a href="http://3-magi.net/">Christoph M. Becker</a></p>
 <p class="keymaster_license">
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

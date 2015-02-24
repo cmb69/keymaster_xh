@@ -5,7 +5,7 @@
  *
  * @version   SVN: $Id$
  * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2013 Christoph M. Becker <http://3-magi.net/>
+ * @copyright 2013-2015 Christoph M. Becker <http://3-magi.net/>
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3
  */
 
