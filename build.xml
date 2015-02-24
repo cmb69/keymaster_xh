@@ -57,7 +57,9 @@
 
     <target name="build" description="builds distributable ZIP archive">
         <fail unless="version" message="version is not defined!"/>
-        <svnexport revision="" repositoryurl="." todir="export"/>
+        <exec command="git archive -o export.tar HEAD" checkreturn="true"/>
+        <untar file="export.tar" todir="export"/>
+        <delete file="export.tar"/>
         <move todir="dist">
             <fileset dir="export">
                 <include name="index.php"/>
@@ -71,15 +73,16 @@
         </move>
         <jsMin targetDir="dist" suffix="" failonerror="true">
             <fileset dir="export">
-                <include name="Keymaster.js"/>
+                <include name="keymaster.js"/>
             </fileset>
         </jsMin>
         <move todir="dist">
             <fileset dir="export">
-                <exclude name="tests/**"/>
                 <exclude name="build.xml"/>
+                <exclude name="composer.*"/>
+                <exclude name="coverage.xml"/>
                 <exclude name="phpcompatinfo.*"/>
-                <exclude name="admin.js"/>
+                <exclude name="tests/**"/>
             </fileset>
         </move>
         <delete dir="export"/>
