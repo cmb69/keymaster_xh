@@ -1,3 +1,7 @@
+Version 1.0 - released 2014-02-25
+* fixed bug, where control characters in language strings could have caused
+  malfunctions under PHP < 5.2
+
 Version 1rc1 - released 2013-12-30
 * updated for CMSimple_XH 1.6
 * fixed bug, where key initially was not on server after installation
