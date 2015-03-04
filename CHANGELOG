@@ -1,4 +1,8 @@
-Version 1.0 - released 2014-02-25
+Version 1.0.1 - released 2015-03-04
+* fixed bug, where keymaster.js was not loaded on case sensitive file systems
+* documented limitation regarding being logged in installation in parent folder
+
+Version 1.0 - released 2015-02-25
 * fixed bug, where control characters in language strings could have caused
   malfunctions under PHP < 5.2
 
