@@ -209,6 +209,8 @@ class Keymaster_Controller
      *
      * @return bool
      *
+     * @global string Whether login is requested.
+     *
      * @access protected
      */
     function isLogin()
