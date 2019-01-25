@@ -13,9 +13,11 @@
  * @link
  */
 
-require_once 'vfsStream/vfsStream.php';
-
 require_once './classes/Keyfile.php';
+
+use org\bovigo\vfs\vfsStreamWrapper;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStream;
 
 /**
  *
@@ -53,14 +55,6 @@ class KeyfileTest extends PHPUnit_Framework_TestCase
     {
         $actual = $this->keyfile->mtime();
         $this->assertTrue($actual <= time());
-    }
-
-    /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     */
-    public function testTouchThrowsWarningWithOldVfs()
-    {
-        $actual = $this->keyfile->touch();
     }
 
     public function testExtendIncreasesSizeByOne()
