@@ -37,24 +37,6 @@
         <exec command="phpunit --configuration coverage.xml" logoutput="true"/>
     </target>
 
-    <target name="php-doc">
-        <phpdoc title="Keymaster_XH Developer Documentation" destdir="doc/php"
-                output="HTML:Smarty:HandS" defaultpackagename="Keymaster"
-                defaultcategoryname="CMSimple_XH" parseprivate="true">
-            <fileset refid="php-sources"/>
-            <projdocfileset dir=".">
-               <include name="README"/>
-               <include name="CHANGELOG"/>
-            </projdocfileset>
-        </phpdoc>
-    </target>
-
-    <target name="js-doc">
-        <exec command="jsdoc -d doc/js -p keymaster.js" checkreturn="true"/>
-    </target>
-
-    <target name="doc" depends="php-doc" description="generates developer documentation"/>
-
     <target name="build" description="builds distributable ZIP archive">
         <fail unless="version" message="version is not defined!"/>
         <exec command="git archive -o export.tar HEAD" checkreturn="true"/>
