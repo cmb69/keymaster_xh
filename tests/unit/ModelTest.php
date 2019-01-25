@@ -40,7 +40,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->keyfile = $this->getMock('Keymaster_Keyfile', array(), array(''));
+        $this->keyfile = $this->createMock('Keymaster_Keyfile');
         $this->duration = 60;
         $this->model = new Keymaster_Model($this->keyfile, $this->duration);
     }
