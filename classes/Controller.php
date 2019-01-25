@@ -371,7 +371,10 @@ class Keymaster_Controller
             $this->logout();
         }
 
-        if ($adm && isset($keymaster) && $keymaster == 'true') {
+        if ($adm
+            && (function_exists('XH_wantsPluginAdministration') && XH_wantsPluginAdministration('keymaster')
+            || isset($keymaster) && $keymaster == 'true')
+        ) {
             $this->administration();
         }
     }
