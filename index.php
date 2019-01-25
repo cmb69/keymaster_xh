@@ -24,7 +24,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version number of the plugin.
  */
-define('KEYMASTER_VERSION', '@KEYMASTER_VERSION@');
+define('KEYMASTER_VERSION', '1.0.1');
 
 /**
  * The key file class.
