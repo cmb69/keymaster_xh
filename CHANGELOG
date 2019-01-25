@@ -1,3 +1,6 @@
+Version 1.1 – released 2019-01-25
+see <https://github.com/cmb69/keymaster_xh/milestone/1?closed=1>
+
 Version 1.0.1 - released 2015-03-04
 * fixed bug, where keymaster.js was not loaded on case sensitive file systems
 * documented limitation regarding being logged in installation in parent folder
