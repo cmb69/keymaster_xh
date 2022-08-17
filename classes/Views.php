@@ -67,96 +67,6 @@ class Keymaster_Views
     }
 
     /**
-     * Returns a JSON encoded value.
-     *
-     * @param mixed $value A value.
-     *
-     * @return string
-     *
-     * @access protected
-     *
-     * @global array The paths of system files and folders.
-     */
-    function json($value)
-    {
-        global $pth;
-
-        if (function_exists('json_encode')) {
-            return json_encode($value);
-        } else {
-            return $this->encodeJson($value);
-        }
-    }
-
-    /**
-     * Returns a PHP value encoded as JSON string.
-     *
-     * A fallback for json_encode().
-     *
-     * @param mixed $value A PHP value.
-     *
-     * @return string
-     *
-     * @access public
-     */
-    function encodeJson($value)
-    {
-        switch (gettype($value)) {
-        case 'boolean':
-            return $value ? 'true' : 'false';
-        case 'integer':
-        case 'double':
-            return $value;
-        case 'string':
-            return '"' . $this->quoteJsonString($value) . '"';
-        case 'array':
-            if (array_keys($value) === range(0, count($value) - 1)) {
-                // encode as array
-                $elts = array();
-                foreach ($value as $val) {
-                    $elts[] = $this->encodeJson($val);
-                }
-                return '[' . implode(',', $elts) . ']';
-            } else {
-                // encode as object
-                $members = array();
-                foreach ($value as $key => $val) {
-                    $members[] = '"' . $this->quoteJsonString($key) . '":'
-                        . $this->encodeJson($val);
-                }
-                return '{' . implode(',', $members) . '}';
-            }
-        case 'object':
-            return $this->encodeJson(get_object_vars($value));
-        case 'NULL':
-            return 'null';
-        default:
-            $msg = __FUNCTION__ . '(): type is unsupported, encoded as null';
-            trigger_error($msg, E_USER_WARNING);
-            return 'null';
-        }
-    }
-
-    /**
-     * Quotes a string for use as JSON string.
-     *
-     * @param string $string A string.
-     *
-     * @return string
-     *
-     * @access protected
-     */
-    function quoteJsonString($string)
-    {
-        $string = addcslashes($string, "\"\\/");
-        $escape = create_function(
-            '$matches', 'return sprintf("\\u%04X", ord($matches[0]));'
-        );
-        $string = preg_replace_callback('/[\x00-\x1f]/', $escape, $string);
-        return $string;
-    }
-
-    /**
      * Returns a message.
      *
      * @param string $type    A message type ('success', 'info', 'warning', 'fail').
@@ -293,8 +203,8 @@ EOT;
      */
     function js($filename)
     {
-        $config = $this->json($this->_model->jsConfig());
-        $l10n = $this->json($this->_model->jsL10n());
+        $config = json_encode($this->_model->jsConfig());
+        $l10n = json_encode($this->_model->jsL10n());
         return <<<EOT
 <script type="text/javascript" src="$filename"></script>
 <script type="text/javascript">/* <![CDATA[ */
