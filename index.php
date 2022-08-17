@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+use Keymaster\Controller;
+
 /*
  * Prevent direct access.
  */
@@ -49,8 +51,8 @@ require_once $pth['folder']['plugin_classes'] . 'Controller.php';
 /**
  * The controller object.
  *
- * @var Keymaster_Controller
+ * @var Controller
  */
-$_Keymaster = new Keymaster_Controller();
+$_Keymaster = new Controller();
 
 ?>

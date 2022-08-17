@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+namespace Keymaster;
+
 /**
  * The views class.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class Keymaster_Views
+class Views
 {
     /**
      * The model.
@@ -34,11 +36,11 @@ class Keymaster_Views
     /**
      * Initializes a new instance.
      *
-     * @param Keymaster_Model $model A model.
+     * @param Model $model A model.
      *
      * @return void
      */
-    public function __construct(Keymaster_Model $model)
+    public function __construct(Model $model)
     {
         $this->_model = $model;
     }

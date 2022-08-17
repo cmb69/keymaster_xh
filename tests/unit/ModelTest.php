@@ -13,6 +13,10 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+namespace Keymaster;
+
+use PHPUnit_Framework_TestCase;
+
 /**
  * The keyfile class.
  */
@@ -40,9 +44,9 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->keyfile = $this->createMock('Keymaster_Keyfile');
+        $this->keyfile = $this->createMock(Keyfile::class);
         $this->duration = 60;
-        $this->model = new Keymaster_Model($this->keyfile, $this->duration);
+        $this->model = new Model($this->keyfile, $this->duration);
     }
 
     public function testHasKeyAfterTaking()

@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+namespace Keymaster;
+
 /**
  * The key file class.
  *
@@ -24,7 +26,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class Keymaster_Keyfile
+class Keyfile
 {
     /**
      * The filename of the key file.

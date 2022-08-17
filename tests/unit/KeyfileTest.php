@@ -13,8 +13,11 @@
  * @link
  */
 
+namespace Keymaster;
+
 require_once './classes/Keyfile.php';
 
+use PHPUnit_Framework_TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
@@ -41,7 +44,7 @@ class KeyfileTest extends PHPUnit_Framework_TestCase
         $this->filename = vfsStream::url('keyfile') . '/key';
         file_put_contents($this->filename, '');
 
-        $this->keyfile = new Keymaster_Keyfile($this->filename);
+        $this->keyfile = new Keyfile($this->filename);
     }
 
     public function testFilename()

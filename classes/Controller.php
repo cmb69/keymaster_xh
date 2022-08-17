@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+namespace Keymaster;
+
 /**
  * The controller class.
  *
@@ -22,19 +24,19 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class Keymaster_Controller
+class Controller
 {
     /**
      * The model.
      *
-     * @var Keymaster_Model
+     * @var Model
      */
     private $_model;
 
     /**
      * The views.
      *
-     * @var Keymaster_Views
+     * @var Views
      */
     private $_views;
 
@@ -51,10 +53,10 @@ class Keymaster_Controller
         global $pth, $plugin_cf;
 
         $filename = $pth['folder']['plugins'] . 'keymaster/key';
-        $keyfile = new Keymaster_Keyfile($filename);
+        $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
-        $this->_model = new Keymaster_Model($keyfile, $duration);
-        $this->_views = new Keymaster_Views($this->_model);
+        $this->_model = new Model($keyfile, $duration);
+        $this->_views = new Views($this->_model);
         $this->emitScripts();
         $this->dispatch();
     }

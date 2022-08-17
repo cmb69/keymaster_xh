@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
 
+namespace Keymaster;
+
 /**
  * The model class.
  *
@@ -22,12 +24,12 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class Keymaster_Model
+class Model
 {
     /**
      * The path of the lock file.
      *
-     * @var Keymaster_Keyfile
+     * @var Keyfile
      */
     private $_keyfile;
 
@@ -41,12 +43,12 @@ class Keymaster_Model
     /**
      * Initializes a new instance.
      *
-     * @param Keymaster_Keyfile $keyfile  A key file.
-     * @param int               $duration Maximum duration of a session in seconds.
+     * @param Keyfile $keyfile  A key file.
+     * @param int     $duration Maximum duration of a session in seconds.
      *
      * @return void
      */
-    public function __construct(Keymaster_Keyfile $keyfile, $duration)
+    public function __construct(Keyfile $keyfile, $duration)
     {
         $this->_keyfile = $keyfile;
         $this->_duration = $duration;
