@@ -30,10 +30,8 @@ class Keymaster_Keyfile
      * The filename of the key file.
      *
      * @var string
-     *
-     * @access private
      */
-    var $_filename;
+    private $_filename;
 
     /**
      * Initializes a new instance.
@@ -41,10 +39,8 @@ class Keymaster_Keyfile
      * @param string $filename A filename.
      *
      * @return void
-     *
-     * @access public
      */
-    function __construct($filename)
+    public function __construct($filename)
     {
         $this->_filename = $filename;
     }
@@ -53,10 +49,8 @@ class Keymaster_Keyfile
      * Returns the filename of the key file.
      *
      * @return string
-     *
-     * @access public
      */
-    function filename()
+    public function filename()
     {
         return $this->_filename;
     }
@@ -65,10 +59,8 @@ class Keymaster_Keyfile
      * Returns the timestamp of the last modification of the key file.
      *
      * @return string
-     *
-     * @access public
      */
-    function mtime()
+    public function mtime()
     {
         return filemtime($this->_filename);
     }
@@ -78,10 +70,8 @@ class Keymaster_Keyfile
      * and returns whether that succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function touch()
+    public function touch()
     {
         return touch($this->_filename);
     }
@@ -90,10 +80,8 @@ class Keymaster_Keyfile
      * Returns the size of the key file in bytes.
      *
      * @return int
-     *
-     * @access public
      */
-    function size()
+    public function size()
     {
         return filesize($this->_filename);
     }
@@ -102,10 +90,8 @@ class Keymaster_Keyfile
      * Purges the contents of the key file, and returns whether that succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function purge()
+    public function purge()
     {
         $stream = fopen($this->_filename, 'w');
         if ($stream) {
@@ -120,10 +106,8 @@ class Keymaster_Keyfile
      * succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function extend()
+    public function extend()
     {
         $stream = fopen($this->_filename, 'a');
         if ($stream) {

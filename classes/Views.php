@@ -28,10 +28,8 @@ class Keymaster_Views
      * The model.
      *
      * @var array
-     *
-     * @access private
      */
-    var $_model;
+    private $_model;
 
     /**
      * Initializes a new instance.
@@ -40,7 +38,7 @@ class Keymaster_Views
      *
      * @return void
      */
-    function __construct(Keymaster_Model $model)
+    public function __construct(Keymaster_Model $model)
     {
         $this->_model = $model;
     }
@@ -52,11 +50,9 @@ class Keymaster_Views
      *
      * @return string (X)HTML.
      *
-     * @access protected
-     *
      * @global array The configuration of the core.
      */
-    function xhtml($string)
+    private function xhtml($string)
     {
         global $cf;
 
@@ -74,7 +70,7 @@ class Keymaster_Views
      *
      * @return string (X)HTML.
      */
-    function message($type, $message)
+    public function message($type, $message)
     {
         if (function_exists('XH_message')) {
             return XH_message($type, $message);
@@ -93,10 +89,8 @@ class Keymaster_Views
      * @param string $state A system check state.
      *
      * @return string XHTML.
-     *
-     * @access protected
      */
-    function systemCheckItem($check, $state)
+    private function systemCheckItem($check, $state)
     {
         $icon = $this->_model->stateIconPath($state);
         return <<<EOT
@@ -114,11 +108,9 @@ EOT;
      *
      * @return string XHTML.
      *
-     * @access protected
-     *
      * @global array The localization of the plugins.
      */
-    function systemCheck($checks)
+    private function systemCheck($checks)
     {
         global $plugin_tx;
 
@@ -141,10 +133,8 @@ EOT;
      * @return string XHTML.
      *
      * @global array The localization of the plugins.
-     *
-     * @access protected
      */
-    function about()
+    private function about()
     {
         global $plugin_tx;
 
@@ -181,10 +171,8 @@ EOT;
      * @param array $checks An array of system checks.
      *
      * @return string (X)HTML.
-     *
-     * @access public
      */
-    function info($checks)
+    public function info($checks)
     {
         $o = '<h1>Keymaster_XH</h1>'
             . $this->systemCheck($checks)
@@ -198,10 +186,8 @@ EOT;
      * @param string $filename A JS script filename.
      *
      * @return string (X)HTML.
-     *
-     * @access public
      */
-    function js($filename)
+    public function js($filename)
     {
         $config = json_encode($this->_model->jsConfig());
         $l10n = json_encode($this->_model->jsL10n());

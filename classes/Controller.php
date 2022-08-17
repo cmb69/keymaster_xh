@@ -28,31 +28,25 @@ class Keymaster_Controller
      * The model.
      *
      * @var Keymaster_Model
-     *
-     * @access private
      */
-    var $_model;
+    private $_model;
 
     /**
      * The views.
      *
      * @var Keymaster_Views
-     *
-     * @access private
      */
-    var $_views;
+    private $_views;
 
     /**
      * Initializes a new instance.
      *
      * @return void
      *
-     * @access public
-     *
      * @global array The paths of system files and folders.
      * @global array The configuration of the plugins.
      */
-    function __construct()
+    public function __construct()
     {
         global $pth, $plugin_cf;
 
@@ -72,10 +66,8 @@ class Keymaster_Controller
      * by CMSimple v4.
      *
      * @return string
-     *
-     * @access protected
      */
-    function xhVersion()
+    private function xhVersion()
     {
         $version = CMSIMPLE_XH_VERSION;
         if (strpos($version, 'CMSimple_XH') === 0) {
@@ -92,7 +84,7 @@ class Keymaster_Controller
      *
      * @global string The script name.
      */
-    function baseUrl()
+    private function baseUrl()
     {
         global $sn;
 
@@ -105,10 +97,8 @@ class Keymaster_Controller
      * Handles a login.
      *
      * @return void
-     *
-     * @access protected
      */
-    function login()
+    private function login()
     {
         if ($this->_model->isFree()) {
             if ($this->_model->give()) {
@@ -128,11 +118,9 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global string The current page URL.
      */
-    function logout()
+    private function logout()
     {
         global $su;
 
@@ -151,13 +139,11 @@ class Keymaster_Controller
      *
      * @return array
      *
-     * @access protected
-     *
      * @global array  The paths of system files and folders.
      * @global array  The localization of the core.
      * @global array  The localization of the plugins.
      */
-    function systemChecks()
+    private function systemChecks()
     {
         global $pth, $tx, $plugin_tx;
 
@@ -191,11 +177,9 @@ class Keymaster_Controller
      *
      * @return bool
      *
-     * @access protected
-     *
      * @global string The current system function.
      */
-    function wantsLogin()
+    private function wantsLogin()
     {
         global $f;
 
@@ -208,10 +192,8 @@ class Keymaster_Controller
      * @return bool
      *
      * @global string Whether login is requested.
-     *
-     * @access protected
      */
-    function isLogin()
+    private function isLogin()
     {
         global $login;
 
@@ -224,12 +206,10 @@ class Keymaster_Controller
      *
      * @return bool
      *
-     * @access protected
-     *
      * @global bool   Whether logout was requested.
      * @global string The current system function.
      */
-    function isLogout()
+    private function isLogout()
     {
         global $logout, $f;
 
@@ -245,14 +225,12 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global array  The paths of system files and folders.
      * @global string The (X)HTML to insert at the bottom of the document.
      * @global string The (X)HTML to insert in the contents area.
      * @global bool   Whether we're in admin mode.
      */
-    function emitScripts()
+    private function emitScripts()
     {
         global $pth, $bjs, $o, $adm;
 
@@ -272,13 +250,11 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global string The (X)HTML to insert into the content area.
      * @global string The value of the <var>admin</var> parameter.
      * @global string The value of the <var>action</var> parameter.
      */
-    function administration()
+    private function administration()
     {
         global $o, $admin, $action;
 
@@ -297,11 +273,9 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global bool Whether we're in admin mode.
      */
-    function answerRemainingTime()
+    private function answerRemainingTime()
     {
         global $adm;
 
@@ -320,13 +294,11 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global string The (X)HTML to insert into the contents area.
      * @global string The current system function.
      * @global array  The localization of the plugins.
      */
-    function denyLogin()
+    private function denyLogin()
     {
         global $o, $f, $plugin_tx;
 
@@ -339,12 +311,10 @@ class Keymaster_Controller
      *
      * @return void
      *
-     * @access protected
-     *
      * @global bool Whether we're in admin mode.
      * @global bool Whether the plugin administration is requested.
      */
-    function dispatch()
+    private function dispatch()
     {
         global $adm, $keymaster;
 

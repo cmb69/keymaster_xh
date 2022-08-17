@@ -28,19 +28,15 @@ class Keymaster_Model
      * The path of the lock file.
      *
      * @var Keymaster_Keyfile
-     *
-     * @access private
      */
-    var $_keyfile;
+    private $_keyfile;
 
     /**
      * The maximum duration of a session in seconds.
      *
      * @var int
-     *
-     * @access private
      */
-    var $_duration;
+    private $_duration;
 
     /**
      * Initializes a new instance.
@@ -49,10 +45,8 @@ class Keymaster_Model
      * @param int               $duration Maximum duration of a session in seconds.
      *
      * @return void
-     *
-     * @access public
      */
-    function __construct(Keymaster_Keyfile $keyfile, $duration)
+    public function __construct(Keymaster_Keyfile $keyfile, $duration)
     {
         $this->_keyfile = $keyfile;
         $this->_duration = $duration;
@@ -62,10 +56,8 @@ class Keymaster_Model
      * Returns the path of the lock file.
      *
      * @return string
-     *
-     * @access public
      */
-    function filename()
+    public function filename()
     {
         return $this->_keyfile->filename();
     }
@@ -74,10 +66,8 @@ class Keymaster_Model
      * Returns whether the key is on the server.
      *
      * @return bool
-     *
-     * @access public
      */
-    function hasKey()
+    public function hasKey()
     {
         return $this->_keyfile->size() > 0;
     }
@@ -86,10 +76,8 @@ class Keymaster_Model
      * Returns whether the key is free to be given away.
      *
      * @return bool
-     *
-     * @access public
      */
-    function isFree()
+    public function isFree()
     {
         return $this->hasKey() || $this->loggedInTime() > $this->_duration;
     }
@@ -98,10 +86,8 @@ class Keymaster_Model
      * Returns the number of seconds the user is logged in.
      *
      * @return int
-     *
-     * @access public
      */
-    function loggedInTime()
+    public function loggedInTime()
     {
         return time() - $this->_keyfile->mtime();
     }
@@ -110,10 +96,8 @@ class Keymaster_Model
      * Returns the number of seconds remaining for the session.
      *
      * @return int
-     *
-     * @access public
      */
-    function remainingTime()
+    public function remainingTime()
     {
         return max($this->_duration - $this->loggedInTime(), 0);
     }
@@ -122,10 +106,8 @@ class Keymaster_Model
      * Returns whether the session has expired.
      *
      * @return bool
-     *
-     * @access public
      */
-    function sessionHasExpired()
+    public function sessionHasExpired()
     {
         return $this->remainingTime() <= 0;
     }
@@ -134,10 +116,8 @@ class Keymaster_Model
      * Resets the logged in time and returns whether that succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function reset()
+    public function reset()
     {
         return $this->_keyfile->touch();
     }
@@ -146,10 +126,8 @@ class Keymaster_Model
      * Gives the key away and returns whether that succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function give()
+    public function give()
     {
         return $this->_keyfile->purge();
     }
@@ -158,10 +136,8 @@ class Keymaster_Model
      * Takes the key back and returns whether that succeeded.
      *
      * @return bool
-     *
-     * @access public
      */
-    function take()
+    public function take()
     {
         return $this->_keyfile->extend();
     }
@@ -171,11 +147,9 @@ class Keymaster_Model
      *
      * @return array
      *
-     * @access public
-     *
      * @global array The configuration of the plugins.
      */
-    function jsConfig()
+    public function jsConfig()
     {
         global $plugin_cf;
 
@@ -192,11 +166,9 @@ class Keymaster_Model
      *
      * @return array
      *
-     * @access public
-     *
      * @global array The localization of the plugins.
      */
-    function jsL10n()
+    public function jsL10n()
     {
         global $plugin_tx;
 
@@ -208,11 +180,9 @@ class Keymaster_Model
      *
      * @return string
      *
-     * @access public
-     *
      * @global array The paths of system files and folders.
      */
-    function pluginIconPath()
+    public function pluginIconPath()
     {
         global $pth;
 
@@ -226,11 +196,9 @@ class Keymaster_Model
      *
      * @return string
      *
-     * @access public
-     *
      * @global array The paths of system files and folders.
      */
-    function stateIconPath($state)
+    public function stateIconPath($state)
     {
         global $pth;
 
