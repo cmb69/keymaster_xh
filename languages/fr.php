@@ -13,7 +13,6 @@ $plugin_tx['keymaster']['syscheck_title']="Test système";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version &ge; %s";
 $plugin_tx['keymaster']['syscheck_extension']="Extension \"%s\" chargée";
 $plugin_tx['keymaster']['syscheck_encoding']="Encodage \"UTF-8\" configuré";
-$plugin_tx['keymaster']['syscheck_magic_quotes']="magic_quotes_runtime off";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Dossier \"%s\" accessible en écriture";
 $plugin_tx['keymaster']['syscheck_writable_file']="Dossier \"%s\" accessible en écriture";
 
