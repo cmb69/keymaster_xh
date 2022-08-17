@@ -52,7 +52,7 @@ class Keymaster_Model
      *
      * @access public
      */
-    function Keymaster_Model(Keymaster_Keyfile $keyfile, $duration)
+    function __construct(Keymaster_Keyfile $keyfile, $duration)
     {
         $this->_keyfile = $keyfile;
         $this->_duration = $duration;

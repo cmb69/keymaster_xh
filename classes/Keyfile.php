@@ -44,7 +44,7 @@ class Keymaster_Keyfile
      *
      * @access public
      */
-    function Keymaster_Keyfile($filename)
+    function __construct($filename)
     {
         $this->_filename = $filename;
     }

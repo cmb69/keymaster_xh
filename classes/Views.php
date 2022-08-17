@@ -40,7 +40,7 @@ class Keymaster_Views
      *
      * @return void
      */
-    function Keymaster_Views(Keymaster_Model $model)
+    function __construct(Keymaster_Model $model)
     {
         $this->_model = $model;
     }

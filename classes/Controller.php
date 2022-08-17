@@ -52,7 +52,7 @@ class Keymaster_Controller
      * @global array The paths of system files and folders.
      * @global array The configuration of the plugins.
      */
-    function Keymaster_Controller()
+    function __construct()
     {
         global $pth, $plugin_cf;
 
