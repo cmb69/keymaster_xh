@@ -31,7 +31,7 @@ class Views
      *
      * @var array
      */
-    private $_model;
+    private $model;
 
     /**
      * Initializes a new instance.
@@ -42,7 +42,7 @@ class Views
      */
     public function __construct(Model $model)
     {
-        $this->_model = $model;
+        $this->model = $model;
     }
 
     /**
@@ -94,7 +94,7 @@ class Views
      */
     private function systemCheckItem($check, $state)
     {
-        $icon = $this->_model->stateIconPath($state);
+        $icon = $this->model->stateIconPath($state);
         return <<<EOT
 <li>
     <img src="$icon" alt="$state" class="keymaster_state_icon" />
@@ -142,7 +142,7 @@ EOT;
 
         $ptx = $plugin_tx['keymaster'];
         $version = KEYMASTER_VERSION;
-        $icon = $this->_model->pluginIconPath();
+        $icon = $this->model->pluginIconPath();
         $alt = $ptx['alt_logo'];
         return <<<EOT
 <h4>$ptx[about]</h4>
@@ -191,8 +191,8 @@ EOT;
      */
     public function js($filename)
     {
-        $config = json_encode($this->_model->jsConfig());
-        $l10n = json_encode($this->_model->jsL10n());
+        $config = json_encode($this->model->jsConfig());
+        $l10n = json_encode($this->model->jsL10n());
         return <<<EOT
 <script type="text/javascript" src="$filename"></script>
 <script type="text/javascript">/* <![CDATA[ */
@@ -202,5 +202,3 @@ EOT;
 EOT;
     }
 }
-
-?>

@@ -31,14 +31,14 @@ class Model
      *
      * @var Keyfile
      */
-    private $_keyfile;
+    private $keyfile;
 
     /**
      * The maximum duration of a session in seconds.
      *
      * @var int
      */
-    private $_duration;
+    private $duration;
 
     /**
      * Initializes a new instance.
@@ -50,8 +50,8 @@ class Model
      */
     public function __construct(Keyfile $keyfile, $duration)
     {
-        $this->_keyfile = $keyfile;
-        $this->_duration = $duration;
+        $this->keyfile = $keyfile;
+        $this->duration = $duration;
     }
 
     /**
@@ -61,7 +61,7 @@ class Model
      */
     public function filename()
     {
-        return $this->_keyfile->filename();
+        return $this->keyfile->filename();
     }
 
     /**
@@ -71,7 +71,7 @@ class Model
      */
     public function hasKey()
     {
-        return $this->_keyfile->size() > 0;
+        return $this->keyfile->size() > 0;
     }
 
     /**
@@ -81,7 +81,7 @@ class Model
      */
     public function isFree()
     {
-        return $this->hasKey() || $this->loggedInTime() > $this->_duration;
+        return $this->hasKey() || $this->loggedInTime() > $this->duration;
     }
 
     /**
@@ -91,7 +91,7 @@ class Model
      */
     public function loggedInTime()
     {
-        return time() - $this->_keyfile->mtime();
+        return time() - $this->keyfile->mtime();
     }
 
     /**
@@ -101,7 +101,7 @@ class Model
      */
     public function remainingTime()
     {
-        return max($this->_duration - $this->loggedInTime(), 0);
+        return max($this->duration - $this->loggedInTime(), 0);
     }
 
     /**
@@ -121,7 +121,7 @@ class Model
      */
     public function reset()
     {
-        return $this->_keyfile->touch();
+        return $this->keyfile->touch();
     }
 
     /**
@@ -131,7 +131,7 @@ class Model
      */
     public function give()
     {
-        return $this->_keyfile->purge();
+        return $this->keyfile->purge();
     }
 
     /**
@@ -141,7 +141,7 @@ class Model
      */
     public function take()
     {
-        return $this->_keyfile->extend();
+        return $this->keyfile->extend();
     }
 
     /**
@@ -207,5 +207,3 @@ class Model
         return $pth['folder']['plugins'] . 'keymaster/images/' . $state . '.png';
     }
 }
-
-?>

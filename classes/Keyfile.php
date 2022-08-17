@@ -33,7 +33,7 @@ class Keyfile
      *
      * @var string
      */
-    private $_filename;
+    private $filename;
 
     /**
      * Initializes a new instance.
@@ -44,7 +44,7 @@ class Keyfile
      */
     public function __construct($filename)
     {
-        $this->_filename = $filename;
+        $this->filename = $filename;
     }
 
     /**
@@ -54,7 +54,7 @@ class Keyfile
      */
     public function filename()
     {
-        return $this->_filename;
+        return $this->filename;
     }
 
     /**
@@ -64,7 +64,7 @@ class Keyfile
      */
     public function mtime()
     {
-        return filemtime($this->_filename);
+        return filemtime($this->filename);
     }
 
     /**
@@ -75,7 +75,7 @@ class Keyfile
      */
     public function touch()
     {
-        return touch($this->_filename);
+        return touch($this->filename);
     }
 
     /**
@@ -85,7 +85,7 @@ class Keyfile
      */
     public function size()
     {
-        return filesize($this->_filename);
+        return filesize($this->filename);
     }
 
     /**
@@ -95,7 +95,7 @@ class Keyfile
      */
     public function purge()
     {
-        $stream = fopen($this->_filename, 'w');
+        $stream = fopen($this->filename, 'w');
         if ($stream) {
             return fclose($stream);
         } else {
@@ -111,7 +111,7 @@ class Keyfile
      */
     public function extend()
     {
-        $stream = fopen($this->_filename, 'a');
+        $stream = fopen($this->filename, 'a');
         if ($stream) {
             $ok = (fwrite($stream, '*') !== false);
             fclose($stream);
@@ -121,5 +121,3 @@ class Keyfile
         return $ok;
     }
 }
-
-?>

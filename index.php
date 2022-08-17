@@ -54,5 +54,3 @@ require_once $pth['folder']['plugin_classes'] . 'Controller.php';
  * @var Controller
  */
 $_Keymaster = new Controller();
-
-?>

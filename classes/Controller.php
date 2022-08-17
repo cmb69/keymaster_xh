@@ -31,14 +31,14 @@ class Controller
      *
      * @var Model
      */
-    private $_model;
+    private $model;
 
     /**
      * The views.
      *
      * @var Views
      */
-    private $_views;
+    private $views;
 
     /**
      * Initializes a new instance.
@@ -55,8 +55,8 @@ class Controller
         $filename = $pth['folder']['plugins'] . 'keymaster/key';
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
-        $this->_model = new Model($keyfile, $duration);
-        $this->_views = new Views($this->_model);
+        $this->model = new Model($keyfile, $duration);
+        $this->views = new Views($this->model);
         $this->emitScripts();
         $this->dispatch();
     }
@@ -102,12 +102,12 @@ class Controller
      */
     private function login()
     {
-        if ($this->_model->isFree()) {
-            if ($this->_model->give()) {
+        if ($this->model->isFree()) {
+            if ($this->model->give()) {
                 // important, as filemtime() is called later for the same file:
                 clearstatcache();
             } else {
-                e('cntwriteto', 'file', $this->_model->filename());
+                e('cntwriteto', 'file', $this->model->filename());
             }
         } else {
             $this->logout();
@@ -238,7 +238,7 @@ class Controller
 
         if ($adm) {
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
-            $js = $this->_views->js($filename);
+            $js = $this->views->js($filename);
             if (isset($bjs)) {
                 $bjs .= $js;
             } else {
@@ -262,11 +262,11 @@ class Controller
 
         $o .= print_plugin_admin('off');
         switch ($admin) {
-        case '':
-            $o .= $this->_views->info($this->systemChecks());
-            break;
-        default:
-            $o .= plugin_admin_common($action, $admin, 'keymaster');
+            case '':
+                $o .= $this->views->info($this->systemChecks());
+                break;
+            default:
+                $o .= plugin_admin_common($action, $admin, 'keymaster');
         }
     }
 
@@ -282,7 +282,7 @@ class Controller
         global $adm;
 
         if ($adm) {
-            $remainingTime = $this->_model->remainingTime();
+            $remainingTime = $this->model->remainingTime();
         } else {
             $remainingTime = -1;
         }
@@ -304,7 +304,7 @@ class Controller
     {
         global $o, $f, $plugin_tx;
 
-        $o .= $this->_views->message('fail', $plugin_tx['keymaster']['editing']);
+        $o .= $this->views->message('fail', $plugin_tx['keymaster']['editing']);
         $f = '';
     }
 
@@ -320,22 +320,22 @@ class Controller
     {
         global $adm, $keymaster;
 
-        if ($this->wantsLogin() && !$this->_model->isFree()) {
+        if ($this->wantsLogin() && !$this->model->isFree()) {
             $this->denyLogin();
         } elseif ($this->isLogin()) {
             $this->login();
         } elseif ($this->isLogout()) {
-            if (!$this->_model->take()) {
-                e('cntwriteto', 'file', $this->_model->filename());
+            if (!$this->model->take()) {
+                e('cntwriteto', 'file', $this->model->filename());
             }
         } elseif (isset($_GET['keymaster_time'])) {
             $this->answerRemainingTime();
         } elseif ($adm && isset($_POST['keymaster_reset'])) {
-            $this->_model->reset();
+            $this->model->reset();
             exit;
-        } elseif ($adm && !$this->_model->sessionHasExpired()) {
-            if (!$this->_model->reset()) {
-                e('cntwriteto', 'file', $this->_model->filename());
+        } elseif ($adm && !$this->model->sessionHasExpired()) {
+            if (!$this->model->reset()) {
+                e('cntwriteto', 'file', $this->model->filename());
             }
         } elseif ($adm) {
             $this->logout();
@@ -349,5 +349,3 @@ class Controller
         }
     }
 }
-
-?>
