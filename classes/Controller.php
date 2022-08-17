@@ -162,7 +162,7 @@ class Keymaster_Controller
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['keymaster'];
-        $phpVersion = '4.3.0';
+        $phpVersion = '7.1.0';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
