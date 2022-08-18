@@ -316,8 +316,11 @@ class Controller
             $this->logout();
         }
 
-        if ($adm && XH_wantsPluginAdministration('keymaster')) {
-            $this->administration();
+        if ($adm) {
+            XH_registerStandardPluginMenuItems(false);
+            if (XH_wantsPluginAdministration('keymaster')) {
+                $this->administration();
+            }
         }
     }
 }
