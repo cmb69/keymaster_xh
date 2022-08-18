@@ -28,72 +28,35 @@ namespace Keymaster;
  */
 class Keyfile
 {
-    /**
-     * The filename of the key file.
-     *
-     * @var string
-     */
+    /** @var string*/
     private $filename;
 
-    /**
-     * Initializes a new instance.
-     *
-     * @param string $filename A filename.
-     *
-     * @return void
-     */
-    public function __construct($filename)
+    public function __construct(string $filename)
     {
         $this->filename = $filename;
     }
 
-    /**
-     * Returns the filename of the key file.
-     *
-     * @return string
-     */
-    public function filename()
+    public function filename(): string
     {
         return $this->filename;
     }
 
-    /**
-     * Returns the timestamp of the last modification of the key file.
-     *
-     * @return int
-     */
-    public function mtime()
+    public function mtime(): int
     {
         return filemtime($this->filename);
     }
 
-    /**
-     * Sets the timestamp of the last modification of the key file to now,
-     * and returns whether that succeeded.
-     *
-     * @return bool
-     */
-    public function touch()
+    public function touch(): bool
     {
         return touch($this->filename);
     }
 
-    /**
-     * Returns the size of the key file in bytes.
-     *
-     * @return int
-     */
-    public function size()
+    public function size(): int
     {
         return filesize($this->filename);
     }
 
-    /**
-     * Purges the contents of the key file, and returns whether that succeeded.
-     *
-     * @return bool
-     */
-    public function purge()
+    public function purge(): bool
     {
         $stream = fopen($this->filename, 'w');
         if ($stream) {
@@ -103,13 +66,7 @@ class Keyfile
         }
     }
 
-    /**
-     * Extends the key file by a single aterix (*), and returns whether that
-     * succeeded.
-     *
-     * @return bool
-     */
-    public function extend()
+    public function extend(): bool
     {
         $stream = fopen($this->filename, 'a');
         if ($stream) {

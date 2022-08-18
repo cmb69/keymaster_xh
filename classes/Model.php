@@ -26,130 +26,67 @@ namespace Keymaster;
  */
 class Model
 {
-    /**
-     * The path of the lock file.
-     *
-     * @var Keyfile
-     */
+    /** @var Keyfile */
     private $keyfile;
 
-    /**
-     * The maximum duration of a session in seconds.
-     *
-     * @var int
-     */
+    /** @var int */
     private $duration;
 
-    /**
-     * Initializes a new instance.
-     *
-     * @param Keyfile $keyfile  A key file.
-     * @param int     $duration Maximum duration of a session in seconds.
-     *
-     * @return void
-     */
-    public function __construct(Keyfile $keyfile, $duration)
+    public function __construct(Keyfile $keyfile, int $duration)
     {
         $this->keyfile = $keyfile;
         $this->duration = $duration;
     }
 
-    /**
-     * Returns the path of the lock file.
-     *
-     * @return string
-     */
-    public function filename()
+    public function filename(): string
     {
         return $this->keyfile->filename();
     }
 
-    /**
-     * Returns whether the key is on the server.
-     *
-     * @return bool
-     */
-    public function hasKey()
+    public function hasKey(): bool
     {
         return $this->keyfile->size() > 0;
     }
 
-    /**
-     * Returns whether the key is free to be given away.
-     *
-     * @return bool
-     */
-    public function isFree()
+    public function isFree(): bool
     {
         return $this->hasKey() || $this->loggedInTime() > $this->duration;
     }
 
-    /**
-     * Returns the number of seconds the user is logged in.
-     *
-     * @return int
-     */
-    public function loggedInTime()
+    public function loggedInTime(): int
     {
         return time() - $this->keyfile->mtime();
     }
 
-    /**
-     * Returns the number of seconds remaining for the session.
-     *
-     * @return int
-     */
-    public function remainingTime()
+    public function remainingTime(): int
     {
         return max($this->duration - $this->loggedInTime(), 0);
     }
 
-    /**
-     * Returns whether the session has expired.
-     *
-     * @return bool
-     */
-    public function sessionHasExpired()
+    public function sessionHasExpired(): bool
     {
         return $this->remainingTime() <= 0;
     }
 
-    /**
-     * Resets the logged in time and returns whether that succeeded.
-     *
-     * @return bool
-     */
-    public function reset()
+    public function reset(): bool
     {
         return $this->keyfile->touch();
     }
 
-    /**
-     * Gives the key away and returns whether that succeeded.
-     *
-     * @return bool
-     */
-    public function give()
+    public function give(): bool
     {
         return $this->keyfile->purge();
     }
 
-    /**
-     * Takes the key back and returns whether that succeeded.
-     *
-     * @return bool
-     */
-    public function take()
+    public function take(): bool
     {
         return $this->keyfile->extend();
     }
 
     /**
-     * Returns the JavaScript configuration.
-     *
      * @return array<string,int>
      */
-    public function jsConfig()
+    public function jsConfig(): array
     {
         global $plugin_cf;
 
@@ -162,11 +99,9 @@ class Model
     }
 
     /**
-     * Returns the JavaScript localization.
-     *
      * @return array<string,string>
      */
-    public function jsL10n()
+    public function jsL10n(): array
     {
         global $plugin_tx;
 

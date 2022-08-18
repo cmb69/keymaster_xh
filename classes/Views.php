@@ -26,40 +26,20 @@ namespace Keymaster;
  */
 class Views
 {
-    /**
-     * Returns a message.
-     *
-     * @param string $type    A message type ('success', 'info', 'warning', 'fail').
-     * @param string $message A message.
-     *
-     * @return string (X)HTML.
-     */
-    public function message($type, $message)
+    public function message(string $type, string $message): string
     {
         return XH_message($type, $message);
     }
 
-    /**
-     * Returns a system check item view.
-     *
-     * @param string $check A system check label.
-     * @param string $state A system check state.
-     *
-     * @return string XHTML.
-     */
-    private function systemCheckItem($check, $state)
+    private function systemCheckItem(string $check, string $state): string
     {
         return "<p class=\"$state\">$check</p>";
     }
 
     /**
-     * Returns the system check view.
-     *
      * @param array<string,string> $checks An array of system checks.
-     *
-     * @return string XHTML.
      */
-    private function systemCheck($checks)
+    private function systemCheck(array $checks): string
     {
         global $plugin_tx;
 
@@ -77,13 +57,9 @@ EOT;
     }
 
     /**
-     * Returns the plugin information view.
-     *
      * @param array<string,string> $checks An array of system checks.
-     *
-     * @return string (X)HTML.
      */
-    public function info($checks)
+    public function info(array $checks): string
     {
         return '<h1>Keymaster_XH ' . KEYMASTER_VERSION . '</h1>'
             . $this->systemCheck($checks);

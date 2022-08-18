@@ -26,25 +26,12 @@ namespace Keymaster;
  */
 class Controller
 {
-    /**
-     * The model.
-     *
-     * @var Model
-     */
+    /** @var Model */
     private $model;
 
-    /**
-     * The views.
-     *
-     * @var Views
-     */
+    /** @var Views */
     private $views;
 
-    /**
-     * Initializes a new instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         global $pth, $plugin_cf;
@@ -58,12 +45,7 @@ class Controller
         $this->dispatch();
     }
 
-    /**
-     * Handles a login.
-     *
-     * @return void
-     */
-    private function login()
+    private function login(): void
     {
         if ($this->model->isFree()) {
             if ($this->model->give()) {
@@ -78,12 +60,7 @@ class Controller
         }
     }
 
-    /**
-     * Logs the admin out.
-     *
-     * @return void
-     */
-    private function logout()
+    private function logout(): void
     {
         global $su;
 
@@ -94,11 +71,9 @@ class Controller
     }
 
     /**
-     * Returns an array with system checks.
-     *
      * @return array<string,string>
      */
-    private function systemChecks()
+    private function systemChecks(): array
     {
         global $pth, $tx, $plugin_tx;
 
@@ -130,24 +105,14 @@ class Controller
         return $checks;
     }
 
-    /**
-     * Returns whether the admin wants to log in.
-     *
-     * @return bool
-     */
-    private function wantsLogin()
+    private function wantsLogin(): bool
     {
         global $f;
 
         return isset($f) && $f == 'login';
     }
 
-    /**
-     * Returns whether the admin has just logged in.
-     *
-     * @return bool
-     */
-    private function isLogin()
+    private function isLogin(): bool
     {
         global $login;
 
@@ -155,24 +120,14 @@ class Controller
             && (gc('status') != 'adm' || !logincheck());
     }
 
-    /**
-     * Returns whether the admin has just logged out.
-     *
-     * @return bool
-     */
-    private function isLogout()
+    private function isLogout(): bool
     {
         global $f;
 
         return isset($f) && $f == 'xh_loggedout';
     }
 
-    /**
-     * Emits the script elements.
-     *
-     * @return void
-     */
-    private function emitScripts()
+    private function emitScripts(): void
     {
         global $pth, $bjs, $adm;
 
@@ -183,14 +138,7 @@ class Controller
     }
 
 
-    /**
-     * Returns the script elements.
-     *
-     * @param string $filename A JS script filename.
-     *
-     * @return string (X)HTML.
-     */
-    private function js($filename)
+    private function js(string $filename): string
     {
         $config = json_encode($this->model->jsConfig());
         $l10n = json_encode($this->model->jsL10n());
@@ -202,12 +150,8 @@ class Controller
 /* ]]> */</script>
 EOT;
     }
-    /**
-     * Handles the plugin administration.
-     *
-     * @return void
-     */
-    private function administration()
+
+    private function administration(): void
     {
         global $o, $admin;
 
@@ -221,12 +165,7 @@ EOT;
         }
     }
 
-    /**
-     * Responds to a remaining time request.
-     *
-     * @return void
-     */
-    private function answerRemainingTime()
+    private function answerRemainingTime(): void
     {
         global $adm;
 
@@ -240,12 +179,7 @@ EOT;
         exit;
     }
 
-    /**
-     * Denies the login.
-     *
-     * @return void
-     */
-    private function denyLogin()
+    private function denyLogin(): void
     {
         global $o, $f, $plugin_tx;
 
@@ -253,12 +187,7 @@ EOT;
         $f = '';
     }
 
-    /**
-     * Handles plugin related requests.
-     *
-     * @return void
-     */
-    private function dispatch()
+    private function dispatch(): void
     {
         global $adm;
 
