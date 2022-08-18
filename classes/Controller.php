@@ -151,6 +151,7 @@ class Controller
 
         $ptx = $plugin_tx['keymaster'];
         $phpVersion = '7.1.0';
+        $xhVersion = '1.7.0';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
@@ -158,8 +159,8 @@ class Controller
             $checks[sprintf($ptx['syscheck_extension'], $ext)]
                 = extension_loaded($ext) ? 'ok' : 'fail';
         }
-        $checks[$ptx['syscheck_encoding']]
-            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
+        $checks[sprintf($ptx['syscheck_xhversion'], $xhVersion)]
+            = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0 ? 'ok' : 'fail';
         $folders = array();
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
