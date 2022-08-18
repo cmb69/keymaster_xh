@@ -319,7 +319,7 @@ class Controller
      */
     private function dispatch()
     {
-        global $adm, $keymaster;
+        global $adm;
 
         if ($this->wantsLogin() && !$this->model->isFree()) {
             $this->denyLogin();
@@ -342,10 +342,7 @@ class Controller
             $this->logout();
         }
 
-        if ($adm
-            && (function_exists('XH_wantsPluginAdministration') && XH_wantsPluginAdministration('keymaster')
-            || isset($keymaster) && $keymaster == 'true')
-        ) {
+        if ($adm && XH_wantsPluginAdministration('keymaster')) {
             $this->administration();
         }
     }
