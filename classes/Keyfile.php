@@ -15,17 +15,6 @@
 
 namespace Keymaster;
 
-/**
- * The key file class.
- *
- * Encapsulates the necessary file system access.
- *
- * @category CMSimple_XH
- * @package  Keymaster
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
- */
 class Keyfile
 {
     /** @var string*/
