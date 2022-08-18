@@ -46,7 +46,6 @@
     </target>
 
     <target name="build" description="builds distributable ZIP archive">
-        <fail unless="version" message="version is not defined!"/>
         <exec command="git archive -o export.zip HEAD" checkreturn="true"/>
         <unzip file="export.zip" todir="export"/>
         <delete file="export.zip"/>
@@ -69,14 +68,13 @@
         <delete dir="export"/>
         <copy file="dist/config/config.php" tofile="dist/config/defaultconfig.php"/>
         <copy file="dist/languages/en.php" tofile="dist/languages/default.php"/>
-        <zip destfile="Keymaster_XH-${version}.zip" basedir="dist" prefix="keymaster/"/>
+        <zip destfile="Keymaster_XH-2.0-dev.zip" basedir="dist" prefix="keymaster/"/>
         <delete dir="dist"/>
     </target>
 
     <target name="build-patch" description="builds a distributable update package">
         <fail unless="patchee" message="patchee is not defined!"/>
-        <fail unless="version" message="version is not defined!"/>
-        <unzip file="Keymaster_XH-${version}.zip" todir="current"/>
+       <unzip file="Keymaster_XH-2.0-dev.zip" todir="current"/>
         <unzip file="${patchee}" todir="patchee"/>
         <copy todir="dist">
             <fileset dir="current">
@@ -91,7 +89,7 @@
                 <include name="css/stylesheet.css"/>
             </fileset>
         </delete>
-        <zip destfile="Keymaster_XH-${version}-PATCH.zip" basedir="dist"
+        <zip destfile="Keymaster_XH-2.0-dev-PATCH.zip" basedir="dist"
              includeemptydirs="false"/>
         <delete dir="patchee" quiet="true"/>
         <delete dir="current" quiet="true"/>
