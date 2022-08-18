@@ -146,6 +146,15 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
     public function testJsConfigHasRequiredElements()
     {
+        global $plugin_cf;
+
+        $plugin_cf = [
+            'keymaster' => [
+                'logout' => '1800',
+                'warn' => '1200',
+                'poll' => '7000',
+            ]
+        ];
         $actual = $this->model->jsConfig();
         $this->assertArrayHasKey('warn', $actual);
         $this->assertArrayHasKey('pollInterval', $actual);
