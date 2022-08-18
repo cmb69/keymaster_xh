@@ -190,21 +190,15 @@ class Controller
      *
      * @global array  The paths of system files and folders.
      * @global string The (X)HTML to insert at the bottom of the document.
-     * @global string The (X)HTML to insert in the contents area.
      * @global bool   Whether we're in admin mode.
      */
     private function emitScripts()
     {
-        global $pth, $bjs, $o, $adm;
+        global $pth, $bjs, $adm;
 
         if ($adm) {
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
-            $js = $this->views->js($filename);
-            if (isset($bjs)) {
-                $bjs .= $js;
-            } else {
-                $o .= $js;
-            }
+            $bjs .= $this->views->js($filename);
         }
     }
 
