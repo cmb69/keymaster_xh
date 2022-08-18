@@ -62,24 +62,6 @@ class Controller
     }
 
     /**
-     * Returns the CMSimple_XH version.
-     *
-     * Unfortunately, we can't use CMSIMPLE_XH_VERSION directly, as this is set
-     * by CMSimple v4.
-     *
-     * @return string
-     */
-    private function xhVersion()
-    {
-        $version = CMSIMPLE_XH_VERSION;
-        if (strpos($version, 'CMSimple_XH') === 0) {
-            $version = substr($version, strlen('CMSimple_XH '));
-        } else {
-            $version = '0';
-        }
-        return $version;
-    }
-    /**
      * The absolute URL of the CMSimple_XH installation.
      *
      * @return string
@@ -127,11 +109,7 @@ class Controller
         global $su;
 
         setcookie('status', '', 0, CMSIMPLE_ROOT);
-        if (version_compare($this->xhVersion(), '1.6dev', 'ge')) {
-            unset($_SESSION['xh_password'][CMSIMPLE_ROOT]);
-        } else {
-            setcookie('passwd', '', 0, CMSIMPLE_ROOT);
-        }
+        unset($_SESSION['xh_password'][CMSIMPLE_ROOT]);
         header('Location: ' . $this->baseUrl() . '?' . $su, true, 303);
         exit;
     }
@@ -214,13 +192,9 @@ class Controller
      */
     private function isLogout()
     {
-        global $logout, $f;
+        global $f;
 
-        if (version_compare($this->xhVersion(), '1.6dev', 'ge')) {
-            return isset($f) && $f == 'xh_loggedout';
-        } else {
-            return $logout && $_COOKIE['status'] == 'adm' && logincheck();
-        }
+        return isset($f) && $f == 'xh_loggedout';
     }
 
     /**
