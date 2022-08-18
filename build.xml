@@ -39,7 +39,7 @@
     </target>
 
     <target name="coverage" description="generates coverage report">
-        <exec command="phpdbg -qrr vendor/phpunit/phpunit/phpunit --configuration coverage.xml" logoutput="true"/>
+        <exec command="phpdbg -qrr vendor/phpunit/phpunit/phpunit --configuration coverage.xml" passthru="true" checkreturn="true"/>
     </target>
 
     <target name="gen-help" description="builds help.htm from README.md">
