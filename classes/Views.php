@@ -27,25 +27,6 @@ namespace Keymaster;
 class Views
 {
     /**
-     * The model.
-     *
-     * @var Model
-     */
-    private $model;
-
-    /**
-     * Initializes a new instance.
-     *
-     * @param Model $model A model.
-     *
-     * @return void
-     */
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
-    /**
      * Returns a message.
      *
      * @param string $type    A message type ('success', 'info', 'warning', 'fail').
@@ -108,25 +89,5 @@ EOT;
     {
         return '<h1>Keymaster_XH ' . KEYMASTER_VERSION . '</h1>'
             . $this->systemCheck($checks);
-    }
-
-    /**
-     * Returns the script elements.
-     *
-     * @param string $filename A JS script filename.
-     *
-     * @return string (X)HTML.
-     */
-    public function js($filename)
-    {
-        $config = json_encode($this->model->jsConfig());
-        $l10n = json_encode($this->model->jsL10n());
-        return <<<EOT
-<script type="text/javascript" src="$filename"></script>
-<script type="text/javascript">/* <![CDATA[ */
-    Keymaster.config = $config;
-    Keymaster.l10n = $l10n;
-/* ]]> */</script>
-EOT;
     }
 }

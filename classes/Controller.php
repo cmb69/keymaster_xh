@@ -56,7 +56,7 @@ class Controller
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
         $this->model = new Model($keyfile, $duration);
-        $this->views = new Views($this->model);
+        $this->views = new Views();
         $this->emitScripts();
         $this->dispatch();
     }
@@ -198,10 +198,30 @@ class Controller
 
         if ($adm) {
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
-            $bjs .= $this->views->js($filename);
+            $bjs .= $this->js($filename);
         }
     }
 
+
+    /**
+     * Returns the script elements.
+     *
+     * @param string $filename A JS script filename.
+     *
+     * @return string (X)HTML.
+     */
+    private function js($filename)
+    {
+        $config = json_encode($this->model->jsConfig());
+        $l10n = json_encode($this->model->jsL10n());
+        return <<<EOT
+<script type="text/javascript" src="$filename"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    Keymaster.config = $config;
+    Keymaster.l10n = $l10n;
+/* ]]> */</script>
+EOT;
+    }
     /**
      * Handles the plugin administration.
      *
