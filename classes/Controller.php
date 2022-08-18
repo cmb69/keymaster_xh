@@ -149,7 +149,10 @@ EOT;
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= $this->view->info($this->systemChecks());
+                $o .= $this->view->render("info", [
+                    "version" => KEYMASTER_VERSION,
+                    "checks" => $this->systemChecks(),
+                ]);
                 break;
             default:
                 $o .= plugin_admin_common();

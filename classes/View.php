@@ -43,17 +43,6 @@ class View
     }
 
     /**
-     * @param array<string,string> $checks An array of system checks.
-     */
-    public function info(array $checks): string
-    {
-        return $this->render("info", [
-            "version" => KEYMASTER_VERSION,
-            "checks" => $checks,
-        ]);
-    }
-
-    /**
      * @param array<string,mixed> $data
      */
     public function render(string $template, array $data): string
