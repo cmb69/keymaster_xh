@@ -17,6 +17,17 @@ namespace Keymaster;
 
 class View
 {
+    /** @var array<string,string> */
+    private $lang;
+
+    /**
+     * @param array<string,string> $lang
+     */
+    public function __construct(array $lang)
+    {
+        $this->lang = $lang;
+    }
+
     public function message(string $type, string $message): string
     {
         return XH_message($type, $message);
@@ -32,15 +43,12 @@ class View
      */
     private function systemCheck(array $checks): string
     {
-        global $plugin_tx;
-
-        $ptx = $plugin_tx['keymaster'];
         $items = '';
         foreach ($checks as $check => $state) {
             $items .= $this->systemCheckItem($check, $state);
         }
         return <<<EOT
-<h4>$ptx[syscheck_title]</h4>
+<h4>{$this->lang["syscheck_title"]}</h4>
 <ul class="keymaster_syscheck">
     $items
 </ul>

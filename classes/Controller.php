@@ -25,13 +25,13 @@ class Controller
 
     public function __construct()
     {
-        global $pth, $plugin_cf;
+        global $pth, $plugin_cf, $plugin_tx;
 
         $filename = $pth['folder']['plugins'] . 'keymaster/key';
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
         $this->model = new Model($keyfile, $duration);
-        $this->view = new View();
+        $this->view = new View($plugin_tx['keymaster']);
         $this->emitScripts();
         $this->dispatch();
     }
