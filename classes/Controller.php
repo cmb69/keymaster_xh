@@ -44,9 +44,6 @@ class Controller
      * Initializes a new instance.
      *
      * @return void
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
      */
     public function __construct()
     {
@@ -85,8 +82,6 @@ class Controller
      * Logs the admin out.
      *
      * @return void
-     *
-     * @global string The current page URL.
      */
     private function logout()
     {
@@ -102,10 +97,6 @@ class Controller
      * Returns an array with system checks.
      *
      * @return array<string,string>
-     *
-     * @global array  The paths of system files and folders.
-     * @global array  The localization of the core.
-     * @global array  The localization of the plugins.
      */
     private function systemChecks()
     {
@@ -143,8 +134,6 @@ class Controller
      * Returns whether the admin wants to log in.
      *
      * @return bool
-     *
-     * @global string The current system function.
      */
     private function wantsLogin()
     {
@@ -157,8 +146,6 @@ class Controller
      * Returns whether the admin has just logged in.
      *
      * @return bool
-     *
-     * @global string Whether login is requested.
      */
     private function isLogin()
     {
@@ -172,9 +159,6 @@ class Controller
      * Returns whether the admin has just logged out.
      *
      * @return bool
-     *
-     * @global bool   Whether logout was requested.
-     * @global string The current system function.
      */
     private function isLogout()
     {
@@ -187,10 +171,6 @@ class Controller
      * Emits the script elements.
      *
      * @return void
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The (X)HTML to insert at the bottom of the document.
-     * @global bool   Whether we're in admin mode.
      */
     private function emitScripts()
     {
@@ -226,10 +206,6 @@ EOT;
      * Handles the plugin administration.
      *
      * @return void
-     *
-     * @global string The (X)HTML to insert into the content area.
-     * @global string The value of the <var>admin</var> parameter.
-     * @global string The value of the <var>action</var> parameter.
      */
     private function administration()
     {
@@ -249,8 +225,6 @@ EOT;
      * Responds to a remaining time request.
      *
      * @return void
-     *
-     * @global bool Whether we're in admin mode.
      */
     private function answerRemainingTime()
     {
@@ -270,10 +244,6 @@ EOT;
      * Denies the login.
      *
      * @return void
-     *
-     * @global string The (X)HTML to insert into the contents area.
-     * @global string The current system function.
-     * @global array  The localization of the plugins.
      */
     private function denyLogin()
     {
@@ -287,9 +257,6 @@ EOT;
      * Handles plugin related requests.
      *
      * @return void
-     *
-     * @global bool Whether we're in admin mode.
-     * @global bool Whether the plugin administration is requested.
      */
     private function dispatch()
     {

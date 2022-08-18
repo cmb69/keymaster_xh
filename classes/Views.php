@@ -58,8 +58,6 @@ class Views
      * @param array<string,string> $checks An array of system checks.
      *
      * @return string XHTML.
-     *
-     * @global array The localization of the plugins.
      */
     private function systemCheck($checks)
     {

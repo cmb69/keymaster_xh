@@ -148,8 +148,6 @@ class Model
      * Returns the JavaScript configuration.
      *
      * @return array<string,int>
-     *
-     * @global array The configuration of the plugins.
      */
     public function jsConfig()
     {
@@ -167,8 +165,6 @@ class Model
      * Returns the JavaScript localization.
      *
      * @return array<string,string>
-     *
-     * @global array The localization of the plugins.
      */
     public function jsL10n()
     {
@@ -181,8 +177,6 @@ class Model
      * Returns the path of the plugin icon.
      *
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     public function pluginIconPath()
     {
