@@ -29,7 +29,7 @@ class Views
     /**
      * The model.
      *
-     * @var array
+     * @var Model
      */
     private $model;
 
@@ -74,7 +74,7 @@ class Views
     /**
      * Returns the system check view.
      *
-     * @param array $checks An array of system checks.
+     * @param array<string,string> $checks An array of system checks.
      *
      * @return string XHTML.
      *
@@ -100,7 +100,7 @@ EOT;
     /**
      * Returns the plugin information view.
      *
-     * @param array $checks An array of system checks.
+     * @param array<string,string> $checks An array of system checks.
      *
      * @return string (X)HTML.
      */

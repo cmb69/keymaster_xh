@@ -147,7 +147,7 @@ class Model
     /**
      * Returns the JavaScript configuration.
      *
-     * @return array
+     * @return array<string,int>
      *
      * @global array The configuration of the plugins.
      */
@@ -166,7 +166,7 @@ class Model
     /**
      * Returns the JavaScript localization.
      *
-     * @return array
+     * @return array<string,string>
      *
      * @global array The localization of the plugins.
      */

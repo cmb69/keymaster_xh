@@ -101,7 +101,7 @@ class Controller
     /**
      * Returns an array with system checks.
      *
-     * @return array
+     * @return array<string,string>
      *
      * @global array  The paths of system files and folders.
      * @global array  The localization of the core.
@@ -213,7 +213,7 @@ class Controller
      */
     private function administration()
     {
-        global $o, $admin, $action;
+        global $o, $admin;
 
         $o .= print_plugin_admin('off');
         switch ($admin) {
@@ -221,7 +221,7 @@ class Controller
                 $o .= $this->views->info($this->systemChecks());
                 break;
             default:
-                $o .= plugin_admin_common($action, $admin, 'keymaster');
+                $o .= plugin_admin_common();
         }
     }
 

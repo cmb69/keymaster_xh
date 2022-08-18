@@ -60,7 +60,7 @@ class Keyfile
     /**
      * Returns the timestamp of the last modification of the key file.
      *
-     * @return string
+     * @return int
      */
     public function mtime()
     {
