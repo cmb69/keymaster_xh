@@ -30,14 +30,10 @@
     </target>
 
     <target name="unit-tests" description="runs all unit tests">
-        <phpunit haltonerror="true" haltonfailure="true">
-            <formatter type="plain" usefile="false"/>
-            <batchtest>
-                <fileset dir="tests/unit">
-                    <include name="*Test.php"/>
-                </fileset>
-            </batchtest>
-        </phpunit>
+        <exec executable="phpunit" passthru="true" checkreturn="true">
+            <arg value="--colors=always"/>
+            <arg file="tests/unit"/>
+        </exec>
     </target>
 
     <target name="coverage" description="generates coverage report">

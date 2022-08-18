@@ -17,7 +17,7 @@ namespace Keymaster;
 
 require_once './classes/Keyfile.php';
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
@@ -31,7 +31,7 @@ use org\bovigo\vfs\vfsStream;
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link
  */
-class KeyfileTest extends PHPUnit_Framework_TestCase
+class KeyfileTest extends TestCase
 {
     protected $filename;
 

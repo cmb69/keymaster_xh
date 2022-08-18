@@ -15,7 +15,7 @@
 
 namespace Keymaster;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * The keyfile class.
@@ -36,7 +36,7 @@ require_once './classes/Model.php';
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Keymaster_XH
  */
-class ModelTest extends PHPUnit_Framework_TestCase
+class ModelTest extends TestCase
 {
     protected $keyfile;
 
