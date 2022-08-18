@@ -62,22 +62,6 @@ class Controller
     }
 
     /**
-     * The absolute URL of the CMSimple_XH installation.
-     *
-     * @return string
-     *
-     * @global string The script name.
-     */
-    private function baseUrl()
-    {
-        global $sn;
-
-        return 'http'
-            . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '')
-            . '://' . $_SERVER['HTTP_HOST'] . preg_replace('/index.php$/', '', $sn);
-    }
-
-    /**
      * Handles a login.
      *
      * @return void
@@ -110,7 +94,7 @@ class Controller
 
         setcookie('status', '', 0, CMSIMPLE_ROOT);
         unset($_SESSION['xh_password'][CMSIMPLE_ROOT]);
-        header('Location: ' . $this->baseUrl() . '?' . $su, true, 303);
+        header('Location: ' . CMSIMPLE_URL . '?' . $su, true, 303);
         exit;
     }
 
