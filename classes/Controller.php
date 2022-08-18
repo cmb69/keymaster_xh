@@ -29,8 +29,8 @@ class Controller
     /** @var Model */
     private $model;
 
-    /** @var Views */
-    private $views;
+    /** @var View */
+    private $view;
 
     public function __construct()
     {
@@ -40,7 +40,7 @@ class Controller
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
         $this->model = new Model($keyfile, $duration);
-        $this->views = new Views();
+        $this->view = new View();
         $this->emitScripts();
         $this->dispatch();
     }
@@ -158,7 +158,7 @@ EOT;
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= $this->views->info($this->systemChecks());
+                $o .= $this->view->info($this->systemChecks());
                 break;
             default:
                 $o .= plugin_admin_common();
@@ -183,7 +183,7 @@ EOT;
     {
         global $o, $f, $plugin_tx;
 
-        $o .= $this->views->message('fail', $plugin_tx['keymaster']['editing']);
+        $o .= $this->view->message('fail', $plugin_tx['keymaster']['editing']);
         $f = '';
     }
 
