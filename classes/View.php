@@ -17,15 +17,24 @@ namespace Keymaster;
 
 class View
 {
+    /** @var string */
+    private $templateFolder;
+
     /** @var array<string,string> */
     private $lang;
 
     /**
      * @param array<string,string> $lang
      */
-    public function __construct(array $lang)
+    public function __construct(string $templateFolder, array $lang)
     {
+        $this->templateFolder = $templateFolder;
         $this->lang = $lang;
+    }
+
+    public function text(string $key): string
+    {
+        return $this->lang[$key];
     }
 
     public function message(string $type, string $message): string
@@ -33,34 +42,25 @@ class View
         return XH_message($type, $message);
     }
 
-    private function systemCheckItem(string $check, string $state): string
-    {
-        return "<p class=\"$state\">$check</p>";
-    }
-
-    /**
-     * @param array<string,string> $checks An array of system checks.
-     */
-    private function systemCheck(array $checks): string
-    {
-        $items = '';
-        foreach ($checks as $check => $state) {
-            $items .= $this->systemCheckItem($check, $state);
-        }
-        return <<<EOT
-<h4>{$this->lang["syscheck_title"]}</h4>
-<ul class="keymaster_syscheck">
-    $items
-</ul>
-EOT;
-    }
-
     /**
      * @param array<string,string> $checks An array of system checks.
      */
     public function info(array $checks): string
     {
-        return '<h1>Keymaster_XH ' . KEYMASTER_VERSION . '</h1>'
-            . $this->systemCheck($checks);
+        return $this->render("info", [
+            "version" => KEYMASTER_VERSION,
+            "checks" => $checks,
+        ]);
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     */
+    public function render(string $template, array $data): string
+    {
+        extract($data);
+        ob_start();
+        include "{$this->templateFolder}{$template}.php";
+        return (string) ob_get_clean();
     }
 }

@@ -31,7 +31,7 @@ class Controller
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
         $this->model = new Model($keyfile, $duration);
-        $this->view = new View($plugin_tx['keymaster']);
+        $this->view = new View("{$pth["folder"]["plugins"]}keymaster/templates/", $plugin_tx['keymaster']);
         $this->emitScripts();
         $this->dispatch();
     }
