@@ -26,20 +26,3 @@
 #keymaster button {
     padding: 0.5em 1em;
 }
-.keymaster_syscheck {
-    list-style: none;
-}
-.keymaster_state_icon {
-    margin: 0;
-    height: 1em;
-    padding-right: 1em;
-}
-.keymaster_license {
-    text-align: justify;
-}
-.keymaster_plugin_icon {
-    float: left;
-    width: 128px;
-    height: 128px;
-    margin-right: 16px;
-}

@@ -190,20 +190,4 @@ class Model
 
         return $pth['folder']['plugins'] . 'keymaster/keymaster.png';
     }
-
-    /**
-     * Returns the path of a state icon.
-     *
-     * @param string $state A state.
-     *
-     * @return string
-     *
-     * @global array The paths of system files and folders.
-     */
-    public function stateIconPath($state)
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'keymaster/images/' . $state . '.png';
-    }
 }

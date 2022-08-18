@@ -68,13 +68,7 @@ class Views
      */
     private function systemCheckItem($check, $state)
     {
-        $icon = $this->model->stateIconPath($state);
-        return <<<EOT
-<li>
-    <img src="$icon" alt="$state" class="keymaster_state_icon" />
-    <span>$check</span>
-</li>
-EOT;
+        return "<p class=\"$state\">$check</p>";
     }
 
     /**

@@ -132,24 +132,26 @@ class Controller
         $xhVersion = '1.7.0';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
+            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'xh_success' : 'xh_fail';
         foreach (array('json') as $ext) {
             $checks[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'ok' : 'fail';
+                = extension_loaded($ext) ? 'xh_success' : 'xh_fail';
         }
         $checks[sprintf($ptx['syscheck_xhversion'], $xhVersion)]
-            = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0 ? 'ok' : 'fail';
+            = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0
+                ? 'xh_success'
+                : 'xh_fail';
         $folders = array();
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
         }
         foreach ($folders as $folder) {
             $checks[sprintf($ptx['syscheck_writable_folder'], $folder)]
-                = is_writable($folder) ? 'ok' : 'warn';
+                = is_writable($folder) ? 'xh_success' : 'xh_warning';
         }
         $file = $pth['folder']['plugins'] . 'keymaster/key';
         $checks[sprintf($ptx['syscheck_writable_file'], $file)]
-            = is_writable($file) ? 'ok' : 'fail';
+            = is_writable($file) ? 'xh_success' : 'xh_fail';
         return $checks;
     }
 

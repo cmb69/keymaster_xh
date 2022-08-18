@@ -163,9 +163,6 @@ and a brilliant Movie (guess which one ;).
 The plugin icon is designed by [Alessandro Rei](http://www.mentalrey.it/).
 Many thanks for publishing this icon under GPL.
 
-This plugin uses free applications icons from [Aha-Soft](http://www.aha-soft.com/).
-Many thanks for making these icons freely available.
-
 Many thanks to the community at the
 [CMSimple_XH Forum](https://www.cmsimpleforum.com/) for tips, suggestions
 and testing.

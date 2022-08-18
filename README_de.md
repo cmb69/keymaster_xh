@@ -177,10 +177,6 @@ und einem brillianten Film (raten Sie mal von welchem ;) angeregt.
 Das Plugin Icon wurde von [Alessandro Rei](http://www.mentalrey.it/) gestaltet.
 Vielen Dank für die Veröffentlichung dieses Icons unter GPL.
 
-Diese Plugin verwendet „free applications icons“ von
-[Aha-Soft](http://www.aha-soft.com/). Vielen Dank für die freie
-Nutzbarkeit dieser Icons.
-
 Vielen Dank an die Community im
 [CMSimple_XH-Forum](https://www.cmsimpleforum.com/) für Hinweise,
 Anregungen und das Testen.

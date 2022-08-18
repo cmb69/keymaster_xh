@@ -185,17 +185,6 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $actual = $this->model->pluginIconPath();
         $this->assertEquals($expected, $actual);
     }
-
-    public function testStateIconPath()
-    {
-        global $pth;
-
-        $state = 'warn';
-        $pth['folder']['plugins'] = './';
-        $expected = './keymaster/images/' . $state . '.png';
-        $actual = $this->model->stateIconPath($state);
-        $this->assertEquals($expected, $actual);
-    }
 }
 
 ?>
