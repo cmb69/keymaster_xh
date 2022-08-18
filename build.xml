@@ -56,13 +56,16 @@
         </jsMin>
         <move todir="dist">
             <fileset dir="export">
+                <exclude name=".phive/**"/>
                 <exclude name="help/template.htm"/>
+                <exclude name="tests/**"/>
                 <exclude name="README*.md"/>
                 <exclude name="build.xml"/>
                 <exclude name="composer.*"/>
                 <exclude name="coverage.xml"/>
                 <exclude name="phpcompatinfo.*"/>
-                <exclude name="tests/**"/>
+                <exclude name="phpstan.*"/>
+                <exclude name="teplad.xml"/>
             </fileset>
         </move>
         <delete dir="export"/>
