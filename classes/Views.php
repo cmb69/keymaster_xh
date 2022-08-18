@@ -104,44 +104,6 @@ EOT;
     }
 
     /**
-     * Returns the about view.
-     *
-     * @return string XHTML.
-     *
-     * @global array The localization of the plugins.
-     */
-    private function about()
-    {
-        global $plugin_tx;
-
-        $ptx = $plugin_tx['keymaster'];
-        $version = KEYMASTER_VERSION;
-        $icon = $this->model->pluginIconPath();
-        $alt = $ptx['alt_logo'];
-        return <<<EOT
-<h4>$ptx[about]</h4>
-<img src="$icon" class="keymaster_plugin_icon" alt="$alt" />
-<p>Version: $version</p>
-<p>Copyright &copy; 2013-2019 <a href="http://3-magi.net/">Christoph M. Becker</a>
-</p>
-<p class="keymaster_license">
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.</p>
-<p class="keymaster_license">
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.</p>
-<p class="keymaster_license">
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see
-    <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-EOT;
-    }
-
-    /**
      * Returns the plugin information view.
      *
      * @param array $checks An array of system checks.
@@ -150,9 +112,8 @@ EOT;
      */
     public function info($checks)
     {
-        return '<h1>Keymaster_XH</h1>'
-            . $this->systemCheck($checks)
-            . $this->about();
+        return '<h1>Keymaster_XH ' . KEYMASTER_VERSION . '</h1>'
+            . $this->systemCheck($checks);
     }
 
     /**
