@@ -26,7 +26,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version number of the plugin.
  */
-define('KEYMASTER_VERSION', '1.1');
+define('KEYMASTER_VERSION', '2.0-dev');
 
 /**
  * The controller object.
