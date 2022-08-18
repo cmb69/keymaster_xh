@@ -46,25 +46,6 @@ class Views
     }
 
     /**
-     * Returns a string with TAGCs adjusted for (X)HTML.
-     *
-     * @param string $string A string.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The configuration of the core.
-     */
-    private function xhtml($string)
-    {
-        global $cf;
-
-        if ($cf['xhtml']['endtags'] != 'true') {
-            $string = str_replace(' />', '>', $string);
-        }
-        return $string;
-    }
-
-    /**
      * Returns a message.
      *
      * @param string $type    A message type ('success', 'info', 'warning', 'fail').
@@ -169,10 +150,9 @@ EOT;
      */
     public function info($checks)
     {
-        $o = '<h1>Keymaster_XH</h1>'
+        return '<h1>Keymaster_XH</h1>'
             . $this->systemCheck($checks)
             . $this->about();
-        return $this->xhtml($o);
     }
 
     /**
