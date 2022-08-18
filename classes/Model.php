@@ -172,16 +172,4 @@ class Model
 
         return $plugin_tx['keymaster'];
     }
-
-    /**
-     * Returns the path of the plugin icon.
-     *
-     * @return string
-     */
-    public function pluginIconPath()
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'keymaster/keymaster.png';
-    }
 }
