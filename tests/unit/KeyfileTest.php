@@ -15,8 +15,6 @@
 
 namespace Keymaster;
 
-require_once './classes/Keyfile.php';
-
 use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;

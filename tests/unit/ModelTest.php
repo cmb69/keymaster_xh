@@ -18,16 +18,6 @@ namespace Keymaster;
 use PHPUnit\Framework\TestCase;
 
 /**
- * The keyfile class.
- */
-require_once './classes/Keyfile.php';
-
-/**
- * The class under test.
- */
-require_once './classes/Model.php';
-
-/**
  * A test case for the model class.
  *
  * @category CMSimple_XH
