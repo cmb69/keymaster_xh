@@ -29,26 +29,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 define('KEYMASTER_VERSION', '1.1');
 
 /**
- * The key file class.
- */
-require_once $pth['folder']['plugin_classes'] . 'Keyfile.php';
-
-/**
- * The model class.
- */
-require_once $pth['folder']['plugin_classes'] . 'Model.php';
-
-/**
- * The views class.
- */
-require_once $pth['folder']['plugin_classes'] . 'Views.php';
-
-/**
- * The controller class.
- */
-require_once $pth['folder']['plugin_classes'] . 'Controller.php';
-
-/**
  * The controller object.
  *
  * @var Controller
