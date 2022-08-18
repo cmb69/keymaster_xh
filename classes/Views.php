@@ -74,14 +74,7 @@ class Views
      */
     public function message($type, $message)
     {
-        if (function_exists('XH_message')) {
-            return XH_message($type, $message);
-        } else {
-            $class = in_array($type, array('warning', 'fail'))
-                ? 'cmsimplecore_warning'
-                : '';
-            return '<p class="' . $class . '">' . $message . '</p>';
-        }
+        return XH_message($type, $message);
     }
 
     /**
