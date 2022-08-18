@@ -20,15 +20,6 @@ use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
 
-/**
- *
- *
- * @category CMSimple_XH
- * @package
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link
- */
 class KeyfileTest extends TestCase
 {
     protected $filename;
