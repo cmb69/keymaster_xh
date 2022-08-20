@@ -37,9 +37,9 @@ class View
         return $this->lang[$key];
     }
 
-    public function message(string $type, string $message): string
+    public function error(string $key): string
     {
-        return XH_message($type, $message);
+        return XH_message("fail", $this->lang[$key]);
     }
 
     /**

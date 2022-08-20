@@ -175,9 +175,9 @@ EOT;
 
     private function denyLogin(): void
     {
-        global $o, $f, $plugin_tx;
+        global $o, $f;
 
-        $o .= $this->view->message('fail', $plugin_tx['keymaster']['editing']);
+        $o .= $this->view->error('editing');
         $f = '';
     }
 
