@@ -8,6 +8,7 @@ $plugin_tx['keymaster']['warning_loggedout']="Sie wurden praktisch ausgeloggt.";
 $plugin_tx['keymaster']['button_prolong']="Sitzung verlängern.";
 $plugin_tx['keymaster']['button_ok']="OK";
 $plugin_tx['keymaster']['error']="Der Server hat störende Ausgaben gesendet, die die automatische Abmeldung durch Keymaster_XH unmöglich macht.\n\nDetails ansehen?";
+$plugin_tx['keymaster']['error_write']="%s kann nicht geschrieben werden";
 
 $plugin_tx['keymaster']['syscheck_title']="Systemprüfung";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP-Version &ge; %s";

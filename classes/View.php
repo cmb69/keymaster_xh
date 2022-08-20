@@ -37,9 +37,12 @@ class View
         return $this->lang[$key];
     }
 
-    public function error(string $key): string
+    /**
+     * @param string $args
+     */
+    public function error(string $key, ...$args): string
     {
-        return XH_message("fail", $this->lang[$key]);
+        return XH_message("fail", $this->lang[$key], ...$args);
     }
 
     /**

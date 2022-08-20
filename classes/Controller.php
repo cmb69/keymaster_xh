@@ -38,12 +38,14 @@ class Controller
 
     private function login(): void
     {
+        global $o;
+
         if ($this->model->isFree()) {
             if ($this->model->give()) {
                 // important, as filemtime() is called later for the same file:
                 clearstatcache();
             } else {
-                e('cntwriteto', 'file', $this->model->filename());
+                $o .= $this->view->error("error_write", $this->model->filename());
             }
         } else {
             $this->logout();
@@ -183,7 +185,7 @@ EOT;
 
     private function dispatch(): void
     {
-        global $adm;
+        global $adm, $o;
 
         if ($this->wantsLogin() && !$this->model->isFree()) {
             $this->denyLogin();
@@ -191,7 +193,7 @@ EOT;
             $this->login();
         } elseif ($this->isLogout()) {
             if (!$this->model->take()) {
-                e('cntwriteto', 'file', $this->model->filename());
+                $o .= $this->view->error("error_write", $this->model->filename());
             }
         } elseif (isset($_GET['keymaster_time'])) {
             $this->answerRemainingTime();
@@ -200,7 +202,7 @@ EOT;
             exit;
         } elseif ($adm && !$this->model->sessionHasExpired()) {
             if (!$this->model->reset()) {
-                e('cntwriteto', 'file', $this->model->filename());
+                $o .= $this->view->error("error_write", $this->model->filename());
             }
         } elseif ($adm) {
             $this->logout();

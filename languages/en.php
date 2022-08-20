@@ -8,6 +8,7 @@ $plugin_tx['keymaster']['warning_loggedout']="You have been effectively logged o
 $plugin_tx['keymaster']['button_prolong']="Prolong session";
 $plugin_tx['keymaster']['button_ok']="OK";
 $plugin_tx['keymaster']['error']="The server sent spurious output, which disables the automatic logout by Keymaster_XH.\n\nView details?";
+$plugin_tx['keymaster']['error_write']="%s cannot be written";
 
 $plugin_tx['keymaster']['syscheck_title']="System check";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version &ge; %s";
