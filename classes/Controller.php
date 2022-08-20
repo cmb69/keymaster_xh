@@ -56,7 +56,7 @@ class Controller
         global $su;
 
         setcookie('status', '', 0, CMSIMPLE_ROOT);
-        unset($_SESSION['xh_password'][CMSIMPLE_ROOT]);
+        unset($_SESSION['xh_password']);
         header('Location: ' . CMSIMPLE_URL . '?' . $su, true, 303);
         exit;
     }
