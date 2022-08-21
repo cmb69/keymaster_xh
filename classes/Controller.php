@@ -136,7 +136,7 @@ class Controller
             );
             $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.min.js';
-            $bjs .= $this->js($filename);
+            $hjs .= $this->js($filename);
             $bjs .= $this->view->render("dialog", []);
         }
     }
@@ -145,7 +145,7 @@ class Controller
     private function js(string $filename): string
     {
         return <<<EOT
-<script type="text/javascript" src="$filename"></script>
+<script type="module" src="$filename"></script>
 EOT;
     }
 

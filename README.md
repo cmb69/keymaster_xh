@@ -23,7 +23,7 @@ session, to avoid loosing unsaved changes.
 ## Requirements
 
 Keymaster_XH is a plugin for CMSimple_XH. It requires CMSimple_XH ≥ 1.7.0,
-and PHP ≥ 7.1.0 with the Json extension.
+and PHP ≥ 7.1.0 with the Json extension, and a contemporary browser.
 
 ## Download
 

@@ -25,7 +25,7 @@ den Verlust von ungespeicherten Änderungen zu vermeiden.
 ## Voraussetzungen
 
 Keymaster_XH ist ein Plugin für CMSimple_XH. Es benötigt CMSimple_XH ≥ 1.7.0,
-und PHP ≥ 7.1.0 mit der Json Extension.
+und PHP ≥ 7.1.0 mit der Json Extension, und einen zeitgemäßen Browser.
 
 ## Download
 
