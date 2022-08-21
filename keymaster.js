@@ -52,7 +52,7 @@ Keymaster = function () {
     this._timer = null;
 
     this.initWarningDialog();
-    this._timer = setInterval(this.bind(this.requestRemainingTime),
+    this._timer = setInterval(this.requestRemainingTime.bind(this),
             Keymaster.config.pollInterval);
 };
 
@@ -87,7 +87,7 @@ Keymaster.prototype.initWarningDialog = function () {
     this._warningDialog = document.getElementById("keymaster");
     this._warningText = this._warningDialog.getElementsByTagName("p")[0].firstChild;
     button = this._warningDialog.getElementsByTagName("button")[0];
-    button.onclick = this.bind(this.resetSession);
+    button.onclick = this.resetSession.bind(this);
     this._buttonText = button.firstChild;
 };
 
@@ -125,14 +125,7 @@ Keymaster.prototype.requestRemainingTime = function () {
     var url = "./?&keymaster_time";
 
     request.open("GET", url);
-    // The following should simply use Function.prototype.bind() or a fallback,
-    // but IE 8 doesn't set window.event, so we'd loose the reference to
-    // the request object.
-    request.onreadystatechange = (function (that) {
-        return function () {
-            that.receiveRemainingTime(request);
-        };
-    }(this));
+    request.onreadystatechange = this.receiveRemainingTime.bind(this, request);
     request.send(null);
 };
 
@@ -215,35 +208,9 @@ Keymaster.prototype.updateWarning = function (seconds) {
     }
 };
 
-/**
- * Creates a new function bound to this. Provides a workaround for possibly
- * missing Function.prototype.bind().
- *
- * @method
- *
- * @param {Function} func A function to bind.
- *
- * @returns {Function}
- *
- * @protected
- */
-Keymaster.prototype.bind = function (func) {
-    var that = this;
-
-    return function () {
-        func.apply(that, arguments);
-    };
-};
-
 /*
  * Register Keymaster instantiation on load.
  */
-if (typeof addEventListener != "undefined") {
-    addEventListener("load", function () {
-        new Keymaster();
-    });
-} else if (typeof attachEvent != "undefined") {
-    attachEvent("onload", function () {
-        new Keymaster();
-    });
-}
+addEventListener("load", function () {
+    new Keymaster();
+});
