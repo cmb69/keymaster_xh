@@ -10,50 +10,35 @@
 
 (function () {
 /**
- * The warning dialog.
- *
  * @type {HTMLDivElement}
  */
 var warningDialog = null;
 
 /**
- * The warning text.
- *
  * @type {Text}
  */
 var warningText = '';
 
 /**
- * The button text.
- *
  * @type {Text}
  */
 var buttonText = '';
 
 /**
- * The timer handle.
- *
  * @type {Number}
  */
 var timer = null;
 
 /**
- * The configuration.
- *
  * @type {Object}
  */
 var config = JSON.parse(document.getElementsByName("keymaster_config")[0].content);
 
 /**
- * The localization
- *
  * @type {Object}
  */
 var l10n = JSON.parse(document.getElementsByName("keymaster_lang")[0].content);
 
-/**
- * Initializes the warning dialog.
- */
 function initWarningDialog() {
     var button;
 
@@ -64,23 +49,14 @@ function initWarningDialog() {
     buttonText = button.firstChild;
 }
 
-/**
- * Shows the warning dialog.
- */
 function showWarningDialog() {
     warningDialog.style.display = "block";
 }
 
-/**
- * Hides the warning dialog.
- */
 function hideWarningDialog() {
     warningDialog.style.display = "none";
 }
 
-/**
- * Requests the remaining session time from the server.
- */
 function requestRemainingTime() {
     var request = new XMLHttpRequest();
     var url = "./?&keymaster_time";
@@ -93,9 +69,7 @@ function requestRemainingTime() {
 }
 
 /**
- * Handles responses for the requested session time.
- *
- * @param {XMLHttpRequest} request A request object.
+ * @param {XMLHttpRequest} request
  */
 function receiveRemainingTime(request) {
     if (request.readyState == 4 && request.status == 200) {
@@ -122,9 +96,6 @@ function receiveRemainingTime(request) {
     }
 }
 
-/**
- * Resets the session timeout.
- */
 function resetSession() {
     var request = new XMLHttpRequest();
 
@@ -136,9 +107,7 @@ function resetSession() {
 }
 
 /**
- * Updates the warning message.
- *
- * @param {Number} seconds The remaining time in seconds.
+ * @param {Number} seconds
  */
 function updateWarning(seconds) {
     var min;
@@ -159,9 +128,6 @@ function updateWarning(seconds) {
     }
 }
 
-/*
- * Register Keymaster instantiation on load.
- */
 addEventListener("load", function () {
     initWarningDialog();
     timer = setInterval(requestRemainingTime, config.pollInterval);
