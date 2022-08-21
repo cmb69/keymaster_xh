@@ -127,6 +127,7 @@ class Controller
         if ($adm) {
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
             $bjs .= $this->js($filename);
+            $bjs .= $this->view->render("dialog", []);
         }
     }
 

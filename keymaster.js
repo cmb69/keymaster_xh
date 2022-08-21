@@ -51,7 +51,7 @@ Keymaster = function () {
      */
     this._timer = null;
 
-    this.createWarningDialog();
+    this.initWarningDialog();
     this._timer = setInterval(this.bind(this.requestRemainingTime),
             Keymaster.config.pollInterval);
 };
@@ -75,37 +75,20 @@ Keymaster.config = null;
 Keymaster.l10n = null;
 
 /**
- * Creates the warning dialog.
+ * Initializes the warning dialog.
  *
  * @method
  *
  * @protected
  */
-Keymaster.prototype.createWarningDialog = function () {
-    var dialog, message, para, text, div, button;
+Keymaster.prototype.initWarningDialog = function () {
+    var button;
 
-    dialog = document.createElement("div");
-    dialog.id = "keymaster";
-    dialog.style.display = "none";
-    message = document.createElement("div");
-    message.className = "keymaster_message";
-    para = document.createElement("p");
-    text = document.createTextNode("");
-    this._warningText = text;
-    para.appendChild(text);
-    message.appendChild(para);
-    div = document.createElement("div");
-    div.className = "keymaster_buttons";
-    button = document.createElement("button");
+    this._warningDialog = document.getElementById("keymaster");
+    this._warningText = this._warningDialog.getElementsByTagName("p")[0].firstChild;
+    button = this._warningDialog.getElementsByTagName("button")[0];
     button.onclick = this.bind(this.resetSession);
-    text = document.createTextNode(Keymaster.l10n.button_prolong);
-    this._buttonText = text;
-    button.appendChild(text);
-    div.appendChild(button);
-    message.appendChild(div);
-    dialog.appendChild(message);
-    document.body.appendChild(dialog);
-    this._warningDialog = dialog;
+    this._buttonText = button.firstChild;
 };
 
 /**
