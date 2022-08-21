@@ -54,11 +54,13 @@
     <exec command="git archive -o export.zip HEAD" checkreturn="true"/>
     <unzip file="export.zip" todir="export"/>
     <delete file="export.zip"/>
-    <jsMin targetDir="dist" suffix="" failonerror="true">
-      <fileset dir="export">
-        <include name="keymaster.min.js"/>
-      </fileset>
-    </jsMin>
+    <exec executable="uglifyjs" checkreturn="true">
+      <arg file="export/keymaster.min.js"/>
+      <arg value="--compress"/>
+      <arg value="--mangle"/>
+      <arg value="--toplevel"/>
+      <arg value="--in-situ"/>
+    </exec>
     <move todir="dist">
       <fileset dir="export">
         <exclude name=".phive/**"/>
