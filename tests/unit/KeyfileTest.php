@@ -26,7 +26,7 @@ class KeyfileTest extends TestCase
 
     protected $keyfile;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('keyfile'));

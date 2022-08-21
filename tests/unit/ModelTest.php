@@ -23,7 +23,7 @@ class ModelTest extends TestCase
 
     protected $duration;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->keyfile = $this->createMock(Keyfile::class);
         $this->duration = 60;
