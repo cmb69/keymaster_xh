@@ -56,7 +56,7 @@
     <delete file="export.zip"/>
     <jsMin targetDir="dist" suffix="" failonerror="true">
       <fileset dir="export">
-        <include name="keymaster.js"/>
+        <include name="keymaster.min.js"/>
       </fileset>
     </jsMin>
     <move todir="dist">

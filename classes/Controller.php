@@ -135,7 +135,7 @@ class Controller
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
             $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
-            $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
+            $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.min.js';
             $bjs .= $this->js($filename);
             $bjs .= $this->view->render("dialog", []);
         }
