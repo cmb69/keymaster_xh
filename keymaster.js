@@ -63,7 +63,7 @@ Keymaster = function () {
  *
  * @static
  */
-Keymaster.config = null;
+Keymaster.config = JSON.parse(document.getElementsByName("keymaster_config")[0].content);
 
 /**
  * The localization
@@ -72,7 +72,7 @@ Keymaster.config = null;
  *
  * @static
  */
-Keymaster.l10n = null;
+Keymaster.l10n = JSON.parse(document.getElementsByName("keymaster_lang")[0].content);
 
 /**
  * Initializes the warning dialog.

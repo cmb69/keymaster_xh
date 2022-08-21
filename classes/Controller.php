@@ -122,9 +122,19 @@ class Controller
 
     private function emitScripts(): void
     {
-        global $pth, $bjs, $adm;
+        global $pth, $hjs, $bjs, $adm;
 
         if ($adm) {
+            $config = json_encode(
+                $this->model->jsConfig(),
+                JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            );
+            $hjs .= "<meta name='keymaster_config' content='$config'>";
+            $l10n = json_encode(
+                $this->model->jsL10n(),
+                JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            );
+            $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
             $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.js';
             $bjs .= $this->js($filename);
             $bjs .= $this->view->render("dialog", []);
@@ -134,14 +144,8 @@ class Controller
 
     private function js(string $filename): string
     {
-        $config = json_encode($this->model->jsConfig());
-        $l10n = json_encode($this->model->jsL10n());
         return <<<EOT
 <script type="text/javascript" src="$filename"></script>
-<script type="text/javascript">/* <![CDATA[ */
-    Keymaster.config = $config;
-    Keymaster.l10n = $l10n;
-/* ]]> */</script>
 EOT;
     }
 
