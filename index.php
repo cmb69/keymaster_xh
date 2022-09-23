@@ -28,9 +28,4 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  */
 define('KEYMASTER_VERSION', '2.0-dev');
 
-/**
- * The controller object.
- *
- * @var Controller
- */
-$_Keymaster = new Controller();
+new Controller();
