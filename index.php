@@ -20,6 +20,7 @@
  */
 
 use Keymaster\Controller;
+use Keymaster\Infra\Request;
 
 /*
  * Prevent direct access.
@@ -34,4 +35,4 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  */
 define('KEYMASTER_VERSION', '2.0-dev');
 
-(new Controller())->run();
+(new Controller(new Request()))->run();

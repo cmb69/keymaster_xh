@@ -21,21 +21,27 @@
 
 namespace Keymaster;
 
+use Keymaster\Infra\Request;
+
 class Controller
 {
+    /** @var Request */
+    private $request;
+
     /** @var Model */
     private $model;
 
     /** @var View */
     private $view;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         global $pth, $plugin_cf, $plugin_tx;
 
         $filename = $pth['folder']['plugins'] . 'keymaster/key';
         $keyfile = new Keyfile($filename);
         $duration = $plugin_cf['keymaster']['logout'];
+        $this->request = $request;
         $this->model = new Model($keyfile, $duration);
         $this->view = new View("{$pth["folder"]["plugins"]}keymaster/templates/", $plugin_tx['keymaster']);
     }
@@ -108,13 +114,6 @@ class Controller
         return $checks;
     }
 
-    private function wantsLogin(): bool
-    {
-        global $f;
-
-        return isset($f) && $f == 'login';
-    }
-
     private function isLogin(): bool
     {
         global $login;
@@ -123,18 +122,11 @@ class Controller
             && (gc('status') != 'adm' || !logincheck());
     }
 
-    private function isLogout(): bool
-    {
-        global $f;
-
-        return isset($f) && $f == 'xh_loggedout';
-    }
-
     private function emitScripts(): void
     {
-        global $pth, $hjs, $bjs, $adm;
+        global $pth, $hjs, $bjs;
 
-        if ($adm) {
+        if ($this->request->isAdmin()) {
             $config = json_encode(
                 $this->model->jsConfig(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
@@ -178,9 +170,7 @@ EOT;
 
     private function answerRemainingTime(): void
     {
-        global $adm;
-
-        if ($adm) {
+        if ($this->request->isAdmin()) {
             $remainingTime = $this->model->remainingTime();
         } else {
             $remainingTime = -1;
@@ -200,30 +190,30 @@ EOT;
 
     private function dispatch(): void
     {
-        global $adm, $o;
+        global $o;
 
-        if ($this->wantsLogin() && !$this->model->isFree()) {
+        if ($this->request->wantsLogin() && !$this->model->isFree()) {
             $this->denyLogin();
         } elseif ($this->isLogin()) {
             $this->login();
-        } elseif ($this->isLogout()) {
+        } elseif ($this->request->isLogout()) {
             if (!$this->model->take()) {
                 $o .= $this->view->error("error_write", $this->model->filename());
             }
         } elseif (isset($_GET['keymaster_time'])) {
             $this->answerRemainingTime();
-        } elseif ($adm && isset($_POST['keymaster_reset'])) {
+        } elseif ($this->request->isAdmin() && isset($_POST['keymaster_reset'])) {
             $this->model->reset();
             exit;
-        } elseif ($adm && !$this->model->sessionHasExpired()) {
+        } elseif ($this->request->isAdmin() && !$this->model->sessionHasExpired()) {
             if (!$this->model->reset()) {
                 $o .= $this->view->error("error_write", $this->model->filename());
             }
-        } elseif ($adm) {
+        } elseif ($this->request->isAdmin()) {
             $this->logout();
         }
 
-        if ($adm) {
+        if ($this->request->isAdmin()) {
             XH_registerStandardPluginMenuItems(false);
             if (XH_wantsPluginAdministration('keymaster')) {
                 $this->administration();
