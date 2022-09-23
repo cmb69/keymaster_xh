@@ -32,6 +32,10 @@ class Controller
         $duration = $plugin_cf['keymaster']['logout'];
         $this->model = new Model($keyfile, $duration);
         $this->view = new View("{$pth["folder"]["plugins"]}keymaster/templates/", $plugin_tx['keymaster']);
+    }
+
+    public function run(): void
+    {
         $this->emitScripts();
         $this->dispatch();
     }

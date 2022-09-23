@@ -28,4 +28,4 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  */
 define('KEYMASTER_VERSION', '2.0-dev');
 
-new Controller();
+(new Controller())->run();
