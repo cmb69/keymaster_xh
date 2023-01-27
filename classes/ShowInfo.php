@@ -38,11 +38,11 @@ class ShowInfo
     /**
      * @param array<string> $lang
      */
-    public function __construct(string $pluginFolder, array $lang, View $view, SystemChecker $systemChecker)
+    public function __construct(string $pluginFolder, array $lang, SystemChecker $systemChecker)
     {
         $this->pluginFolder = $pluginFolder;
         $this->lang = $lang;
-        $this->view = $view;
+        $this->view = new View("{$this->pluginFolder}templates/", $this->lang);
         $this->systemChecker = $systemChecker;
     }
 

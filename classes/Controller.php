@@ -111,7 +111,6 @@ class Controller
                 $controller = new ShowInfo(
                     "{$pth['folder']['plugins']}/keymaster/",
                     $plugin_tx['keymaster'],
-                    $this->view,
                     new SystemChecker
                 );
                 $o .= $controller()->process();
