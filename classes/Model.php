@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2013-2019 Christoph M. Becker
+ * Copyright (C) 2013-2023 Christoph M. Becker
  *
  * This file is part of Keymaster_XH.
  *

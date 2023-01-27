@@ -164,7 +164,7 @@ bestimmten Zweck. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 Keymaster_XH erhalten haben. Falls nicht, siehe <https://www.gnu.org/licenses/>.
 
-Copyright 2013-2019 Christoph M. Becker
+Copyright 2013-2023 Christoph M. Becker
 
 Französische Übersetzung © 2014 Patrick Varlet
 
