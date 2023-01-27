@@ -94,7 +94,8 @@ class Controller
         $controller = new EmitScripts(
             "{$pth['folder']['plugins']}/keymaster/",
             $this->request,
-            $this->model, $this->view
+            $this->model,
+            $this->view
         );
         $controller()->process();
     }
