@@ -89,6 +89,8 @@ class Controller
 
     private function emitScripts(): void
     {
+        global $pth;
+
         (new EmitScripts("{$pth['folder']['plugins']}/keymaster/", $this->request, $this->model, $this->view))();
     }
 
