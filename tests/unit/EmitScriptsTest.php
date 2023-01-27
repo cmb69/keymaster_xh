@@ -47,4 +47,23 @@ class EmitScriptsTest extends TestCase
 
         Approvals::verifyHtml($response->representation());
     }
+
+    public function testDoesNothingIfNotAdmin(): void
+    {
+        $request = $this->createStub(Request::class);
+        $request->method('isAdmin')->willReturn(false);
+        $model = $this->createStub(Model::class);
+        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
+
+        $subject = new EmitScripts(
+            "./",
+            $request,
+            $model,
+            $plugin_tx['keymaster']
+        );
+        $response = $subject();
+
+        Approvals::verifyHtml($response->representation());
+
+    }
 }
