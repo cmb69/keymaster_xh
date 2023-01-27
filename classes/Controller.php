@@ -79,42 +79,6 @@ class Controller
         exit;
     }
 
-    /**
-     * @return array<string,string>
-     */
-    private function systemChecks(): array
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $ptx = $plugin_tx['keymaster'];
-        $phpVersion = '7.1.0';
-        $xhVersion = '1.7.0';
-        $checks = array();
-        $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'xh_success' : 'xh_fail';
-        foreach (array('json') as $ext) {
-            $checks[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'xh_success' : 'xh_fail';
-        }
-        $checks[sprintf($ptx['syscheck_xhversion'], $xhVersion)]
-            // @phpstan-ignore-next-line
-            = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0
-                ? 'xh_success'
-                : 'xh_fail'; // @phpstan-ignore-line
-        $folders = array();
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
-        }
-        foreach ($folders as $folder) {
-            $checks[sprintf($ptx['syscheck_writable_folder'], $folder)]
-                = is_writable($folder) ? 'xh_success' : 'xh_warning';
-        }
-        $file = $pth['folder']['plugins'] . 'keymaster/key';
-        $checks[sprintf($ptx['syscheck_writable_file'], $file)]
-            = is_writable($file) ? 'xh_success' : 'xh_fail';
-        return $checks;
-    }
-
     private function isLogin(): bool
     {
         global $login;
@@ -154,15 +118,12 @@ EOT;
 
     private function administration(): void
     {
-        global $o, $admin;
+        global $pth, $plugin_tx, $o, $admin;
 
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= $this->view->render("info", [
-                    "version" => KEYMASTER_VERSION,
-                    "checks" => $this->systemChecks(),
-                ]);
+                $o .= (new ShowInfo("{$pth['folder']['plugins']}/keymaster/", $plugin_tx['keymaster'], $this->view))();
                 break;
             default:
                 $o .= plugin_admin_common();
