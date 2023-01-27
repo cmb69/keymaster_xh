@@ -49,7 +49,7 @@ class EmitScripts
         $this->request = $request;
         $this->model = $model;
         $this->lang = $lang;
-        $this->view = new View("{$this->pluginFolder}templates/", $lang);
+        $this->view = new View("{$this->pluginFolder}templates/", $this->lang);
     }
 
     public function __invoke(): Response
