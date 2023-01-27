@@ -97,9 +97,10 @@ class Controller
                 = extension_loaded($ext) ? 'xh_success' : 'xh_fail';
         }
         $checks[sprintf($ptx['syscheck_xhversion'], $xhVersion)]
+            // @phpstan-ignore-next-line
             = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0
                 ? 'xh_success'
-                : 'xh_fail';
+                : 'xh_fail'; // @phpstan-ignore-line
         $folders = array();
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'keymaster/' . $folder;
