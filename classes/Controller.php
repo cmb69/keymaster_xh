@@ -108,7 +108,12 @@ class Controller
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $controller = new ShowInfo("{$pth['folder']['plugins']}/keymaster/", $plugin_tx['keymaster'], $this->view);
+                $controller = new ShowInfo(
+                    "{$pth['folder']['plugins']}/keymaster/",
+                    $plugin_tx['keymaster'],
+                    $this->view,
+                    new SystemChecker
+                );
                 $o .= $controller()->process();
                 break;
             default:

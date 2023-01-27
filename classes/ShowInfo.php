@@ -32,14 +32,18 @@ class ShowInfo
     /** @var View */
     private $view;
 
+    /** @var SystemChecker */
+    private $systemChecker;
+
     /**
      * @param array<string> $lang
      */
-    public function __construct(string $pluginFolder, array $lang, View $view)
+    public function __construct(string $pluginFolder, array $lang, View $view, SystemChecker $systemChecker)
     {
         $this->pluginFolder = $pluginFolder;
         $this->lang = $lang;
         $this->view = $view;
+        $this->systemChecker = $systemChecker;
     }
 
     public function __invoke(): Response
@@ -60,27 +64,26 @@ class ShowInfo
         $xhVersion = '1.7.0';
         $checks = array();
         $checks[sprintf($this->lang['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'xh_success' : 'xh_fail';
+            = $this->systemChecker->checkVersion(PHP_VERSION, $phpVersion) ? 'xh_success' : 'xh_fail';
         foreach (array('json') as $ext) {
             $checks[sprintf($this->lang['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'xh_success' : 'xh_fail';
+                = $this->systemChecker->checkExtension($ext) ? 'xh_success' : 'xh_fail';
         }
         $checks[sprintf($this->lang['syscheck_xhversion'], $xhVersion)]
-            // @phpstan-ignore-next-line
-            = version_compare(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion) >= 0
+            = $this->systemChecker->checkVersion(substr(CMSIMPLE_XH_VERSION, strlen("CMSimple_XH ")), $xhVersion)
                 ? 'xh_success'
-                : 'xh_fail'; // @phpstan-ignore-line
+                : 'xh_fail';
         $folders = array();
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = "{$this->pluginFolder}$folder";
         }
         foreach ($folders as $folder) {
             $checks[sprintf($this->lang['syscheck_writable_folder'], $folder)]
-                = is_writable($folder) ? 'xh_success' : 'xh_warning';
+                = $this->systemChecker->checkWritability($folder) ? 'xh_success' : 'xh_warning';
         }
         $file = "{$this->pluginFolder}/key";
         $checks[sprintf($this->lang['syscheck_writable_file'], $file)]
-            = is_writable($file) ? 'xh_success' : 'xh_fail';
+            = $this->systemChecker->checkWritability($file) ? 'xh_success' : 'xh_fail';
         return $checks;
     }
 }
