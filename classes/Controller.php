@@ -89,13 +89,13 @@ class Controller
 
     private function emitScripts(): void
     {
-        global $pth;
+        global $pth, $plugin_tx;
 
         $controller = new EmitScripts(
             "{$pth['folder']['plugins']}/keymaster/",
             $this->request,
             $this->model,
-            $this->view
+            $plugin_tx['keymaster']
         );
         $controller()->process();
     }

@@ -34,15 +34,22 @@ class EmitScripts
     /** @var Model */
     private $model;
 
+    /** @var array<string> */
+    private $lang;
+
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginFolder, Request $request, Model $model, View $view)
+    /**
+     * @param array<string> $lang
+     */
+    public function __construct(string $pluginFolder, Request $request, Model $model, array $lang)
     {
         $this->pluginFolder = $pluginFolder;
         $this->request = $request;
         $this->model = $model;
-        $this->view = $view;
+        $this->lang = $lang;
+        $this->view = new View("{$this->pluginFolder}templates/", $lang);
     }
 
     public function __invoke(): Response
