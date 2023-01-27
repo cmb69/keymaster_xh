@@ -89,32 +89,9 @@ class Controller
 
     private function emitScripts(): void
     {
-        global $pth, $hjs, $bjs;
-
-        if ($this->request->isAdmin()) {
-            $config = json_encode(
-                $this->model->jsConfig(),
-                JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            );
-            $hjs .= "<meta name='keymaster_config' content='$config'>";
-            $l10n = json_encode(
-                $this->model->jsL10n(),
-                JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            );
-            $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
-            $filename = $pth['folder']['plugins'] . 'keymaster/keymaster.min.js';
-            $hjs .= $this->js($filename);
-            $bjs .= $this->view->render("dialog", []);
-        }
+        (new EmitScripts("{$pth['folder']['plugins']}/keymaster/", $this->request, $this->model, $this->view))();
     }
 
-
-    private function js(string $filename): string
-    {
-        return <<<EOT
-<script type="module" src="$filename"></script>
-EOT;
-    }
 
     private function administration(): void
     {
