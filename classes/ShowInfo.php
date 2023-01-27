@@ -42,12 +42,13 @@ class ShowInfo
         $this->view = $view;
     }
 
-    public function __invoke(): string
+    public function __invoke(): Response
     {
-        return $this->view->render("info", [
+        $output = $this->view->render("info", [
             "version" => KEYMASTER_VERSION,
             "checks" => $this->systemChecks(),
         ]);
+        return new Response($output);
     }
 
     /**

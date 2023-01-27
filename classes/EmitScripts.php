@@ -45,16 +45,14 @@ class EmitScripts
         $this->view = $view;
     }
 
-    public function __invoke(): void
+    public function __invoke(): Response
     {
-        global $hjs, $bjs;
-
         if ($this->request->isAdmin()) {
             $config = json_encode(
                 $this->model->jsConfig(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
-            $hjs .= "<meta name='keymaster_config' content='$config'>";
+            $hjs = "<meta name='keymaster_config' content='$config'>";
             $l10n = json_encode(
                 $this->model->jsL10n(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
@@ -62,8 +60,10 @@ class EmitScripts
             $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
             $filename = "{$this->pluginFolder}keymaster.min.js";
             $hjs .= $this->js($filename);
-            $bjs .= $this->view->render("dialog", []);
+            $bjs = $this->view->render("dialog", []);
+            return new Response("", $hjs, $bjs);
         }
+        return new Response("");
     }
 
     private function js(string $filename): string

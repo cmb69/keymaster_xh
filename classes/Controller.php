@@ -91,7 +91,12 @@ class Controller
     {
         global $pth;
 
-        (new EmitScripts("{$pth['folder']['plugins']}/keymaster/", $this->request, $this->model, $this->view))();
+        $controller = new EmitScripts(
+            "{$pth['folder']['plugins']}/keymaster/",
+            $this->request,
+            $this->model, $this->view
+        );
+        $controller()->process();
     }
 
 
@@ -102,7 +107,8 @@ class Controller
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= (new ShowInfo("{$pth['folder']['plugins']}/keymaster/", $plugin_tx['keymaster'], $this->view))();
+                $controller = new ShowInfo("{$pth['folder']['plugins']}/keymaster/", $plugin_tx['keymaster'], $this->view);
+                $o .= $controller()->process();
                 break;
             default:
                 $o .= plugin_admin_common();
