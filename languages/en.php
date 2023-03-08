@@ -11,9 +11,9 @@ $plugin_tx['keymaster']['error']="The server sent spurious output, which disable
 $plugin_tx['keymaster']['error_write']="%s cannot be written";
 
 $plugin_tx['keymaster']['syscheck_title']="System check";
-$plugin_tx['keymaster']['syscheck_phpversion']="PHP version &ge; %s";
+$plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['keymaster']['syscheck_extension']="Extension \"%s\" loaded";
-$plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH version &ge; %s";
+$plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Folder \"%s\" writable";
 $plugin_tx['keymaster']['syscheck_writable_file']="File \"%s\" writable";
 

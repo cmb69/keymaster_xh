@@ -11,9 +11,9 @@ $plugin_tx['keymaster']['error']="Der Server hat störende Ausgaben gesendet, di
 $plugin_tx['keymaster']['error_write']="%s kann nicht geschrieben werden";
 
 $plugin_tx['keymaster']['syscheck_title']="Systemprüfung";
-$plugin_tx['keymaster']['syscheck_phpversion']="PHP-Version &ge; %s";
+$plugin_tx['keymaster']['syscheck_phpversion']="PHP-Version ≥ %s";
 $plugin_tx['keymaster']['syscheck_extension']="Erweiterung \"%s\" geladen";
-$plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH-Version &ge; %s";
+$plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH-Version ≥ %s";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Ordner \"%s\" beschreibbar";
 $plugin_tx['keymaster']['syscheck_writable_file']="Datei \"%s\" beschreibbar";
 

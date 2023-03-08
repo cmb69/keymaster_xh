@@ -10,7 +10,7 @@ $plugin_tx['keymaster']['button_ok']="Ok";
 $plugin_tx['keymaster']['error']="Le serveur a renvoyé une erreur qui a désactivé la déconnection automatique par Keymaster_XH.\n\nVoir les détails ?";
 
 $plugin_tx['keymaster']['syscheck_title']="Test système";
-$plugin_tx['keymaster']['syscheck_phpversion']="PHP version &ge; %s";
+$plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['keymaster']['syscheck_extension']="Extension \"%s\" chargée";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Dossier \"%s\" accessible en écriture";
 $plugin_tx['keymaster']['syscheck_writable_file']="Dossier \"%s\" accessible en écriture";

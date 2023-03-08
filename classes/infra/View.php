@@ -27,39 +27,43 @@ class View
     private $templateFolder;
 
     /** @var array<string,string> */
-    private $lang;
+    private $text;
 
-    /**
-     * @param array<string,string> $lang
-     */
-    public function __construct(string $templateFolder, array $lang)
+    /** @param array<string,string> $text */
+    public function __construct(string $templateFolder, array $text)
     {
         $this->templateFolder = $templateFolder;
-        $this->lang = $lang;
+        $this->text = $text;
     }
 
     /** @param scalar $args */
     public function text(string $key, ...$args): string
     {
-        return sprintf($this->lang[$key], ...$args);
+        return sprintf($this->esc($this->text[$key]), ...$args);
     }
 
-    /**
-     * @param string $args
-     */
+    /** @param string $args */
     public function error(string $key, ...$args): string
     {
-        return XH_message("fail", $this->lang[$key], ...$args);
+        return XH_message("fail", $this->text[$key], ...$args) . "\n";
     }
 
-    /**
-     * @param array<string,mixed> $data
-     */
-    public function render(string $template, array $data): string
+    public function esc(string $string): string
     {
-        extract($data);
+        return XH_hsc($string);
+    }
+
+    /** @param array<string,mixed> $_data */
+    public function render(string $_template, array $_data): string
+    {
+        array_walk_recursive($_data, function ($value) {
+            if (is_string($value)) {
+                $value = $this->esc($value);
+            }
+        });
+        extract($_data);
         ob_start();
-        include "{$this->templateFolder}{$template}.php";
+        include $this->templateFolder . $_template . ".php";
         return (string) ob_get_clean();
     }
 }
