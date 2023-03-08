@@ -52,7 +52,7 @@ class ShowInfo
             "version" => KEYMASTER_VERSION,
             "checks" => $this->systemChecks(),
         ]);
-        return new Response($output);
+        return Response::create($output);
     }
 
     /**

@@ -97,7 +97,7 @@ class Controller
             $this->model,
             $plugin_tx['keymaster']
         );
-        $controller()->process();
+        $controller()->respond();
     }
 
 
@@ -113,7 +113,7 @@ class Controller
                     $plugin_tx['keymaster'],
                     new SystemChecker
                 );
-                $o .= $controller()->process();
+                $o .= $controller()->respond();
                 break;
             default:
                 $o .= plugin_admin_common();

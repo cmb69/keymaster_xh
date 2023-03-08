@@ -68,9 +68,9 @@ class EmitScripts
             $filename = "{$this->pluginFolder}keymaster.min.js";
             $hjs .= $this->js($filename);
             $bjs = $this->view->render("dialog", []);
-            return new Response("", $hjs, $bjs);
+            return Response::create("")->withHjs($hjs)->withBjs($bjs);
         }
-        return new Response("");
+        return Response::create("");
     }
 
     private function js(string $filename): string

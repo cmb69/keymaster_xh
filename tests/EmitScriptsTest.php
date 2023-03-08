@@ -28,7 +28,7 @@ use ApprovalTests\Approvals;
 
 class EmitScriptsTest extends TestCase
 {
-    public function testEmitsJavaScript(): void
+    public function testEmitsHjs(): void
     {
         $request = $this->createStub(Request::class);
         $request->method('isAdmin')->willReturn(true);
@@ -45,7 +45,27 @@ class EmitScriptsTest extends TestCase
         );
         $response = $subject();
 
-        Approvals::verifyHtml($response->representation());
+        Approvals::verifyHtml($response->hjs());
+    }
+
+    public function testEmitsBjs(): void
+    {
+        $request = $this->createStub(Request::class);
+        $request->method('isAdmin')->willReturn(true);
+        $model = $this->createStub(Model::class);
+        $model->method('jsConfig')->willReturn(['warn' => 600, 'pollInterval' => 7000]);
+        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
+        $model->method('jsL10n')->willReturn($plugin_tx['keymaster']);
+
+        $subject = new EmitScripts(
+            "./",
+            $request,
+            $model,
+            $plugin_tx['keymaster']
+        );
+        $response = $subject();
+
+        Approvals::verifyHtml($response->bjs());
     }
 
     public function testDoesNothingIfNotAdmin(): void
@@ -63,7 +83,7 @@ class EmitScriptsTest extends TestCase
         );
         $response = $subject();
 
-        Approvals::verifyHtml($response->representation());
-
+        $this->assertEquals("", $response->hjs());
+        $this->assertEquals("", $response->bjs());
     }
 }

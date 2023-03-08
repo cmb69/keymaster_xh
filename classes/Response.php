@@ -23,33 +23,61 @@ namespace Keymaster;
 
 class Response
 {
+    public static function create(string $output): self
+    {
+        $that = new self;
+        $that->output = $output;
+        return $that;
+    }
+
     /** @var string */
     private $output;
 
-    /** @var string */
+    /** @var string|null */
     private $hjs;
 
-    /** @var string */
+    /** @var string|null */
     private $bjs;
 
-    public function __construct(string $output, string $hjs = "", string $bjs = "")
+    public function withHjs(string $hjs): self
     {
-        $this->output = $output;
-        $this->hjs = $hjs;
-        $this->bjs = $bjs;
+        $that = clone $this;
+        $that->hjs = $hjs;
+        return $that;
     }
 
-    public function process(): string
+    public function withBjs(string $bjs): self
     {
-        global $hjs, $bjs;
+        $that = clone $this;
+        $that->bjs = $bjs;
+        return $that;
+    }
 
-        $hjs .= $this->hjs;
-        $bjs .= $this->bjs;
+    public function output(): string
+    {
         return $this->output;
     }
 
-    public function representation(): string
+    public function hjs(): ?string
     {
-        return print_r($this, true);
+        return $this->hjs;
+    }
+
+    public function bjs(): ?string
+    {
+        return $this->bjs;
+    }
+
+    public function respond(): string
+    {
+        global $hjs, $bjs;
+
+        if ($this->hjs !== null) {
+            $hjs .= $this->hjs;
+        }
+        if ($this->bjs !== null) {
+            $bjs .= $this->bjs;
+        }
+        return $this->output;
     }
 }

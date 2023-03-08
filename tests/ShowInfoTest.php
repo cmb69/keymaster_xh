@@ -41,6 +41,6 @@ class ShowInfoTest extends TestCase
 
         $response = $subject();
 
-        Approvals::verifyString($response->representation());
+        Approvals::verifyHtml($response->output());
     }
 }
