@@ -1,10 +1,7 @@
 {
     "require-dev": {
-        "phing/phing": "2.16.*",
-        "phpunit/phpunit": "8.5.*",
-        "mikey179/vfsstream": "1.6.*",
-        "phpstan/phpstan": "^1.2.0",
-        "squizlabs/php_codesniffer": "^3.6.2",
+        "phpunit/phpunit": "^9.6",
+        "mikey179/vfsstream": "^1.6",
         "approvals/approval-tests": "*@dev"
     }
 }

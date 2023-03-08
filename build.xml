@@ -28,21 +28,16 @@
     </exec>
   </target>
 
-  <target name="compat" description="checks PHP requirements">
-    <exec command="phpcompatinfo analyser:run --alias current" logoutput="true"/>
+  <target name="test" description="runs all developer tests">
+    <exec executable="phpunit" passthru="true" checkreturn="true"/>
   </target>
 
-  <target name="unit-tests" description="runs all unit tests">
-    <exec executable="phpunit" passthru="true" checkreturn="true">
-      <arg value="--bootstrap"/>
-      <arg file="tests/unit/bootstrap.php"/>
-      <arg value="--colors=always"/>
-      <arg file="tests/unit"/>
-    </exec>
-  </target>
+  <target name="sat" description="runs all checks" depends="sniff,stan,test"/>
 
   <target name="coverage" description="generates coverage report">
-    <exec command="phpdbg -qrr vendor/phpunit/phpunit/phpunit --configuration coverage.xml" passthru="true" checkreturn="true"/>
+    <exec executable="phpunit" passthru="true" checkreturn="true">
+      <arg line="--coverage-html coverage"/>
+    </exec>
   </target>
 
   <target name="gen-help" description="builds help.htm from README.md">
@@ -51,10 +46,12 @@
   </target>
 
   <target name="build" description="builds distributable ZIP archive">
-    <exec command="git archive -o export.zip HEAD" checkreturn="true"/>
+    <exec executable="git" logoutput="true" checkreturn="true">
+      <arg line="archive -o export.zip HEAD"/>
+    </exec>
     <unzip file="export.zip" todir="export"/>
     <delete file="export.zip"/>
-    <exec executable="uglifyjs" checkreturn="true">
+    <exec executable="uglifyjs" logoutput="true" checkreturn="true">
       <arg file="export/keymaster.min.js"/>
       <arg value="--compress"/>
       <arg value="--mangle"/>
@@ -63,15 +60,15 @@
     </exec>
     <move todir="dist">
       <fileset dir="export">
+        <exclude name=".github/**"/>
         <exclude name=".phive/**"/>
         <exclude name="help/template.htm"/>
         <exclude name="tests/**"/>
         <exclude name="README*.md"/>
         <exclude name="build.xml"/>
         <exclude name="composer.*"/>
-        <exclude name="coverage.xml"/>
-        <exclude name="phpcompatinfo.*"/>
         <exclude name="phpstan.*"/>
+        <exclude name="phpunit.xml"/>
         <exclude name="teplad.xml"/>
       </fileset>
     </move>
@@ -84,7 +81,7 @@
 
   <target name="build-patch" description="builds a distributable update package">
     <fail unless="patchee" message="patchee is not defined!"/>
-     <unzip file="Keymaster_XH-2.0-dev.zip" todir="current"/>
+    <unzip file="Keymaster_XH-2.0-dev.zip" todir="current"/>
     <unzip file="${patchee}" todir="patchee"/>
     <copy todir="dist">
       <fileset dir="current">
