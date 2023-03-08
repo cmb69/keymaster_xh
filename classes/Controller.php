@@ -55,18 +55,18 @@ class Controller
             return Response::create();
         }
         if ($request->isTimeRequested()) {
-            return $this->answerRemainingTime($request->isAdmin());
+            return $this->answerRemainingTime($request->adm());
         }
-        if ($request->isAdmin() && $request->isResetRequested()) {
+        if ($request->adm() && $request->isResetRequested()) {
             return Response::create((string) $this->model->reset())->withContentType("text/plain");
         }
-        if ($request->isAdmin() && !$this->model->sessionHasExpired()) {
+        if ($request->adm() && !$this->model->sessionHasExpired()) {
             if (!$this->model->reset()) {
                 return Response::create($this->view->error("error_write", $this->model->filename()));
             }
             return Response::create();
         }
-        if ($request->isAdmin()) {
+        if ($request->adm()) {
             return $this->logout($request);
         }
         return Response::create();

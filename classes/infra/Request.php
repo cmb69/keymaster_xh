@@ -23,45 +23,89 @@ namespace Keymaster\Infra;
 
 class Request
 {
-    public function isAdmin(): bool
+    /** @codeCoverageIgnore */
+    public function adm(): bool
     {
         global $adm;
-
         return $adm;
     }
 
     public function wantsLogin(): bool
     {
-        global $f;
-
-        return isset($f) && $f === "login";
+        return $this->f() === "login";
     }
 
     public function isLogin(): bool
     {
-        global $login;
+        return $this->login() === "true"
+            && (($this->cookie()["status"] ?? null) !== "adm" || !$this->logincheck());
+    }
 
-        return isset($login) && $login == 'true'
-            && (gc('status') != 'adm' || !logincheck());
+    /** @codeCoverageIgnore */
+    protected function login(): ?string
+    {
+        global $login;
+        return $login;
+    }
+
+    /**
+     * @return array<string,string>
+     * @codeCoverageIgnore
+     */
+    protected function cookie(): array
+    {
+        return $_COOKIE;
+    }
+
+    /** @codeCoverageIgnore */
+    protected function logincheck(): bool
+    {
+        return logincheck();
     }
 
     public function isLogout(): bool
     {
-        global $f;
+        return $this->f() === "xh_loggedout";
+    }
 
-        return isset($f) && $f === "xh_loggedout";
+    /** @codeCoverageIgnore */
+    protected function f(): string
+    {
+        global $f;
+        return $f;
     }
 
     public function isTimeRequested(): bool
     {
-        return isset($_GET["keymaster_time"]);
+        $get = $this->get();
+        return isset($get["keymaster_time"]);
+    }
+
+    /**
+     * @return array<string,string|array<string>>
+     * @codeCoverageIgnore
+     */
+    protected function get(): array
+    {
+        return $_GET;
     }
 
     public function isResetRequested(): bool
     {
-        return isset($_POST["keymaster_reset"]);
+        $post = $this->post();
+        return isset($post["keymaster_reset"]);
     }
 
+    /**
+     * @return array<string,string|array<string>>
+     * @codeCoverageIgnore
+     */
+    protected function post(): array
+    {
+        return $_POST;
+    }
+
+    /** @codeCoverageIgnore */
     public function su(): string
     {
         global $su;

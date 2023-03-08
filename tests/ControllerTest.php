@@ -35,8 +35,8 @@ class ControllerTest extends TestCase
         $model->method("isFree")->willReturn(false);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("wantsLogin")->willReturn(true);
+        $request = $this->request();
+        $request->method("f")->willReturn("login");
         $response = $sut($request);
 
         $this->assertTrue($response->clearedF());
@@ -50,8 +50,10 @@ class ControllerTest extends TestCase
         $model->expects($this->once())->method("give")->willReturn(true);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
+        $request = $this->request();
+        $request->method("login")->willReturn("true");
+        $request->method("cookie")->willReturn([]);
+        $request->method("logincheck")->willReturn(false);
         $response = $sut($request);
 
         $this->assertEquals("", $response->output());
@@ -65,8 +67,10 @@ class ControllerTest extends TestCase
         $model->method("filename")->willReturn("./plugins/keymaster/key");
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
+        $request = $this->request();
+        $request->method("login")->willReturn("true");
+        $request->method("cookie")->willReturn([]);
+        $request->method("logincheck")->willReturn(false);
         $response = $sut($request);
 
         Approvals::verifyHtml($response->output());
@@ -78,8 +82,10 @@ class ControllerTest extends TestCase
         $model->method("isFree")->willReturn(false);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
+        $request = $this->request();
+        $request->method("login")->willReturn("true");
+        $request->method("cookie")->willReturn([]);
+        $request->method("logincheck")->willReturn(false);
         $request->method("su")->willReturn("Current_Page");
         $response = $sut($request);
 
@@ -93,8 +99,8 @@ class ControllerTest extends TestCase
         $model->expects($this->once())->method("take")->willReturn(true);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogout")->willReturn(true);
+        $request = $this->request();
+        $request->method("f")->willReturn("xh_loggedout");
         $response = $sut($request);
 
         $this->assertEquals("", $response->output());
@@ -107,8 +113,8 @@ class ControllerTest extends TestCase
         $model->method("filename")->willReturn("./plugins/keymaster/key");
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogout")->willReturn(true);
+        $request = $this->request();
+        $request->method("f")->willReturn("xh_loggedout");
         $response = $sut($request);
 
         Approvals::verifyHtml($response->output());
@@ -120,9 +126,9 @@ class ControllerTest extends TestCase
         $model->method("remainingTime")->willReturn(600);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isTimeRequested")->willReturn(true);
-        $request->method("isAdmin")->willReturn(true);
+        $request = $this->request();
+        $request->method("adm")->willReturn(true);
+        $request->method("get")->willReturn(["keymaster_time" => ""]);
         $response = $sut($request);
 
         $this->assertEquals("text/plain", $response->contentType());
@@ -134,9 +140,9 @@ class ControllerTest extends TestCase
         $model = $this->createMock(Model::class);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isTimeRequested")->willReturn(true);
-        $request->method("isAdmin")->willReturn(false);
+        $request = $this->request();
+        $request->method("adm")->willReturn(false);
+        $request->method("get")->willReturn(["keymaster_time" => ""]);
         $response = $sut($request);
 
         $this->assertEquals("text/plain", $response->contentType());
@@ -150,9 +156,9 @@ class ControllerTest extends TestCase
         $model->expects($this->once())->method("reset")->willReturn(true);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isAdmin")->willReturn(true);
-        $request->method("isResetRequested")->willReturn(true);
+        $request = $this->request();
+        $request->method("adm")->willReturn(true);
+        $request->method("post")->willReturn(["keymaster_reset" => ""]);
         $response = $sut($request);
 
         $this->assertEquals("text/plain", $response->contentType());
@@ -166,8 +172,8 @@ class ControllerTest extends TestCase
         $model->expects($this->once())->method("reset")->willReturn(true);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isAdmin")->willReturn(true);
+        $request = $this->request();
+        $request->method("adm")->willReturn(true);
         $response = $sut($request);
 
         $this->assertEquals("", $response->output());
@@ -181,8 +187,8 @@ class ControllerTest extends TestCase
         $model->method("filename")->willReturn("./plugins/keymaster/key");
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isAdmin")->willReturn(true);
+        $request = $this->request();
+        $request->method("adm")->willReturn(true);
         $response = $sut($request);
 
         Approvals::verifyHtml($response->output());
@@ -194,8 +200,8 @@ class ControllerTest extends TestCase
         $model->method("sessionHasExpired")->willReturn(true);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
-        $request->method("isAdmin")->willReturn(true);
+        $request = $this->request();
+        $request->method("adm")->willReturn(true);
         $request->method("su")->willReturn("Current_Page");
         $response = $sut($request);
 
@@ -208,10 +214,21 @@ class ControllerTest extends TestCase
         $model = $this->createMock(Model::class);
         $sut = new Controller($model, $this->view());
 
-        $request = $this->createStub(Request::class);
+        $request = $this->request();
         $response = $sut($request);
 
         $this->assertEquals("", $response->output());
+    }
+
+    private function request(): Request
+    {
+        return $this->getMockBuilder(Request::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->onlyMethods(["adm", "cookie", "f", "get", "login", "logincheck", "post", "su"])
+            ->getMock();
     }
 
     private function view(): View

@@ -163,5 +163,3 @@ class ModelTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 }
-
-?>

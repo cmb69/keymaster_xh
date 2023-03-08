@@ -21,10 +21,8 @@
 
 namespace Keymaster\Infra;
 
-use PHPUnit\Framework\TestCase;
-use org\bovigo\vfs\vfsStreamWrapper;
-use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
 class KeyfileTest extends TestCase
 {
@@ -34,10 +32,9 @@ class KeyfileTest extends TestCase
 
     public function setUp(): void
     {
-        vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(new vfsStreamDirectory('keyfile'));
-        $this->filename = vfsStream::url('keyfile') . '/key';
-        file_put_contents($this->filename, '');
+        vfsStream::setup("keyfile");
+        $this->filename = "vfs://keyfile/key";
+        file_put_contents($this->filename, "");
 
         $this->keyfile = new Keyfile($this->filename);
     }
@@ -79,5 +76,3 @@ class KeyfileTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 }
-
-?>

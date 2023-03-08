@@ -29,20 +29,31 @@ use Keymaster\Infra\View;
 
 class ShowInfoTest extends TestCase
 {
-    public function testRendersPluginInfo(): void
+    public function testRendersPluginInfoWithAllChecksSucceeding(): void
+    {
+        $sut = new ShowInfo("./plugins/keymaster/", $this->systemChecker(true), $this->view());
+        $response = $sut();
+        Approvals::verifyHtml($response->output());
+    }
+
+    public function testRendersPluginInfoWithAllChecksFailing(): void
+    {
+        $sut = new ShowInfo("./plugins/keymaster/", $this->systemChecker(false), $this->view());
+        $response = $sut();
+        Approvals::verifyHtml($response->output());
+    }
+
+    private function systemChecker(bool $returnValue): SystemChecker
     {
         $systemChecker = $this->createStub(SystemChecker::class);
-        $systemChecker->method('checkVersion')->willReturn(true);
-        $systemChecker->method('checkExtension')->willReturn(true);
-        $systemChecker->method('checkWritability')->willReturn(true);
-        $subject = new ShowInfo(
-            "./",
-            $systemChecker,
-            new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster'])
-        );
+        $systemChecker->method('checkVersion')->willReturn($returnValue);
+        $systemChecker->method('checkExtension')->willReturn($returnValue);
+        $systemChecker->method('checkWritability')->willReturn($returnValue);
+        return $systemChecker;
+    }
 
-        $response = $subject();
-
-        Approvals::verifyHtml($response->output());
+    private function view(): View
+    {
+        return new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster']);
     }
 }

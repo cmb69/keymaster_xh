@@ -25,22 +25,12 @@ use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
-    public function testIsAdmin(): void
-    {
-        global $adm;
-
-        $request = new Request();
-        $adm = false;
-        $this->assertFalse($request->isAdmin());
-        $adm = true;
-        $this->assertTrue($request->isAdmin());
-    }
-
     public function testWantsLogin(): void
     {
         global $f;
 
         $request = new Request();
+        $f = "";
         $this->assertFalse($request->wantsLogin());
         $f = "login";
         $this->assertTrue($request->wantsLogin());
@@ -51,6 +41,7 @@ class RequestTest extends TestCase
         global $f;
 
         $request = new Request();
+        $f = "";
         $this->assertFalse($request->isLogout());
         $f = "xh_loggedout";
         $this->assertTrue($request->isLogout());

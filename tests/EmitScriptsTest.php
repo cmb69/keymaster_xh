@@ -32,57 +32,63 @@ class EmitScriptsTest extends TestCase
 {
     public function testEmitsHjs(): void
     {
-        $request = $this->createStub(Request::class);
-        $request->method('isAdmin')->willReturn(true);
         $model = $this->createStub(Model::class);
         $model->method('jsConfig')->willReturn(['warn' => 600, 'pollInterval' => 7000]);
-        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
-        $model->method('jsL10n')->willReturn($plugin_tx['keymaster']);
+        $model->method('jsL10n')->willReturn($this->text());
+        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
 
-        $subject = new EmitScripts(
-            "./",
-            $model,
-            new View("./templates/", $plugin_tx["keymaster"])
-        );
-        $response = $subject($request);
+        $request = $this->request();
+        $request->method('adm')->willReturn(true);
+        $response = $sut($request);
 
         Approvals::verifyHtml($response->hjs());
     }
 
     public function testEmitsBjs(): void
     {
-        $request = $this->createStub(Request::class);
-        $request->method('isAdmin')->willReturn(true);
         $model = $this->createStub(Model::class);
         $model->method('jsConfig')->willReturn(['warn' => 600, 'pollInterval' => 7000]);
-        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
-        $model->method('jsL10n')->willReturn($plugin_tx['keymaster']);
+        $model->method('jsL10n')->willReturn($this->text());
+        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
 
-        $subject = new EmitScripts(
-            "./",
-            $model,
-            new View("./templates/", $plugin_tx["keymaster"])
-        );
-        $response = $subject($request);
+        $request = $this->request();
+        $request->method('adm')->willReturn(true);
+        $response = $sut($request);
 
         Approvals::verifyHtml($response->bjs());
     }
 
     public function testDoesNothingIfNotAdmin(): void
     {
-        $request = $this->createStub(Request::class);
-        $request->method('isAdmin')->willReturn(false);
         $model = $this->createStub(Model::class);
-        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
+        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
 
-        $subject = new EmitScripts(
-            "./",
-            $model,
-            new View("./templates/", $plugin_tx["keymaster"])
-        );
-        $response = $subject($request);
+        $request = $this->request();
+        $request->method('adm')->willReturn(false);
+        $response = $sut($request);
 
         $this->assertEquals("", $response->hjs());
         $this->assertEquals("", $response->bjs());
+    }
+
+    private function request(): Request
+    {
+        return $this->getMockBuilder(Request::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->onlyMethods(["adm", "cookie", "f", "get", "login", "logincheck", "post", "su"])
+            ->getMock();
+    }
+
+    private function view(): View
+    {
+        return new View("./templates/", $this->text());
+    }
+
+    private function text(): array
+    {
+        return XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"];
     }
 }

@@ -46,7 +46,7 @@ class EmitScripts
 
     public function __invoke(Request $request): Response
     {
-        if ($request->isAdmin()) {
+        if ($request->adm()) {
             $config = json_encode(
                 $this->model->jsConfig(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
