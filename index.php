@@ -19,7 +19,7 @@
  * along with Keymaster_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Keymaster\Controller;
+use Keymaster\Dic;
 use Keymaster\Infra\Request;
 
 /*
@@ -35,4 +35,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  */
 define('KEYMASTER_VERSION', '2.0-dev');
 
-(new Controller(new Request()))->run();
+/** @var string $o */
+
+Dic::makeEmitScripts()(new Request())->respond();
+$o .= Dic::makeController()(new Request())->respond();

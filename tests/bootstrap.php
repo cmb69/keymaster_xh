@@ -1,6 +1,7 @@
 <?php
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
+const CMSIMPLE_URL = "http://example.com/";
 const KEYMASTER_VERSION = "2.0-dev";
 
 require_once "./vendor/autoload.php";
@@ -12,6 +13,7 @@ require_once './classes/infra/Model.php';
 require_once "./classes/infra/View.php";
 require_once "./classes/infra/SystemChecker.php";
 require_once "./classes/infra/Response.php";
+require_once "./classes/Controller.php";
 require_once "./classes/Dic.php";
 require_once "./classes/EmitScripts.php";
 require_once "./classes/ShowInfo.php";

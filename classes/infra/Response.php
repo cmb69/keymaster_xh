@@ -23,10 +23,17 @@ namespace Keymaster\Infra;
 
 class Response
 {
-    public static function create(string $output): self
+    public static function create(string $output = ""): self
     {
         $that = new self;
         $that->output = $output;
+        return $that;
+    }
+
+    public static function redirect(string $location): self
+    {
+        $that = new self;
+        $that->location = $location;
         return $that;
     }
 
@@ -34,10 +41,29 @@ class Response
     private $output;
 
     /** @var string|null */
+    private $location;
+
+    /** @var string|null */
+    private $contentType;
+
+    /** @var string|null */
     private $hjs;
 
     /** @var string|null */
     private $bjs;
+
+    /** @var bool */
+    private $clearF = false;
+
+    /** @var bool */
+    private $logout = false;
+
+    public function withContentType(string $contentType): self
+    {
+        $that = clone $this;
+        $that->contentType = $contentType;
+        return $that;
+    }
 
     public function withHjs(string $hjs): self
     {
@@ -53,9 +79,33 @@ class Response
         return $that;
     }
 
+    public function withClearedF(): self
+    {
+        $that = clone $this;
+        $that->clearF = true;
+        return $that;
+    }
+
+    public function withLogout(): self
+    {
+        $that = clone $this;
+        $that->logout = true;
+        return $that;
+    }
+
     public function output(): string
     {
         return $this->output;
+    }
+
+    public function location(): ?string
+    {
+        return $this->location;
+    }
+
+    public function contentType(): ?string
+    {
+        return $this->contentType;
     }
 
     public function hjs(): ?string
@@ -68,16 +118,52 @@ class Response
         return $this->bjs;
     }
 
+    public function clearedF(): bool
+    {
+        return $this->clearF;
+    }
+
+    public function logout(): bool
+    {
+        return $this->logout;
+    }
+
     public function respond(): string
     {
-        global $hjs, $bjs;
+        global $hjs, $bjs, $f;
 
+        if ($this->logout) {
+            setcookie("status", "", 0, CMSIMPLE_ROOT);
+            unset($_SESSION["xh_password"]);
+        }
+        if ($this->location !== null) {
+            $this->purgeOutputBuffers();
+            header("Location: " . $this->location, true, 303);
+            exit;
+        }
+        if ($this->contentType !== null) {
+            $this->purgeOutputBuffers();
+            header("Content-Type: " . $this->contentType);
+            echo $this->output;
+            exit;
+        }
         if ($this->hjs !== null) {
             $hjs .= $this->hjs;
         }
         if ($this->bjs !== null) {
             $bjs .= $this->bjs;
         }
+        if ($this->clearF) {
+            $f = "";
+        }
         return $this->output;
+    }
+
+    /** @return void */
+    private function purgeOutputBuffers()
+    {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
     }
 }

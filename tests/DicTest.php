@@ -34,6 +34,11 @@ class DicTest extends TestCase
         $plugin_tx = ["keymaster" => []];
     }
 
+    public function testMakesController(): void
+    {
+        $this->assertInstanceOf(Controller::class, Dic::makeController());
+    }
+
     public function testMakesEmitScripts(): void
     {
         $this->assertInstanceOf(EmitScripts::class, Dic::makeEmitScripts());

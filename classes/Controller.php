@@ -23,131 +23,83 @@ namespace Keymaster;
 
 use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
+use Keymaster\Infra\Response;
 use Keymaster\Infra\View;
 
 class Controller
 {
-    /** @var Request */
-    private $request;
-
     /** @var Model */
     private $model;
 
     /** @var View */
     private $view;
 
-    public function __construct(Request $request)
+    public function __construct(Model $model, View $view)
     {
-        $this->request = $request;
-        $this->model = Dic::makeModel();
-        $this->view = Dic::makeView();
+        $this->model = $model;
+        $this->view = $view;
     }
 
-    public function run(): void
+    public function __invoke(Request $request): Response
     {
-        Dic::makeEmitScripts()($this->request)->respond();
-        $this->dispatch();
-    }
-
-    private function login(): void
-    {
-        global $o;
-
-        if ($this->model->isFree()) {
-            if ($this->model->give()) {
-                // important, as filemtime() is called later for the same file:
-                clearstatcache();
-            } else {
-                $o .= $this->view->error("error_write", $this->model->filename());
+        if ($request->wantsLogin() && !$this->model->isFree()) {
+            return $this->denyLogin();
+        }
+        if ($request->isLogin()) {
+            return $this->login($request);
+        }
+        if ($request->isLogout()) {
+            if (!$this->model->take()) {
+                return Response::create($this->view->error("error_write", $this->model->filename()));
             }
-        } else {
-            $this->logout();
-            exit;
+            return Response::create();
         }
-    }
-
-    private function logout(): void
-    {
-        global $su;
-
-        setcookie('status', '', 0, CMSIMPLE_ROOT);
-        unset($_SESSION['xh_password']);
-        header('Location: ' . CMSIMPLE_URL . '?' . $su, true, 303);
-        exit;
-    }
-
-    private function isLogin(): bool
-    {
-        global $login;
-
-        return isset($login) && $login == 'true'
-            && (gc('status') != 'adm' || !logincheck());
-    }
-
-    private function administration(): void
-    {
-        global $o, $admin;
-
-        $o .= print_plugin_admin('off');
-        switch ($admin) {
-            case '':
-                $o .= Dic::makeShowInfo()()->respond();
-                break;
-            default:
-                $o .= plugin_admin_common();
+        if ($request->isTimeRequested()) {
+            return $this->answerRemainingTime($request->isAdmin());
         }
+        if ($request->isAdmin() && $request->isResetRequested()) {
+            return Response::create((string) $this->model->reset())->withContentType("text/plain");
+        }
+        if ($request->isAdmin() && !$this->model->sessionHasExpired()) {
+            if (!$this->model->reset()) {
+                return Response::create($this->view->error("error_write", $this->model->filename()));
+            }
+            return Response::create();
+        }
+        if ($request->isAdmin()) {
+            return $this->logout($request);
+        }
+        return Response::create();
     }
 
-    private function answerRemainingTime(): void
+    private function login(Request $request): Response
     {
-        if ($this->request->isAdmin()) {
+        if (!$this->model->isFree()) {
+            return $this->logout($request);
+        }
+        if (!$this->model->give()) {
+            return Response::create($this->view->error("error_write", $this->model->filename()));
+        }
+        return Response::create();
+    }
+
+    private function logout(Request $request): Response
+    {
+        return Response::redirect(CMSIMPLE_URL . '?' . $request->su())->withLogout();
+    }
+
+    private function answerRemainingTime(bool $isAdmin): Response
+    {
+        if ($isAdmin) {
             $remainingTime = $this->model->remainingTime();
         } else {
-            $remainingTime = -1;
+            $remainingTime = -1; // TODO: 403 Forbidden?
         }
-        header('Content-Type: text/plain');
-        echo $remainingTime;
-        exit;
+        return Response::create((string) $remainingTime)->withContentType("text/plain");
     }
 
-    private function denyLogin(): void
+    private function denyLogin(): Response
     {
-        global $o, $f;
-
-        $o .= $this->view->error('editing');
-        $f = '';
-    }
-
-    private function dispatch(): void
-    {
-        global $o;
-
-        if ($this->request->wantsLogin() && !$this->model->isFree()) {
-            $this->denyLogin();
-        } elseif ($this->isLogin()) {
-            $this->login();
-        } elseif ($this->request->isLogout()) {
-            if (!$this->model->take()) {
-                $o .= $this->view->error("error_write", $this->model->filename());
-            }
-        } elseif (isset($_GET['keymaster_time'])) {
-            $this->answerRemainingTime();
-        } elseif ($this->request->isAdmin() && isset($_POST['keymaster_reset'])) {
-            $this->model->reset();
-            exit;
-        } elseif ($this->request->isAdmin() && !$this->model->sessionHasExpired()) {
-            if (!$this->model->reset()) {
-                $o .= $this->view->error("error_write", $this->model->filename());
-            }
-        } elseif ($this->request->isAdmin()) {
-            $this->logout();
-        }
-
-        if ($this->request->isAdmin()) {
-            XH_registerStandardPluginMenuItems(false);
-            if (XH_wantsPluginAdministration('keymaster')) {
-                $this->administration();
-            }
-        }
+        return Response::create($this->view->error('editing'))->withClearedF();
     }
 }

@@ -72,7 +72,12 @@ class Model
 
     public function give(): bool
     {
-        return $this->keyfile->purge();
+        $result = $this->keyfile->purge();
+        if ($result) {
+            // important, as filemtime() is called later for the same file:
+            clearstatcache();
+        }
+        return $result;
     }
 
     public function take(): bool

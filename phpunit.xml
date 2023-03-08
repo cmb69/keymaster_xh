@@ -3,6 +3,7 @@
   <coverage processUncoveredFiles="false">
     <include>
       <directory suffix=".php">classes</directory>
+      <file>admin.php</file>
       <file>index.php</file>
     </include>
   </coverage>

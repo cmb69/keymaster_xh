@@ -37,10 +37,34 @@ class Request
         return isset($f) && $f === "login";
     }
 
+    public function isLogin(): bool
+    {
+        global $login;
+
+        return isset($login) && $login == 'true'
+            && (gc('status') != 'adm' || !logincheck());
+    }
+
     public function isLogout(): bool
     {
         global $f;
 
         return isset($f) && $f === "xh_loggedout";
+    }
+
+    public function isTimeRequested(): bool
+    {
+        return isset($_GET["keymaster_time"]);
+    }
+
+    public function isResetRequested(): bool
+    {
+        return isset($_POST["keymaster_reset"]);
+    }
+
+    public function su(): string
+    {
+        global $su;
+        return $su;
     }
 }

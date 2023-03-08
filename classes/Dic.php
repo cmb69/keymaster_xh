@@ -28,6 +28,11 @@ use Keymaster\Infra\View;
 
 class Dic
 {
+    public static function makeController(): Controller
+    {
+        return new Controller(self::makeModel(), self::makeView());
+    }
+
     public static function makeEmitScripts(): EmitScripts
     {
         global $pth;
@@ -49,7 +54,7 @@ class Dic
         );
     }
 
-    public static function makeModel(): Model
+    private static function makeModel(): Model
     {
         global $plugin_cf;
         return new Model(self::makeKeyfile(), (int) $plugin_cf["keymaster"]["logout"]);
@@ -61,7 +66,7 @@ class Dic
         return new Keyfile($pth["folder"]["plugins"] . "keymaster/key");
     }
 
-    public static function makeView(): View
+    private static function makeView(): View
     {
         global $pth, $plugin_tx;
         return new View($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
