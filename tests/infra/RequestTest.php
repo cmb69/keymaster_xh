@@ -19,10 +19,9 @@
  * along with Keymaster_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Keymaster;
+namespace Keymaster\Infra;
 
 use PHPUnit\Framework\TestCase;
-use Keymaster\Infra\Request;
 
 class RequestTest extends TestCase
 {

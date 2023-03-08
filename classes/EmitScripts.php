@@ -21,7 +21,10 @@
 
 namespace Keymaster;
 
+use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
+use Keymaster\Infra\Response;
+use Keymaster\Infra\View;
 
 class EmitScripts
 {

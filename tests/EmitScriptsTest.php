@@ -25,6 +25,7 @@ use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use Keymaster\Infra\Request;
 use ApprovalTests\Approvals;
+use Keymaster\Infra\Model;
 
 class EmitScriptsTest extends TestCase
 {

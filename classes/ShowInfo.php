@@ -21,6 +21,10 @@
 
 namespace Keymaster;
 
+use Keymaster\Infra\Response;
+use Keymaster\Infra\SystemChecker;
+use Keymaster\Infra\View;
+
 class ShowInfo
 {
     /** @var string */

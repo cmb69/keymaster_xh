@@ -1,6 +1,6 @@
 <?php
 
-namespace Keymaster;
+use Keymaster\Infra\View;
 
 /**
  * @var View $this

@@ -24,6 +24,7 @@ namespace Keymaster;
 use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
+use Keymaster\Infra\SystemChecker;
 
 class ShowInfoTest extends TestCase
 {

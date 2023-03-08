@@ -21,7 +21,11 @@
 
 namespace Keymaster;
 
+use Keymaster\Infra\Keyfile;
+use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
+use Keymaster\Infra\SystemChecker;
+use Keymaster\Infra\View;
 
 class Controller
 {
