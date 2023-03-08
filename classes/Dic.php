@@ -45,10 +45,9 @@ class Dic
 
     public static function makeShowInfo(): ShowInfo
     {
-        global $pth, $plugin_tx;
+        global $pth;
         return new ShowInfo(
             $pth["folder"]["plugins"] . "keymaster/",
-            $plugin_tx["keymaster"],
             new SystemChecker,
             self::makeView()
         );

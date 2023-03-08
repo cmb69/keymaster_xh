@@ -38,9 +38,10 @@ class View
         $this->lang = $lang;
     }
 
-    public function text(string $key): string
+    /** @param scalar $args */
+    public function text(string $key, ...$args): string
     {
-        return $this->lang[$key];
+        return sprintf($this->lang[$key], ...$args);
     }
 
     /**

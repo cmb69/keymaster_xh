@@ -37,7 +37,6 @@ class ShowInfoTest extends TestCase
         $systemChecker->method('checkWritability')->willReturn(true);
         $subject = new ShowInfo(
             "./",
-            XH_includeVar("./languages/en.php", "plugin_tx")['keymaster'],
             $systemChecker,
             new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster'])
         );
