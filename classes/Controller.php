@@ -21,10 +21,8 @@
 
 namespace Keymaster;
 
-use Keymaster\Infra\Keyfile;
 use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
-use Keymaster\Infra\SystemChecker;
 use Keymaster\Infra\View;
 
 class Controller
@@ -40,19 +38,14 @@ class Controller
 
     public function __construct(Request $request)
     {
-        global $pth, $plugin_cf, $plugin_tx;
-
-        $filename = $pth['folder']['plugins'] . 'keymaster/key';
-        $keyfile = new Keyfile($filename);
-        $duration = $plugin_cf['keymaster']['logout'];
         $this->request = $request;
-        $this->model = new Model($keyfile, $duration);
-        $this->view = new View("{$pth["folder"]["plugins"]}keymaster/templates/", $plugin_tx['keymaster']);
+        $this->model = Dic::makeModel();
+        $this->view = Dic::makeView();
     }
 
     public function run(): void
     {
-        $this->emitScripts();
+        Dic::makeEmitScripts()($this->request)->respond();
         $this->dispatch();
     }
 
@@ -91,33 +84,14 @@ class Controller
             && (gc('status') != 'adm' || !logincheck());
     }
 
-    private function emitScripts(): void
-    {
-        global $pth, $plugin_tx;
-
-        $controller = new EmitScripts(
-            "{$pth['folder']['plugins']}/keymaster/",
-            $this->request,
-            $this->model,
-            $plugin_tx['keymaster']
-        );
-        $controller()->respond();
-    }
-
-
     private function administration(): void
     {
-        global $pth, $plugin_tx, $o, $admin;
+        global $o, $admin;
 
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $controller = new ShowInfo(
-                    "{$pth['folder']['plugins']}/keymaster/",
-                    $plugin_tx['keymaster'],
-                    new SystemChecker
-                );
-                $o .= $controller()->respond();
+                $o .= Dic::makeShowInfo()()->respond();
                 break;
             default:
                 $o .= plugin_admin_common();

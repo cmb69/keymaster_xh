@@ -25,6 +25,7 @@ use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\SystemChecker;
+use Keymaster\Infra\View;
 
 class ShowInfoTest extends TestCase
 {
@@ -37,7 +38,8 @@ class ShowInfoTest extends TestCase
         $subject = new ShowInfo(
             "./",
             XH_includeVar("./languages/en.php", "plugin_tx")['keymaster'],
-            $systemChecker
+            $systemChecker,
+            new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster'])
         );
 
         $response = $subject();

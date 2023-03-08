@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
 use Keymaster\Infra\Request;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Model;
+use Keymaster\Infra\View;
 
 class EmitScriptsTest extends TestCase
 {
@@ -40,11 +41,10 @@ class EmitScriptsTest extends TestCase
 
         $subject = new EmitScripts(
             "./",
-            $request,
             $model,
-            $plugin_tx['keymaster']
+            new View("./templates/", $plugin_tx["keymaster"])
         );
-        $response = $subject();
+        $response = $subject($request);
 
         Approvals::verifyHtml($response->hjs());
     }
@@ -60,11 +60,10 @@ class EmitScriptsTest extends TestCase
 
         $subject = new EmitScripts(
             "./",
-            $request,
             $model,
-            $plugin_tx['keymaster']
+            new View("./templates/", $plugin_tx["keymaster"])
         );
-        $response = $subject();
+        $response = $subject($request);
 
         Approvals::verifyHtml($response->bjs());
     }
@@ -78,11 +77,10 @@ class EmitScriptsTest extends TestCase
 
         $subject = new EmitScripts(
             "./",
-            $request,
             $model,
-            $plugin_tx['keymaster']
+            new View("./templates/", $plugin_tx["keymaster"])
         );
-        $response = $subject();
+        $response = $subject($request);
 
         $this->assertEquals("", $response->hjs());
         $this->assertEquals("", $response->bjs());

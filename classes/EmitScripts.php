@@ -31,33 +31,22 @@ class EmitScripts
     /** @var string */
     private $pluginFolder;
 
-    /** @var Request */
-    private $request;
-
     /** @var Model */
     private $model;
-
-    /** @var array<string> */
-    private $lang;
 
     /** @var View */
     private $view;
 
-    /**
-     * @param array<string> $lang
-     */
-    public function __construct(string $pluginFolder, Request $request, Model $model, array $lang)
+    public function __construct(string $pluginFolder, Model $model, View $view)
     {
         $this->pluginFolder = $pluginFolder;
-        $this->request = $request;
         $this->model = $model;
-        $this->lang = $lang;
-        $this->view = new View("{$this->pluginFolder}templates/", $this->lang);
+        $this->view = $view;
     }
 
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
-        if ($this->request->isAdmin()) {
+        if ($request->isAdmin()) {
             $config = json_encode(
                 $this->model->jsConfig(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE

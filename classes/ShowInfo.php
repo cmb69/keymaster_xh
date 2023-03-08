@@ -33,20 +33,20 @@ class ShowInfo
     /** @var array<string> */
     private $lang;
 
-    /** @var View */
-    private $view;
-
     /** @var SystemChecker */
     private $systemChecker;
+
+    /** @var View */
+    private $view;
 
     /**
      * @param array<string> $lang
      */
-    public function __construct(string $pluginFolder, array $lang, SystemChecker $systemChecker)
+    public function __construct(string $pluginFolder, array $lang, SystemChecker $systemChecker, View $view)
     {
         $this->pluginFolder = $pluginFolder;
         $this->lang = $lang;
-        $this->view = new View("{$this->pluginFolder}templates/", $this->lang);
+        $this->view = $view;
         $this->systemChecker = $systemChecker;
     }
 

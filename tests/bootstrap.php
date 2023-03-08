@@ -12,5 +12,6 @@ require_once './classes/infra/Model.php';
 require_once "./classes/infra/View.php";
 require_once "./classes/infra/SystemChecker.php";
 require_once "./classes/infra/Response.php";
+require_once "./classes/Dic.php";
 require_once "./classes/EmitScripts.php";
 require_once "./classes/ShowInfo.php";
