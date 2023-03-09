@@ -21,145 +21,91 @@
 
 namespace Keymaster\Infra;
 
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
 class ModelTest extends TestCase
 {
-    protected $keyfile;
+    const NOW = 1678301321;
 
-    protected $duration;
-
-    public function setUp(): void
+    public function testTellsCorrectFilename()
     {
-        $this->keyfile = $this->createMock(Keyfile::class);
-        $this->duration = 60;
-        $this->model = new Model($this->keyfile, $this->duration);
+        $filename = $this->keyfile("");
+        $model = new Model($filename, 1678301321, 1800);
+        $actual = $model->filename();
+        $this->assertEquals($filename, $actual);
     }
 
     public function testHasKeyAfterTaking()
     {
-        $this->keyfile->expects($this->once())
-            ->method('extend');
-        $this->keyfile->expects($this->any())
-            ->method('size')
-            ->will($this->returnValue(1));
-        $this->model->take();
-        $actual = $this->model->hasKey();
-        $this->assertTrue($actual);
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 1800);
+        $model->take();
+        $this->assertTrue(filesize($filename) > 0);
     }
 
-    public function testNotHasKeyAfterGiving()
+    public function testDoeNotHaveKeyAfterGiving()
     {
-        $this->keyfile->expects($this->once())
-            ->method('purge');
-        $this->keyfile->expects($this->any())
-            ->method('size')
-            ->will($this->returnValue(0));
-        $this->model->give();
-        $actual = $this->model->hasKey();
-        $this->assertFalse($actual);
+        $filename = $this->keyfile("*");
+        $model = new Model($filename, self::NOW, 1800);
+        $model->give();
+        $this->assertFalse(filesize($filename) > 0);
     }
 
     public function testResetResetsLoggedInTime()
     {
-        $this->keyfile->expects($this->once())
-            ->method('touch');
-        $this->keyfile->expects($this->any())
-            ->method('mtime')
-            ->will($this->returnValue(time()));
-        $this->model->reset();
-        $actual = $this->model->loggedInTime();
-        $this->assertEquals(0, $actual);
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 1800);
+        $model->reset();
+        $this->assertGreaterThan(self::NOW - 1000, filemtime($filename));
     }
 
     public function testRemainingTimeIsDurationMinusLoggedInTime()
     {
-        $this->keyfile->expects($this->any())
-            ->method('mtime')
-            ->will($this->returnValue(time() - 20));
-        $expected = $this->duration - $this->model->loggedInTime();
-        $actual = $this->model->remainingTime();
-        $this->assertEquals($expected, $actual);
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 1800);
+        $actual = $model->remainingTime();
+        $this->assertEquals(800, $actual);
     }
 
     public function testSessionHasExpiredWhenRemainingTimeIsZero()
     {
-        $this->keyfile->expects($this->any())
-            ->method('mtime')
-            ->will($this->returnValue(time() - $this->duration));
-        $actual = $this->model->sessionHasExpired();
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 1000);
+        $actual = $model->sessionHasExpired();
         $this->assertTrue($actual);
-    }
-
-    public function testFilenameEqualsKeyfilename()
-    {
-        $this->keyfile->expects($this->any())
-            ->method('filename')
-            ->will($this->returnValue('key'));
-        $expected = $this->keyfile->filename();
-        $actual = $this->model->filename();
-        $this->assertEquals($expected, $actual);
     }
 
     public function testIsFreeIfHasKey()
     {
-        $this->keyfile->expects($this->any())
-            ->method('size')
-            ->will($this->returnValue(1));
-        $actual = $this->model->isFree();
+        $filename = $this->keyfile("*");
+        $model = new Model($filename, self::NOW, 1800);
+        $actual = $model->isFree();
         $this->assertTrue($actual);
     }
 
     public function testIsFreeIfSessionHasExpired()
     {
-        $this->keyfile->expects($this->any())
-            ->method('mtime')
-            ->will($this->returnValue(time() - 2 * $this->duration));
-        $actual = $this->model->isFree();
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 999);
+        $actual = $model->isFree();
         $this->assertTrue($actual);
     }
 
     public function testIsNotFreeWhenHasNotKeyAndSessionHasNotExpired()
     {
-        $this->keyfile->expects($this->any())
-            ->method('size')
-            ->will($this->returnValue(0));
-        $this->keyfile->expects($this->any())
-            ->method('mtime')
-            ->will($this->returnValue(time()));
-        $actual = $this->model->isFree();
+        $filename = $this->keyfile("");
+        $model = new Model($filename, self::NOW, 1800);
+        $actual = $model->isFree();
         $this->assertFalse($actual);
     }
 
-    public function testJsConfigHasRequiredElements()
+    private function keyfile(bool $content): string
     {
-        global $plugin_cf;
-
-        $plugin_cf = [
-            'keymaster' => [
-                'logout' => '1800',
-                'warn' => '1200',
-                'poll' => '7000',
-            ]
-        ];
-        $actual = $this->model->jsConfig();
-        $this->assertArrayHasKey('warn', $actual);
-        $this->assertArrayHasKey('pollInterval', $actual);
-    }
-
-    public function testJsL10nIsPluginL10n()
-    {
-        global $plugin_tx;
-
-        $plugin_tx = array(
-            'keymaster' => array(
-                'one' => '1',
-                'two' => '2',
-                'three' => '3'
-            )
-        );
-        $expected = $plugin_tx['keymaster'];
-        $actual = $this->model->jsL10n();
-        $this->assertEquals($expected, $actual);
+        vfsStream::setup("root");
+        $filename = "vfs://root/key";
+        file_put_contents($filename, $content);
+        touch($filename, self::NOW - 1000);
+        return $filename;
     }
 }

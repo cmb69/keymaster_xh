@@ -31,16 +31,17 @@ class EmitScripts
     /** @var string */
     private $pluginFolder;
 
-    /** @var Model */
-    private $model;
+    /** @var array<string,string> */
+    private $conf;
 
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginFolder, Model $model, View $view)
+    /** @param array<string,string> $conf */
+    public function __construct(string $pluginFolder, array $conf, View $view)
     {
         $this->pluginFolder = $pluginFolder;
-        $this->model = $model;
+        $this->conf = $conf;
         $this->view = $view;
     }
 
@@ -48,12 +49,12 @@ class EmitScripts
     {
         if ($request->adm()) {
             $config = json_encode(
-                $this->model->jsConfig(),
+                $this->jsConf(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
             $hjs = "<meta name='keymaster_config' content='$config'>";
             $l10n = json_encode(
-                $this->model->jsL10n(),
+                $this->view->jsTexts(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
             $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
@@ -63,6 +64,15 @@ class EmitScripts
             return Response::create("")->withHjs($hjs)->withBjs($bjs);
         }
         return Response::create("");
+    }
+
+    /** @return array{warn:int,pollInterval:int} */
+    private function jsConf(): array
+    {
+        return [
+            "warn" => (int) $this->conf["logout"] - (int) $this->conf["warn"],
+            "pollInterval" => (int) $this->conf["poll"]
+        ];
     }
 
     private function js(string $filename): string

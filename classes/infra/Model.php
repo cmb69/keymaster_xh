@@ -23,26 +23,30 @@ namespace Keymaster\Infra;
 
 class Model
 {
-    /** @var Keyfile */
-    private $keyfile;
+    /** @var string */
+    private $filename;
+
+    /** @var int */
+    private $now;
 
     /** @var int */
     private $duration;
 
-    public function __construct(Keyfile $keyfile, int $duration)
+    public function __construct(string $filename, int $now, int $duration)
     {
-        $this->keyfile = $keyfile;
+        $this->filename = $filename;
+        $this->now = $now;
         $this->duration = $duration;
     }
 
     public function filename(): string
     {
-        return $this->keyfile->filename();
+        return $this->filename;
     }
 
-    public function hasKey(): bool
+    private function hasKey(): bool
     {
-        return $this->keyfile->size() > 0;
+        return filesize($this->filename) > 0;
     }
 
     public function isFree(): bool
@@ -50,9 +54,9 @@ class Model
         return $this->hasKey() || $this->loggedInTime() > $this->duration;
     }
 
-    public function loggedInTime(): int
+    private function loggedInTime(): int
     {
-        return time() - $this->keyfile->mtime();
+        return $this->now - filemtime($this->filename);
     }
 
     public function remainingTime(): int
@@ -67,46 +71,21 @@ class Model
 
     public function reset(): bool
     {
-        return $this->keyfile->touch();
+        return touch($this->filename);
     }
 
     public function give(): bool
     {
-        $result = $this->keyfile->purge();
+        $result = file_put_contents($this->filename, "") !== false;
         if ($result) {
             // important, as filemtime() is called later for the same file:
-            clearstatcache();
+            clearstatcache(false, $this->filename);
         }
         return $result;
     }
 
     public function take(): bool
     {
-        return $this->keyfile->extend();
-    }
-
-    /**
-     * @return array<string,int>
-     */
-    public function jsConfig(): array
-    {
-        global $plugin_cf;
-
-        $pcf = $plugin_cf['keymaster'];
-        $config = array(
-            'warn' => $pcf['logout'] - $pcf['warn'],
-            'pollInterval' => (int) $pcf['poll']
-        );
-        return $config;
-    }
-
-    /**
-     * @return array<string,string>
-     */
-    public function jsL10n(): array
-    {
-        global $plugin_tx;
-
-        return $plugin_tx['keymaster'];
+        return file_put_contents($this->filename, "*") !== false;
     }
 }

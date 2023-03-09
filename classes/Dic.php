@@ -35,10 +35,10 @@ class Dic
 
     public static function makeEmitScripts(): EmitScripts
     {
-        global $pth;
+        global $pth, $plugin_cf;
         return new EmitScripts(
             $pth["folder"]["plugins"] . "keymaster/",
-            Dic::makeModel(),
+            $plugin_cf["keymaster"],
             Dic::makeView()
         );
     }
@@ -55,14 +55,12 @@ class Dic
 
     private static function makeModel(): Model
     {
-        global $plugin_cf;
-        return new Model(self::makeKeyfile(), (int) $plugin_cf["keymaster"]["logout"]);
-    }
-
-    private static function makeKeyfile(): Keyfile
-    {
-        global $pth;
-        return new Keyfile($pth["folder"]["plugins"] . "keymaster/key");
+        global $pth, $plugin_cf;
+        return new Model(
+            $pth["folder"]["plugins"] . "keymaster/key",
+            time(),
+            (int) $plugin_cf["keymaster"]["logout"]
+        );
     }
 
     private static function makeView(): View

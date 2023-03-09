@@ -66,4 +66,10 @@ class View
         include $this->templateFolder . $_template . ".php";
         return (string) ob_get_clean();
     }
+
+    /** @return array<string,string> */
+    public function jsTexts(): array
+    {
+        return $this->text;
+    }
 }

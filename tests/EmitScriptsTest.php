@@ -32,10 +32,7 @@ class EmitScriptsTest extends TestCase
 {
     public function testEmitsHjs(): void
     {
-        $model = $this->createStub(Model::class);
-        $model->method('jsConfig')->willReturn(['warn' => 600, 'pollInterval' => 7000]);
-        $model->method('jsL10n')->willReturn($this->text());
-        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
+        $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
         $request = $this->request();
         $request->method('adm')->willReturn(true);
@@ -46,10 +43,7 @@ class EmitScriptsTest extends TestCase
 
     public function testEmitsBjs(): void
     {
-        $model = $this->createStub(Model::class);
-        $model->method('jsConfig')->willReturn(['warn' => 600, 'pollInterval' => 7000]);
-        $model->method('jsL10n')->willReturn($this->text());
-        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
+        $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
         $request = $this->request();
         $request->method('adm')->willReturn(true);
@@ -60,8 +54,7 @@ class EmitScriptsTest extends TestCase
 
     public function testDoesNothingIfNotAdmin(): void
     {
-        $model = $this->createStub(Model::class);
-        $sut = new EmitScripts("./plugins/keymaster/", $model, $this->view());
+        $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
         $request = $this->request();
         $request->method('adm')->willReturn(false);
@@ -85,6 +78,11 @@ class EmitScriptsTest extends TestCase
     private function view(): View
     {
         return new View("./templates/", $this->text());
+    }
+
+    private function conf(): array
+    {
+        return XH_includeVar("./config/config.php", "plugin_cf")["keymaster"];
     }
 
     private function text(): array
