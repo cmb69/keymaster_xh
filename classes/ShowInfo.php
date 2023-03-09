@@ -21,6 +21,7 @@
 
 namespace Keymaster;
 
+use Keymaster\Infra\Request;
 use Keymaster\Infra\Response;
 use Keymaster\Infra\SystemChecker;
 use Keymaster\Infra\View;
@@ -43,7 +44,7 @@ class ShowInfo
         $this->systemChecker = $systemChecker;
     }
 
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
         return Response::create($this->view->render("info", [
             "version" => KEYMASTER_VERSION,

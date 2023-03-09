@@ -1,14 +1,15 @@
 <?php
 
 $plugin_tx['keymaster']['editing']="Somebody else is editing the site now. Try again later.";
-$plugin_tx['keymaster']['warning_singular']="You will be logged out in less than {{{TIME}}} minute.";
-$plugin_tx['keymaster']['warning_paucal']="You will be logged out in less than {{{TIME}}} minutes.";
-$plugin_tx['keymaster']['warning_plural']="You will be logged out in less than {{{TIME}}} minutes.";
-$plugin_tx['keymaster']['warning_loggedout']="You have been effectively logged out.";
 $plugin_tx['keymaster']['button_prolong']="Prolong session";
-$plugin_tx['keymaster']['button_ok']="OK";
-$plugin_tx['keymaster']['error']="The server sent spurious output, which disables the automatic logout by Keymaster_XH.\n\nView details?";
 $plugin_tx['keymaster']['error_write']="%s cannot be written";
+
+$plugin_tx['keymaster']['js_warning_singular']="You will be logged out in less than {{{TIME}}} minute.";
+$plugin_tx['keymaster']['js_warning_paucal']="You will be logged out in less than {{{TIME}}} minutes.";
+$plugin_tx['keymaster']['js_warning_plural']="You will be logged out in less than {{{TIME}}} minutes.";
+$plugin_tx['keymaster']['js_warning_loggedout']="You have been effectively logged out.";
+$plugin_tx['keymaster']['js_button_ok']="OK";
+$plugin_tx['keymaster']['js_error']="The server sent spurious output, which disables the automatic logout by Keymaster_XH.\n\nView details?";
 
 $plugin_tx['keymaster']['syscheck_title']="System check";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";

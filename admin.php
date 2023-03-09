@@ -20,6 +20,12 @@
  */
 
 use Keymaster\Dic;
+use Keymaster\Infra\Request;
+
+if (!defined('CMSIMPLE_XH_VERSION')) {
+    header('HTTP/1.0 403 Forbidden');
+    exit;
+}
 
 /**
  * @var string $admin
@@ -32,7 +38,7 @@ if (XH_wantsPluginAdministration("keymaster")) {
     $o .= print_plugin_admin("off");
     switch ($admin) {
         case "":
-            $o .= Dic::makeShowInfo()()->respond();
+            $o .= Dic::makeShowInfo()(Request::current())->respond();
             break;
         default:
             $o .= plugin_admin_common();

@@ -1,13 +1,14 @@
 <?php
 
 $plugin_tx['keymaster']['editing']="Le site est déjà en édition par un autre administrateur. Merci d'essayer plus tard.";
-$plugin_tx['keymaster']['warning_singular']="Vous serez déconnecté dans moins de {{{TIME}}} minute.";
-$plugin_tx['keymaster']['warning_paucal']="Vous serez déconnecté dans moins de {{{TIME}}} minutes.";
-$plugin_tx['keymaster']['warning_plural']="Vous serez déconnecté dans moins de {{{TIME}}} minutes.";
-$plugin_tx['keymaster']['warning_loggedout']="Vous avez été déconnecté.";
 $plugin_tx['keymaster']['button_prolong']="Prolonger la session";
-$plugin_tx['keymaster']['button_ok']="Ok";
-$plugin_tx['keymaster']['error']="Le serveur a renvoyé une erreur qui a désactivé la déconnection automatique par Keymaster_XH.\n\nVoir les détails ?";
+
+$plugin_tx['keymaster']['js_warning_singular']="Vous serez déconnecté dans moins de {{{TIME}}} minute.";
+$plugin_tx['keymaster']['js_warning_paucal']="Vous serez déconnecté dans moins de {{{TIME}}} minutes.";
+$plugin_tx['keymaster']['js_warning_plural']="Vous serez déconnecté dans moins de {{{TIME}}} minutes.";
+$plugin_tx['keymaster']['js_warning_loggedout']="Vous avez été déconnecté.";
+$plugin_tx['keymaster']['js_button_ok']="Ok";
+$plugin_tx['keymaster']['js_error']="Le serveur a renvoyé une erreur qui a désactivé la déconnection automatique par Keymaster_XH.\n\nVoir les détails ?";
 
 $plugin_tx['keymaster']['syscheck_title']="Test système";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";

@@ -70,6 +70,12 @@ class View
     /** @return array<string,string> */
     public function jsTexts(): array
     {
-        return $this->text;
+        $result = [];
+        foreach ($this->text as $key => $value) {
+            if (!strncmp($key, "js_", strlen("js_"))) {
+                $result[substr($key, strlen("js_"))] = $value;
+            }
+        }
+        return $result;
     }
 }

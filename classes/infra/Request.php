@@ -24,6 +24,12 @@ namespace Keymaster\Infra;
 class Request
 {
     /** @codeCoverageIgnore */
+    public static function current(): self
+    {
+        return new Request;
+    }
+
+    /** @codeCoverageIgnore */
     public function adm(): bool
     {
         global $adm;

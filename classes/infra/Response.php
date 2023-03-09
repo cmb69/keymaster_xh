@@ -128,7 +128,11 @@ class Response
         return $this->logout;
     }
 
-    public function respond(): string
+    /**
+     * @return string|never
+     * @codeCoverageIgnore
+     */
+    public function respond()
     {
         global $hjs, $bjs, $f;
 
@@ -159,7 +163,10 @@ class Response
         return $this->output;
     }
 
-    /** @return void */
+    /**
+     * @return void
+     * @codeCoverageIgnore
+     */
     private function purgeOutputBuffers()
     {
         while (ob_get_level()) {

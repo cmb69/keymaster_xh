@@ -22,20 +22,14 @@
 use Keymaster\Dic;
 use Keymaster\Infra\Request;
 
-/*
- * Prevent direct access.
- */
 if (!defined('CMSIMPLE_XH_VERSION')) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
-/**
- * The version number of the plugin.
- */
-define('KEYMASTER_VERSION', '2.0-dev');
+const KEYMASTER_VERSION = "2.0-dev";
 
 /** @var string $o */
 
-Dic::makeEmitScripts()(new Request())->respond();
-$o .= Dic::makeController()(new Request())->respond();
+Dic::makeEmitScripts()(Request::current())->respond();
+$o .= Dic::makeController()(Request::current())->respond();
