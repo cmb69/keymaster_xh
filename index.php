@@ -21,6 +21,7 @@
 
 use Keymaster\Dic;
 use Keymaster\Infra\Request;
+use Keymaster\Infra\Responder;
 
 /*
  * Prevent direct access.
@@ -37,5 +38,5 @@ define('KEYMASTER_VERSION', '2.0-dev');
 
 /** @var string $o */
 
-Dic::makeEmitScripts()(new Request())->respond();
-$o .= Dic::makeController()(new Request())->respond();
+Responder::respond(Dic::makeEmitScripts()(new Request()));
+$o .= Responder::respond(Dic::makeController()(new Request()));

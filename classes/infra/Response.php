@@ -38,7 +38,7 @@ class Response
     }
 
     /** @var string */
-    private $output;
+    private $output = "";
 
     /** @var string|null */
     private $location;
@@ -126,44 +126,5 @@ class Response
     public function logout(): bool
     {
         return $this->logout;
-    }
-
-    public function respond(): string
-    {
-        global $hjs, $bjs, $f;
-
-        if ($this->logout) {
-            setcookie("status", "", 0, CMSIMPLE_ROOT);
-            unset($_SESSION["xh_password"]);
-        }
-        if ($this->location !== null) {
-            $this->purgeOutputBuffers();
-            header("Location: " . $this->location, true, 303);
-            exit;
-        }
-        if ($this->contentType !== null) {
-            $this->purgeOutputBuffers();
-            header("Content-Type: " . $this->contentType);
-            echo $this->output;
-            exit;
-        }
-        if ($this->hjs !== null) {
-            $hjs .= $this->hjs;
-        }
-        if ($this->bjs !== null) {
-            $bjs .= $this->bjs;
-        }
-        if ($this->clearF) {
-            $f = "";
-        }
-        return $this->output;
-    }
-
-    /** @return void */
-    private function purgeOutputBuffers()
-    {
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
     }
 }

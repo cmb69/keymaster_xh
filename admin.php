@@ -20,6 +20,7 @@
  */
 
 use Keymaster\Dic;
+use Keymaster\Infra\Responder;
 
 /**
  * @var string $admin
@@ -32,7 +33,7 @@ if (XH_wantsPluginAdministration("keymaster")) {
     $o .= print_plugin_admin("off");
     switch ($admin) {
         case "":
-            $o .= Dic::makeShowInfo()()->respond();
+            $o .= Responder::respond(Dic::makeShowInfo()());
             break;
         default:
             $o .= plugin_admin_common();
