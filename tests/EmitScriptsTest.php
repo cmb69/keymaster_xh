@@ -34,7 +34,7 @@ class EmitScriptsTest extends TestCase
     {
         $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
-        $request = $this->request();
+        $request = $this->createStub(Request::class);
         $request->method('adm')->willReturn(true);
         $response = $sut($request);
 
@@ -45,7 +45,7 @@ class EmitScriptsTest extends TestCase
     {
         $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
-        $request = $this->request();
+        $request = $this->createStub(Request::class);
         $request->method('adm')->willReturn(true);
         $response = $sut($request);
 
@@ -56,23 +56,12 @@ class EmitScriptsTest extends TestCase
     {
         $sut = new EmitScripts("./plugins/keymaster/", $this->conf(), $this->view());
 
-        $request = $this->request();
+        $request = $this->createStub(Request::class);
         $request->method('adm')->willReturn(false);
         $response = $sut($request);
 
         $this->assertEquals("", $response->hjs());
         $this->assertEquals("", $response->bjs());
-    }
-
-    private function request(): Request
-    {
-        return $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->onlyMethods(["adm", "cookie", "f", "get", "login", "logincheck", "post", "su"])
-            ->getMock();
     }
 
     private function view(): View
