@@ -21,16 +21,15 @@
 
 namespace Keymaster;
 
-use Keymaster\Infra\Keyfile;
 use Keymaster\Infra\Model;
-use Keymaster\Infra\View;
 use Plib\SystemChecker;
+use Plib\View as PlibView;
 
 class Dic
 {
     public static function makeController(): Controller
     {
-        return new Controller(self::makeModel(), self::makeView());
+        return new Controller(self::makeModel(), self::view());
     }
 
     public static function makeEmitScripts(): EmitScripts
@@ -39,7 +38,7 @@ class Dic
         return new EmitScripts(
             $pth["folder"]["plugins"] . "keymaster/",
             $plugin_cf["keymaster"],
-            Dic::makeView()
+            Dic::view()
         );
     }
 
@@ -49,7 +48,7 @@ class Dic
         return new ShowInfo(
             $pth["folder"]["plugins"] . "keymaster/",
             new SystemChecker(),
-            self::makeView()
+            self::view()
         );
     }
 
@@ -63,9 +62,9 @@ class Dic
         );
     }
 
-    private static function makeView(): View
+    private static function view(): PlibView
     {
         global $pth, $plugin_tx;
-        return new View($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
+        return new PlibView($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
     }
 }

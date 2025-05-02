@@ -22,11 +22,10 @@
 namespace Keymaster;
 
 use function XH_includeVar;
-use PHPUnit\Framework\TestCase;
-use Keymaster\Infra\Request;
 use ApprovalTests\Approvals;
-use Keymaster\Infra\Model;
-use Keymaster\Infra\View;
+use Keymaster\Infra\Request;
+use PHPUnit\Framework\TestCase;
+use Plib\View;
 
 class EmitScriptsTest extends TestCase
 {

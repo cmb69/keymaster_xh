@@ -1,6 +1,6 @@
 <?php
 
-use Keymaster\Infra\View;
+use Plib\View;
 
 if (!defined("CMSIMPLE_XH_VERSION")) {header("HTTP/1.1 403 Forbidden"); exit;}
 
@@ -15,6 +15,6 @@ if (!defined("CMSIMPLE_XH_VERSION")) {header("HTTP/1.1 403 Forbidden"); exit;}
 <h4><?=$this->text('syscheck_title')?></h4>
 <ul class="keymaster_syscheck">
 <?foreach ($checks as $check):?>
-  <p class="<?=$check['class']?>"><?=$this->text($check['key'], $check['arg'])?></p>
+  <p class="<?=$this->esc($check['class'])?>"><?=$this->text($check['key'], $check['arg'])?></p>
 <?endforeach?>
 </ul>

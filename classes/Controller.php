@@ -24,7 +24,7 @@ namespace Keymaster;
 use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
 use Keymaster\Infra\Response;
-use Keymaster\Infra\View;
+use Plib\View;
 
 class Controller
 {
@@ -50,7 +50,7 @@ class Controller
         }
         if ($request->isLogout()) {
             if (!$this->model->take()) {
-                return Response::create($this->view->error("error_write", $this->model->filename()));
+                return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
             }
             return Response::create();
         }
@@ -62,7 +62,7 @@ class Controller
         }
         if ($request->adm() && !$this->model->sessionHasExpired()) {
             if (!$this->model->reset()) {
-                return Response::create($this->view->error("error_write", $this->model->filename()));
+                return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
             }
             return Response::create();
         }
@@ -78,7 +78,7 @@ class Controller
             return $this->logout($request);
         }
         if (!$this->model->give()) {
-            return Response::create($this->view->error("error_write", $this->model->filename()));
+            return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
         }
         return Response::create();
     }
@@ -100,6 +100,6 @@ class Controller
 
     private function denyLogin(): Response
     {
-        return Response::create($this->view->error('editing'))->withClearedF();
+        return Response::create($this->view->message("fail", "editing"))->withClearedF();
     }
 }

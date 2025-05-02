@@ -25,8 +25,8 @@ use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Request;
-use Keymaster\Infra\View;
 use Plib\FakeSystemChecker;
+use Plib\View;
 
 class ShowInfoTest extends TestCase
 {

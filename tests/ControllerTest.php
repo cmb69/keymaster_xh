@@ -24,8 +24,8 @@ namespace Keymaster;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
-use Keymaster\Infra\View;
 use PHPUnit\Framework\TestCase;
+use Plib\View;
 
 class ControllerTest extends TestCase
 {

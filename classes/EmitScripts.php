@@ -21,10 +21,9 @@
 
 namespace Keymaster;
 
-use Keymaster\Infra\Model;
 use Keymaster\Infra\Request;
 use Keymaster\Infra\Response;
-use Keymaster\Infra\View;
+use Plib\View;
 
 class EmitScripts
 {
@@ -54,7 +53,7 @@ class EmitScripts
             );
             $hjs = "<meta name='keymaster_config' content='$config'>";
             $l10n = json_encode(
-                $this->view->jsTexts(),
+                $this->jsTexts(),
                 JSON_HEX_APOS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
             $hjs .= "<meta name='keymaster_lang' content='$l10n'>";
@@ -72,6 +71,19 @@ class EmitScripts
         return [
             "warn" => (int) $this->conf["logout"] - (int) $this->conf["warn"],
             "pollInterval" => (int) $this->conf["poll"]
+        ];
+    }
+
+    /** @return array<string,string> */
+    private function jsTexts(): array
+    {
+        return [
+            "warning_singular" => $this->view->plain("js_warning_singular"),
+            "warning_paucal" => $this->view->plain("js_warning_paucal"),
+            "warning_plural" => $this->view->plain("js_warning_plural"),
+            "warning_loggedout" => $this->view->plain("js_warning_loggedout"),
+            "button_ok" => $this->view->plain("js_button_ok"),
+            "error" => $this->view->plain("js_error"),
         ];
     }
 
