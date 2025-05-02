@@ -29,7 +29,7 @@ jobs:
           key: tools-${{hashFiles('cmsimplexh/plugins/keymaster/.phive')}}
       - if: ${{steps.cache-tools.outputs.cache-hit != 'true'}}
         name: phive install
-        run: cd cmsimplexh/plugins/keymaster && phive --no-progress install --copy --force-accept-unsigned --trust-gpg-keys 0x2420BAE0A3BE25C6,0x31C7E470E2138192,0x4AA394086372C20A,0xA4E55EA12C7C085C,0xCF1A108D0E7AE720,0xD5F0CB76E2DD74F8
+        run: cd cmsimplexh/plugins/keymaster && phive --no-progress install --copy --force-accept-unsigned --trust-gpg-keys 2420BAE0A3BE25C6,31C7E470E2138192,4AA394086372C20A,51C67305FFC2E5C0,A4E55EA12C7C085C,CF1A108D0E7AE720,D5F0CB76E2DD74F8
       - name: composer install
         run: cd cmsimplexh/plugins/keymaster && composer install
       - name: phing sniff
