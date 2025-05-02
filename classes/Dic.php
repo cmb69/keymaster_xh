@@ -23,8 +23,8 @@ namespace Keymaster;
 
 use Keymaster\Infra\Keyfile;
 use Keymaster\Infra\Model;
-use Keymaster\Infra\SystemChecker;
 use Keymaster\Infra\View;
+use Plib\SystemChecker;
 
 class Dic
 {

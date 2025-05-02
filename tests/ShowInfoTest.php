@@ -25,32 +25,23 @@ use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Request;
-use Keymaster\Infra\SystemChecker;
 use Keymaster\Infra\View;
+use Plib\FakeSystemChecker;
 
 class ShowInfoTest extends TestCase
 {
     public function testRendersPluginInfoWithAllChecksSucceeding(): void
     {
-        $sut = new ShowInfo("./plugins/keymaster/", $this->systemChecker(true), $this->view());
+        $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(true), $this->view());
         $response = $sut($this->createStub(Request::class));
         Approvals::verifyHtml($response->output());
     }
 
     public function testRendersPluginInfoWithAllChecksFailing(): void
     {
-        $sut = new ShowInfo("./plugins/keymaster/", $this->systemChecker(false), $this->view());
+        $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(false), $this->view());
         $response = $sut($this->createStub(Request::class));
         Approvals::verifyHtml($response->output());
-    }
-
-    private function systemChecker(bool $returnValue): SystemChecker
-    {
-        $systemChecker = $this->createStub(SystemChecker::class);
-        $systemChecker->method('checkVersion')->willReturn($returnValue);
-        $systemChecker->method('checkExtension')->willReturn($returnValue);
-        $systemChecker->method('checkWritability')->willReturn($returnValue);
-        return $systemChecker;
     }
 
     private function view(): View

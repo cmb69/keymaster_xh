@@ -23,8 +23,8 @@ namespace Keymaster;
 
 use Keymaster\Infra\Request;
 use Keymaster\Infra\Response;
-use Keymaster\Infra\SystemChecker;
 use Keymaster\Infra\View;
+use Plib\SystemChecker;
 
 class ShowInfo
 {
