@@ -33,7 +33,7 @@
     <exec executable="phpunit" passthru="true" checkreturn="true"/>
   </target>
 
-  <target name="sat" description="runs all checks" depends="sniff,stan,test"/>
+  <target name="check" description="runs all checks" depends="sniff,stan,test"/>
 
   <target name="coverage" description="generates coverage report">
     <exec executable="phpunit" passthru="true" checkreturn="true">
