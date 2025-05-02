@@ -8,7 +8,9 @@
   </fileset>
 
   <target name="help" description="lists available targets">
-    <exec command="phing -l" outputProperty="help"/>
+    <exec executable="phing" outputProperty="help">
+      <arg line="-l"/>
+    </exec>
     <echo>${help}</echo>
   </target>
 
@@ -42,8 +44,12 @@
   </target>
 
   <target name="gen-help" description="builds help.htm from README.md">
-    <exec command="pandoc -s --eol=lf --template=help/template.htm -Vlang=en -Vpagetitle=&quot;User Manual&quot; -o help/help.htm README.md -t html" logoutput="true"/>
-    <exec command="pandoc -s --eol=lf --template=help/template.htm -Vlang=de -Vpagetitle=&quot;Benutzerhandbuch&quot; -o help/help_de.htm README_DE.md -t html" logoutput="true"/>
+    <exec executable="pandoc" logoutput="true">
+      <arg line="-s --eol=lf --template=help/template.htm -Vlang=en -Vpagetitle=&quot;User Manual&quot; -o help/help.htm README.md -t html"/>
+    </exec>
+    <exec executable="pandoc" logoutput="true">
+      <arg line="-s --eol=lf --template=help/template.htm -Vlang=de -Vpagetitle=&quot;Benutzerhandbuch&quot; -o help/help_de.htm README_DE.md -t html"/>
+    </exec>
   </target>
 
   <target name="build" description="builds distributable ZIP archive">
