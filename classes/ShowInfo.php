@@ -59,6 +59,7 @@ class ShowInfo
             $this->checkPhpVersion("7.1.0"),
             $this->checkPhpExtension("json"),
             $this->checkXhVersion("1.7.0"),
+            $this->checkPlibVersion("1.7"),
             $this->checkFolderWritability($this->pluginFolder . "config/"),
             $this->checkFolderWritability($this->pluginFolder . "css/"),
             $this->checkFolderWritability($this->pluginFolder . "languages/"),
@@ -94,6 +95,17 @@ class ShowInfo
         $check = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version");
         return [
             "key" => "syscheck_xhversion",
+            "arg" => $version,
+            "class" => $check ? "xh_success" : "xh_fail",
+        ];
+    }
+
+    /** @return array{key:string,arg:string,class:string} */
+    private function checkPlibVersion(string $version): array
+    {
+        $check = $this->systemChecker->checkPlugin("plib", $version);
+        return [
+            "key" => "syscheck_plibversion",
             "arg" => $version,
             "class" => $check ? "xh_success" : "xh_fail",
         ];

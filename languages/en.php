@@ -13,6 +13,7 @@ $plugin_tx['keymaster']['js_error']="The server sent spurious output, which disa
 
 $plugin_tx['keymaster']['syscheck_title']="System check";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";
+$plugin_tx['keymaster']['syscheck_plibversion']="Plib_XH version ≥ %s";
 $plugin_tx['keymaster']['syscheck_extension']="Extension \"%s\" loaded";
 $plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Folder \"%s\" writable";
