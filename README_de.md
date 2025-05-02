@@ -24,8 +24,14 @@ den Verlust von ungespeicherten Änderungen zu vermeiden.
 
 ## Voraussetzungen
 
-Keymaster_XH ist ein Plugin für CMSimple_XH. Es benötigt CMSimple_XH ≥ 1.7.0,
+Keymaster_XH ist ein Plugin für [CMSimple_XH](https://cmsimple-xh.org/de/).
+Es benötigt CMSimple_XH ≥ 1.7.0,
 und PHP ≥ 7.1.0 mit der Json Extension, und einen zeitgemäßen Browser.
+Keymaster_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.4;
+ist dieses noch nicht installiert (see *Einstellungen*→*Info*),
+laden Sie das [aktuelle Release](https://github.com/cmb69/plib_xh/releases/latest)
+herunter, und installieren Sie es.
+
 
 ## Download
 
