@@ -23,199 +23,79 @@ namespace Keymaster;
 
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Model;
-use Keymaster\Infra\Request;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
+use Plib\Random;
 use Plib\View;
 
 class ControllerTest extends TestCase
 {
-    public function testDeniesLoginIfNotFree(): void
+    /** @var Model&MockObject */
+    private $model;
+
+    /** @var Random&Stub */
+    private $random;
+
+    /** @var View */
+    private $view;
+
+    public function setUp(): void
     {
-        $model = $this->createMock(Model::class);
-        $model->method("isFree")->willReturn(false);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("wantsLogin")->willReturn(true);
-        $response = $sut($request);
-
-        $this->assertTrue($response->clearedF());
-        Approvals::verifyHtml($response->output());
+        $this->model = $this->createMock(Model::class);
+        $this->random = $this->createStub(Random::class);
+        $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }
 
-    public function testLoginSucceedsIfFreeAndKeyIsGiven(): void
+    private function sut(): Controller
     {
-        $model = $this->createMock(Model::class);
-        $model->method("isFree")->willReturn(true);
-        $model->expects($this->once())->method("give")->willReturn(true);
-        $sut = new Controller($model, $this->view());
+        return new Controller($this->model, $this->random, $this->view);
+    }
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
-        $response = $sut($request);
-
+    public function testDoesNothingIfNothingNeedsToBeDone(): void
+    {
+        $request = new FakeRequest();
+        $response = $this->sut()($request);
         $this->assertEquals("", $response->output());
     }
 
-    public function testLoginWarnsIfKeyIsNotGivenEvenIfFree(): void
+    public function testRevokesKeyAfterLogout(): void
     {
-        $model = $this->createMock(Model::class);
-        $model->method("isFree")->willReturn(true);
-        $model->expects($this->once())->method("give")->willReturn(false);
-        $model->method("filename")->willReturn("./plugins/keymaster/key");
-        $sut = new Controller($model, $this->view());
+        $this->model->expects($this->once())->method("revokeKey")->with("12345");
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&logout",
+            "cookie" => ["keymaster_key" => "12345"],
+        ]);
+        $response = $this->sut()($request);
+        $this->assertSame("", $response->output());
+    }
 
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
-        $response = $sut($request);
+    public function testClaimsKey(): void
+    {
+        $this->model->expects($this->once())->method("claimKey")->willReturn("12345");
+        $request = new FakeRequest(["admin" => true]);
+        $response = $this->sut()($request);
+        $this->assertSame(["keymaster_key", "12345", 0], $response->cookie());
+    }
 
+    public function testDoesNothingIfKeyIsAccepted(): void
+    {
+        $this->model->expects($this->once())->method("checkKey")->with("12345")->willReturn(true);
+        $request = new FakeRequest(["admin" => true, "cookie" => ["keymaster_key" => "12345"]]);
+        $response = $this->sut()($request);
+        $this->assertEmpty($response->output());
+    }
+
+    public function testRendersLockingDialog(): void
+    {
+        $this->model->expects($this->once())->method("checkKey")->with("12346")->willReturn(false);
+        $request = new FakeRequest([
+            "admin" => true,
+            "cookie" => ["keymaster_key" => "12346"],
+        ]);
+        $response = $this->sut()($request);
+        $this->assertSame(409, $response->status());
         Approvals::verifyHtml($response->output());
-    }
-
-    public function testLoginFailsIfNotFree(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->method("isFree")->willReturn(false);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("isLogin")->willReturn(true);
-        $request->method("su")->willReturn("Current_Page");
-        $response = $sut($request);
-
-        $this->assertTrue($response->logout());
-        $this->assertEquals("http://example.com/?Current_Page", $response->location());
-    }
-
-    public function testLogoutSucceedsIfKeyCanBeTaken(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->expects($this->once())->method("take")->willReturn(true);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("isLogout")->willReturn(true);
-        $response = $sut($request);
-
-        $this->assertEquals("", $response->output());
-    }
-
-    public function testLogoutWarnsIfKeyCannotBeTaken(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->expects($this->once())->method("take")->willReturn(false);
-        $model->method("filename")->willReturn("./plugins/keymaster/key");
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("isLogout")->willReturn(true);
-        $response = $sut($request);
-
-        Approvals::verifyHtml($response->output());
-    }
-
-    public function testAnswersRemainingTimeIfRequestedByAdmin(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->method("remainingTime")->willReturn(600);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("isTimeRequested")->willReturn(true);
-        $request->method("adm")->willReturn(true);
-        $response = $sut($request);
-
-        $this->assertEquals("text/plain", $response->contentType());
-        $this->assertEquals("600", $response->output());
-    }
-
-    public function testAnswersThatNoTimeIsRemainingIfRequestedByVisitor(): void
-    {
-        $model = $this->createMock(Model::class);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("isTimeRequested")->willReturn(true);
-        $request->method("adm")->willReturn(false);
-        $response = $sut($request);
-
-        $this->assertEquals("text/plain", $response->contentType());
-        $this->assertEquals("-1", $response->output());
-    }
-
-
-    public function testResetsTheTimeIfRequestedByAdmin(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->expects($this->once())->method("reset")->willReturn(true);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("adm")->willReturn(true);
-        $request->method("isResetRequested")->willReturn(true);
-        $response = $sut($request);
-
-        $this->assertEquals("text/plain", $response->contentType());
-        $this->assertEquals("1", $response->output());
-    }
-
-    public function testResetsTheTimeOnAdminRequestIfSessionIsNotExpired(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->method("sessionHasExpired")->willReturn(false);
-        $model->expects($this->once())->method("reset")->willReturn(true);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("adm")->willReturn(true);
-        $response = $sut($request);
-
-        $this->assertEquals("", $response->output());
-    }
-
-    public function testWarnsIfResettingTimeFailsEvenIfSessionIsNotExpired(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->method("sessionHasExpired")->willReturn(false);
-        $model->expects($this->once())->method("reset")->willReturn(false);
-        $model->method("filename")->willReturn("./plugins/keymaster/key");
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("adm")->willReturn(true);
-        $response = $sut($request);
-
-        Approvals::verifyHtml($response->output());
-    }
-
-    public function testLogsOutOnAdminRequestIfSessionIsExpired(): void
-    {
-        $model = $this->createMock(Model::class);
-        $model->method("sessionHasExpired")->willReturn(true);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $request->method("adm")->willReturn(true);
-        $request->method("su")->willReturn("Current_Page");
-        $response = $sut($request);
-
-        $this->assertTrue($response->logout());
-        $this->assertEquals("http://example.com/?Current_Page", $response->location());
-    }
-
-    public function testReturnsEmptyResponseOtherwise(): void
-    {
-        $model = $this->createMock(Model::class);
-        $sut = new Controller($model, $this->view());
-
-        $request = $this->createStub(Request::class);
-        $response = $sut($request);
-
-        $this->assertEquals("", $response->output());
-    }
-
-    private function view(): View
-    {
-        return new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }
 }

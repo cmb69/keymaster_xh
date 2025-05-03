@@ -81,27 +81,33 @@
   <descriptions>
     <!-- description of the plugin, ca. 200 characters, you can use <br/>, <ol></ol>, <ul></ul>, <li></li>, <b></b>, <i></i>. -->
     <description lang="en">
-      Keymaster_XH facilitates locking the administration area of a CMSimple_XH website,
-      if a user is already logged in.
-      This is necessary in case there is more than one user who has access to the back-end,
-      as the back-end of CMSimple_XH does not take any precautions against concurrent editing.
-      After a configurable period of inactivity the admin is automatically logged out,
-      to avoid locking the site "forever", if they forgot to log out properly.
-      Before this happens the admin is warned and offered the possibility to prolong the session,
-      to avoid loosing unsaved changes.
+      Keymaster_XH facilitates locking the back-end of a CMSimple_XH
+      website, if an admin is already logged in. This is necessary in case
+      there is more than one admin who has access to the back-end, as the
+      back-end of CMSimple_XH does not take any precautions against
+      concurrent editing.
+      <br/><br/>
+      If an admin is already logged in to the site, other admins are informed
+      that they cannot edit the site, and logging out is suggested to them.
+      After a configurable period of inactivity, another admin can take over
+      the administration session, in which case the previous admin is denied
+      further editing of the site for the time being.
     </description>
     <!-- Beschreibung des Plugins, ca. 200 Zeichen, es können <br/>, <ol></ol>, <ul></ul>, <li></li>, <b></b>, <i></i> genutzt werden. -->
     <description lang="de">
-      Keymaster_XH ermöglicht es den Administrationsbereich einer CMSimple_XH Website zu sperren,
-      wenn bereits ein Anwender angemeldet ist.
-      Das ist nötig, wenn mehr als ein Anwender Zugriff auf den Administrationsbereich hat,
-      da CMSimple_XH keine Vorkehrung bzgl. gleichzeitiger Bearbeitung trifft.
-      Nach einem einstellbaren Zeitraum von Inaktivität wird der Administrator automatisch abgemeldet,
-      um zu verhindern, dass die Website für "immer" gesperrt ist,
-      wenn er vergessen hat sich ordnungsgemäß abzumelden.
-      Bevor dies geschieht, wird der Administrator darauf hingewiesen
-      und hat die Möglichkeit die Sitzung zu verlängern,
-      um den Verlust von ungespeicherten Änderungen zu vermeiden.
+      Keymaster_XH ermöglicht es den Administrationsbereich einer
+      CMSimple_XH Website zu sperren, wenn bereits ein Adminstrator
+      angemeldet ist. Das ist nötig, wenn mehr als ein Adminstrator Zugriff
+      auf den Administrationsbereich hat, da CMSimple_XH keine
+      Vorkehrung bzgl. gleichzeitiger Bearbeitung trifft.
+      <br/><br/>
+      Ist ein Administrator bereits in der Website angemeldet,
+      werden andere Administratoren nach der Anmeldung informiert,
+      dass sie die Website nicht bearbeiten können, und ihnen wird empfohlen
+      sich wieder abzumelden.
+      Nach einem einstellbaren Zeitraum von Inaktivität kann ein anderer
+      Administrator die Bearbeitungssitzung übernehmen, woraufhin dem vorherigen
+      Administrator die weitere Bearbeitung der Website vorerst untersagt wird.
     </description>
     <!-- additional languages are possible, i.e. da, fr, pl, ... -->
     <!-- The use of this language is limited by the website where the repository is hosted. -->

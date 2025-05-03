@@ -20,7 +20,7 @@
  */
 
 use Keymaster\Dic;
-use Keymaster\Infra\Request;
+use Plib\Request;
 
 if (!defined('CMSIMPLE_XH_VERSION')) {
     header('HTTP/1.0 403 Forbidden');
@@ -31,5 +31,4 @@ const KEYMASTER_VERSION = "2.0-dev";
 
 /** @var string $o */
 
-Dic::makeEmitScripts()(Request::current())->respond();
-$o .= Dic::makeController()(Request::current())->respond();
+$o .= Dic::makeController()(Request::current())();

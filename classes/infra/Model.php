@@ -49,9 +49,46 @@ class Model
         return filesize($this->filename) > 0;
     }
 
+    public function checkKey(string $key): bool
+    {
+        $currentKey = file_get_contents($this->filename);
+        if ($key === $currentKey) {
+            $this->reset();
+            return true;
+        }
+        if ($this->isFree()) {
+            $this->newKey($key);
+            return true;
+        }
+        return false;
+    }
+
+    public function revokeKey(string $key): void
+    {
+        $currentKey = file_get_contents($this->filename);
+        if ($key === $currentKey) {
+            file_put_contents($this->filename, "");
+        }
+    }
+
+    public function claimKey(callable $genKey): ?string
+    {
+        if (!$this->isFree()) {
+            return null;
+        }
+        $key = $genKey();
+        $this->newKey($key);
+        return $key;
+    }
+
+    private function newKey(string $key): void
+    {
+        file_put_contents($this->filename, $key);
+    }
+
     public function isFree(): bool
     {
-        return $this->hasKey() || $this->loggedInTime() > $this->duration;
+        return !$this->hasKey() || $this->loggedInTime() > $this->duration;
     }
 
     private function loggedInTime(): int
@@ -59,33 +96,8 @@ class Model
         return $this->now - filemtime($this->filename);
     }
 
-    public function remainingTime(): int
-    {
-        return max($this->duration - $this->loggedInTime(), 0);
-    }
-
-    public function sessionHasExpired(): bool
-    {
-        return $this->remainingTime() <= 0;
-    }
-
-    public function reset(): bool
+    private function reset(): bool
     {
         return touch($this->filename);
-    }
-
-    public function give(): bool
-    {
-        $result = file_put_contents($this->filename, "") !== false;
-        if ($result) {
-            // important, as filemtime() is called later for the same file:
-            clearstatcache(false, $this->filename);
-        }
-        return $result;
-    }
-
-    public function take(): bool
-    {
-        return file_put_contents($this->filename, "*") !== false;
     }
 }

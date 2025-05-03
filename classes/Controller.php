@@ -22,8 +22,10 @@
 namespace Keymaster;
 
 use Keymaster\Infra\Model;
-use Keymaster\Infra\Request;
-use Keymaster\Infra\Response;
+use Plib\Codec;
+use Plib\Random;
+use Plib\Request;
+use Plib\Response;
 use Plib\View;
 
 class Controller
@@ -31,75 +33,42 @@ class Controller
     /** @var Model */
     private $model;
 
+    /** @var Random */
+    private $random;
+
     /** @var View */
     private $view;
 
-    public function __construct(Model $model, View $view)
+    public function __construct(Model $model, Random $random, View $view)
     {
         $this->model = $model;
+        $this->random = $random;
         $this->view = $view;
     }
 
     public function __invoke(Request $request): Response
     {
-        if ($request->wantsLogin() && !$this->model->isFree()) {
-            return $this->denyLogin();
-        }
-        if ($request->isLogin()) {
-            return $this->login($request);
-        }
-        if ($request->isLogout()) {
-            if (!$this->model->take()) {
-                return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
-            }
+        if (!$request->admin() && $request->cookie("keymaster_key") === null) {
             return Response::create();
         }
-        if ($request->isTimeRequested()) {
-            return $this->answerRemainingTime($request->adm());
-        }
-        if ($request->adm() && $request->isResetRequested()) {
-            return Response::create((string) $this->model->reset())->withContentType("text/plain");
-        }
-        if ($request->adm() && !$this->model->sessionHasExpired()) {
-            if (!$this->model->reset()) {
-                return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
-            }
+        if (!$request->admin() && $request->cookie("keymaster_key") !== null) {
+            $this->model->revokeKey($request->cookie("keymaster_key"));
             return Response::create();
         }
-        if ($request->adm()) {
-            return $this->logout($request);
+        assert($request->admin());
+        if (empty($request->cookie("keymaster_key")) && ($key = $this->model->claimKey([$this, "generateKey"])) !== null) {
+            return Response::create()->withCookie("keymaster_key", $key, 0);
         }
-        return Response::create();
+        if ($this->model->checkKey($request->cookie("keymaster_key") ?? "")) {
+            return Response::create();
+        }
+        return Response::error(409, $this->view->render("dialog", [
+            "action" => $request->url()->with("logout")->relative(),
+        ]));
     }
 
-    private function login(Request $request): Response
+    public function generateKey(): string
     {
-        if (!$this->model->isFree()) {
-            return $this->logout($request);
-        }
-        if (!$this->model->give()) {
-            return Response::create($this->view->message("fail", "error_write", $this->model->filename()));
-        }
-        return Response::create();
-    }
-
-    private function logout(Request $request): Response
-    {
-        return Response::redirect(CMSIMPLE_URL . '?' . $request->su())->withLogout();
-    }
-
-    private function answerRemainingTime(bool $isAdmin): Response
-    {
-        if ($isAdmin) {
-            $remainingTime = $this->model->remainingTime();
-        } else {
-            $remainingTime = -1; // TODO: 403 Forbidden?
-        }
-        return Response::create((string) $remainingTime)->withContentType("text/plain");
-    }
-
-    private function denyLogin(): Response
-    {
-        return Response::create($this->view->message("fail", "editing"))->withClearedF();
+        return Codec::encodeBase32hex($this->random->bytes(15));
     }
 }

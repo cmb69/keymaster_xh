@@ -25,6 +25,7 @@ use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
 use Keymaster\Infra\Request;
+use Plib\FakeRequest;
 use Plib\FakeSystemChecker;
 use Plib\View;
 
@@ -33,14 +34,14 @@ class ShowInfoTest extends TestCase
     public function testRendersPluginInfoWithAllChecksSucceeding(): void
     {
         $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(true), $this->view());
-        $response = $sut($this->createStub(Request::class));
+        $response = $sut(new FakeRequest());
         Approvals::verifyHtml($response->output());
     }
 
     public function testRendersPluginInfoWithAllChecksFailing(): void
     {
         $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(false), $this->view());
-        $response = $sut($this->createStub(Request::class));
+        $response = $sut(new FakeRequest());
         Approvals::verifyHtml($response->output());
     }
 

@@ -21,8 +21,8 @@
 
 namespace Keymaster;
 
-use Keymaster\Infra\Request;
-use Keymaster\Infra\Response;
+use Plib\Request;
+use Plib\Response;
 use Plib\SystemChecker;
 use Plib\View;
 

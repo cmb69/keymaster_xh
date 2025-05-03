@@ -36,49 +36,9 @@ class ModelTest extends TestCase
         $this->assertEquals($filename, $actual);
     }
 
-    public function testHasKeyAfterTaking()
+    public function testIsFreeIfNotHasKey()
     {
         $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 1800);
-        $model->take();
-        $this->assertTrue(filesize($filename) > 0);
-    }
-
-    public function testDoeNotHaveKeyAfterGiving()
-    {
-        $filename = $this->keyfile("*");
-        $model = new Model($filename, self::NOW, 1800);
-        $model->give();
-        $this->assertFalse(filesize($filename) > 0);
-    }
-
-    public function testResetResetsLoggedInTime()
-    {
-        $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 1800);
-        $model->reset();
-        $this->assertGreaterThan(self::NOW - 1000, filemtime($filename));
-    }
-
-    public function testRemainingTimeIsDurationMinusLoggedInTime()
-    {
-        $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 1800);
-        $actual = $model->remainingTime();
-        $this->assertEquals(800, $actual);
-    }
-
-    public function testSessionHasExpiredWhenRemainingTimeIsZero()
-    {
-        $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 1000);
-        $actual = $model->sessionHasExpired();
-        $this->assertTrue($actual);
-    }
-
-    public function testIsFreeIfHasKey()
-    {
-        $filename = $this->keyfile("*");
         $model = new Model($filename, self::NOW, 1800);
         $actual = $model->isFree();
         $this->assertTrue($actual);
@@ -92,9 +52,9 @@ class ModelTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testIsNotFreeWhenHasNotKeyAndSessionHasNotExpired()
+    public function testIsNotFreeWhenHasKeyAndSessionHasNotExpired()
     {
-        $filename = $this->keyfile("");
+        $filename = $this->keyfile("12345");
         $model = new Model($filename, self::NOW, 1800);
         $actual = $model->isFree();
         $this->assertFalse($actual);

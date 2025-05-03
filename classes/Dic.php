@@ -22,24 +22,15 @@
 namespace Keymaster;
 
 use Keymaster\Infra\Model;
+use Plib\Random;
 use Plib\SystemChecker;
-use Plib\View as PlibView;
+use Plib\View;
 
 class Dic
 {
     public static function makeController(): Controller
     {
-        return new Controller(self::makeModel(), self::view());
-    }
-
-    public static function makeEmitScripts(): EmitScripts
-    {
-        global $pth, $plugin_cf;
-        return new EmitScripts(
-            $pth["folder"]["plugins"] . "keymaster/",
-            $plugin_cf["keymaster"],
-            Dic::view()
-        );
+        return new Controller(self::makeModel(), new Random(), self::view());
     }
 
     public static function makeShowInfo(): ShowInfo
@@ -62,9 +53,9 @@ class Dic
         );
     }
 
-    private static function view(): PlibView
+    private static function view(): View
     {
         global $pth, $plugin_tx;
-        return new PlibView($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
+        return new View($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
     }
 }

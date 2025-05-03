@@ -1,21 +1,22 @@
 # Keymaster_XH
 
 Keymaster_XH facilitates locking the back-end of a CMSimple_XH
-website, if a user is already logged in. This is necessary in case
-there is more than one user who has access to the back-end, as the
+website, if an admin is already logged in. This is necessary in case
+there is more than one admin who has access to the back-end, as the
 back-end of CMSimple_XH does not take any precautions against
-concurrent editing. After a configurable period of inactivity the
-admin is automatically logged out, to avoid locking the site
-“forever”, if they forgot to log out properly. Before this happens
-the admin is warned and offered the possibility to prolong the
-session, to avoid loosing unsaved changes.
+concurrent editing.
+
+If an admin is already logged in to the site, other admins are informed
+that they cannot edit the site, and logging out is suggested to them.
+After a configurable period of inactivity, another admin can take over
+the administration session, in which case the previous admin is denied
+further editing of the site for the time being.
 
 - [Requirements](#requirements)
 - [Download](#download)
 - [Installation](#installation)
 - [Settings](#settings)
 - [Usage](#usage)
-- [Limitations](#limitations)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 - [Credits](#credits)
@@ -23,8 +24,8 @@ session, to avoid loosing unsaved changes.
 ## Requirements
 
 Keymaster_XH is a plugin for [CMSimple_XH](https://cmsimple-xh.org/).
-It requires CMSimple_XH ≥ 1.7.0, and PHP ≥ 7.1.0 with the Json extension, and a contemporary browser.
-Keymaster_XH also requires [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.7;
+It requires CMSimple_XH ≥ 1.7.0, and PHP ≥ 7.1.0 with the Json extension.
+Keymaster_XH also requires [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.8;
 if that is not already installed (see *Settings*→*Info*),
 get the [lastest release](https://github.com/cmb69/plib_xh/releases/latest),
 and install it.
@@ -69,68 +70,9 @@ The look of Keymaster_XH can be customized under `Stylesheet`.
 ## Usage
 
 After installation the plugin is already fully functional.
-
-### How does it work?
-
-If no user is logged in to the back-end, the keymaster holds a
-single key. As soon as a user logs in, the key is given to this
-user and access to the back-end of CMSimple_XH is granted. As
-there is only one key, no other users can log in; they are simply
-rejected with an appropriate message (but see [limitations](#limitations)).
-
-After some configurable period of inactivity the user is logged
-out, what returns the key to the keymaster. Inactivity means a
-period in which no request, which can be recognized by the
-keymaster, to the server is made. A configurable time before users
-are logged out, they are prompted to prolong the session, which
-then triggers a recognizable request.
-
-Having multiple browser windows (or tabs; in the following the
-term browser window refers to browser tabs as well) open for the
-same CMSimple_XH installation is possible; activity in one window
-is recognized in the others by the keymaster, what may take a
-little while, though (depending on the poll interval).
-
-⚠ Caution! Editing a CMSimple_XH site in more than one browser
-window does not generally work. Unless you know exactly what you
-are doing, make modifications only in the main window, and treat
-the others as read-only.
-
-In case you have missed to prolong the session in time and you
-have been logged out by the keymaster while there were some
-unsaved changes, there is a *chance* to get them back: log in to
-the site from another window of the same browser and press the
-back button in the original window. If you are lucky, your changes
-are still there
-
-## Limitations
-
-For `security_type=javascript` and `wwwaut`, respectively, the
-login attempt of a second user will not show any message; the user
-simply cannot login. Solution: switch to `security_type=page`.
-
-Some extensions (e.g. [Chat_XH](https://github.com/cmb69/chat_xh))
-periodically send background requests to the server, which might
-be recognized by the keymaster as activity. If such an extension
-is active, the automatic logout does not work, i.e. other users
-will not be able to log in until the browser window is closed.
-Solution: always log out properly after you are finished with
-editing the website.
-
-If a logged in user closes the browser window (but not the
-complete browser), and another user logs in later, the first user
-is able to circumvent the check of the keymaster by browsing to
-the CMSimple_XH installation again. Solution: log out properly
-when you are done with the editing (at least close the browser).
-
-After changing the admin password, the website is locked for the
-duration of the automatic logout period. Solution: change the
-admin password after you are finished with other editing
-activities.
-
-When you are logged in to another CMSimple_XH installation in a
-parent folder, Keymaster does not permit log in. Solution: log out
-from the other installation first.
+You only need to remember to properly logout when you are finished
+with editing the site, so that other admins do not need to wait
+until your session is considered inactive.
 
 ## Troubleshooting
 

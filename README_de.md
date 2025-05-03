@@ -1,23 +1,24 @@
 # Keymaster_XH
 
 Keymaster_XH ermöglicht es den Administrationsbereich einer
-CMSimple_XH Website zu sperren, wenn bereits ein Anwender
-angemeldet ist. Das ist nötig, wenn mehr als ein Anwender Zugriff
+CMSimple_XH Website zu sperren, wenn bereits ein Adminstrator
+angemeldet ist. Das ist nötig, wenn mehr als ein Adminstrator Zugriff
 auf den Administrationsbereich hat, da CMSimple_XH keine
-Vorkehrung bzgl. gleichzeitiger Bearbeitung trifft. Nach einem
-einstellbaren Zeitraum von Inaktivität wird der Administrator
-automatisch abgemeldet, um zu verhindern, dass die Website für
-„immer“ gesperrt ist, wenn die ordnungsgemäße Abmeldung vergessen
-wurde. Bevor dies geschieht, wird der Administrator darauf
-hingewiesen und hat die Möglichkeit die Sitzung zu verlängern, um
-den Verlust von ungespeicherten Änderungen zu vermeiden.
+Vorkehrung bzgl. gleichzeitiger Bearbeitung trifft.
+
+Ist ein Administrator bereits in der Website angemeldet,
+werden andere Administratoren nach der Anmeldung informiert,
+dass sie die Website nicht bearbeiten können, und ihnen wird empfohlen
+sich wieder abzumelden.
+Nach einem einstellbaren Zeitraum von Inaktivität kann ein anderer
+Administrator die Bearbeitungssitzung übernehmen, woraufhin dem vorherigen
+Administrator die weitere Bearbeitung der Website vorerst untersagt wird.
 
 - [Voraussetzungen](#voraussetzungen)
 - [Download](#download)
 - [Installation](#installation)
 - [Einstellungen](#einstellungen)
 - [Verwendung](#verwendung)
-- [Einschränkungen](#einschränkungen)
 - [Fehlerbehebung](#fehlerbehebung)
 - [Lizenz](#lizenz)
 - [Danksagung](#danksagung)
@@ -27,7 +28,7 @@ den Verlust von ungespeicherten Änderungen zu vermeiden.
 Keymaster_XH ist ein Plugin für [CMSimple_XH](https://cmsimple-xh.org/de/).
 Es benötigt CMSimple_XH ≥ 1.7.0,
 und PHP ≥ 7.1.0 mit der Json Extension, und einen zeitgemäßen Browser.
-Keymaster_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.4;
+Keymaster_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.8;
 ist dieses noch nicht installiert (see *Einstellungen*→*Info*),
 laden Sie das [aktuelle Release](https://github.com/cmb69/plib_xh/releases/latest)
 herunter, und installieren Sie es.
@@ -74,80 +75,9 @@ Das Aussehen von Keymaster_XH kann unter `Stylesheet` angepasst werden.
 ## Verwendung
 
 Nach der Installation ist das Plugin bereits voll funktionsfähig.
-
-### Wie funktioniert es?
-
-Wenn kein Anwender im Administrationsmodus angemeldet ist, hält
-der Schlüsselmeister einen einzigen Schlüssel. Sobald sich ein
-Anwender anmeldet, wird diesem der Schlüssel übergeben und der
-Zugriff auf das CMSimple_XH Back-End gewährt. Da es nur einen
-Schlüssel gibt, können sich andere Anwender nicht anmelden; sie
-werden einfach mit einer entsprechenden Meldung abgewiesen (vgl.
-aber [Einschränkungen](#einschränkungen)).
-
-Nach einer einstellbaren Inaktivitätsdauer, wird der Anwender
-abgemeldet, was den Schlüssel wieder an den Schlüsselmeister
-zurück gibt. Unter Inaktivitätsdauer versteht man einen Zeitraum,
-in der keine Anfrage an den Server gestellt wurde, die vom
-Schlüsselmeister erkannt werden konnte. Eine einstellbare Weile
-bevor der Anwender abgemeldet wird, wird er aufgefordert die
-Sitzung zu verlängern, was dann eine erkennbare Anfrage auslöst.
-
-Es ist möglich mehrere Browserfenster (bzw. -tabs; im folgenden
-bezieht sich der Begriff Browserfenster ebenso auf Browsertabs)
-für die selbe CMSimple_XH Installation offen zu haben; Aktivität
-in einem Fenster wird durch den Schlüsselmeister von den anderen
-ebenfalls erkannt, was allerdings einen Moment dauern kann
-(abhängig vom Poll-Intervall).
-
-⚠ Achtung! Das Bearbeiten einer CMSimple_XH Website in mehr als
-einem Browserfenster funktioniert im Allgemeinen nicht. Außer wenn
-Sie genau wissen, was Sie tun, führen Sie Änderungen nur in einem
-einzigen Fenster durch, und behandeln Sie die anderen als seien
-sie schreibgeschützt.
-
-Falls Sie verpasst haben die Sitzung rechtzeitig zu verlängern,
-und vom Schlüsselmeister abgemeldet wurden, obwohl Sie Änderungen
-noch nicht gespeichert hatten, besteht die *Chance* diese wieder
-zu bekommen: melden Sie sich in einem anderen Browserfenster bei
-der Website an, und betätigen Sie den Zurück-Schalter im
-ursprünglichen Fenster. Mit etwas Glück sind Ihre Änderungen noch
-da.
-
-## Einschränkungen
-
-Für `security_type=javascript` bzw. `wwwaut` wird der
-Anmeldeversuch eines zweiten Anwenders keine Meldung anzeigen; der
-Anwender kann sich einfach nicht anmelden. Lösung: wechseln Sie zu
-`security_type=page`.
-
-Manche Erweiterungen (z.B.
-[Chat_XH](https://github.com/cmb69/chat_xh)) senden periodisch
-Hintergrundanfragen an den Server, die vom Schlüsselmeister als
-Aktivität gewertet werden könnten. Wenn eine solche Erweiterung
-aktiv ist, funktioniert die automatische Abmeldung nicht, d.h.
-andere Anwender werden nicht in der Lage sein sich anzumelden, bis
-das Browserfenster geschlossen wird. Lösung: melden Sie sich immer
-ordnungsgemäß ab, wenn Sie mit dem Bearbeiten der Website fertig
-sind.
-
-Wenn ein angemeldeter Anwender das Browserfenster schließt (aber
-nicht den gesamten Browser), und ein anderer Anwender sich später
-anmeldet, kann der erste Anwender die Prüfung durch den
-Schlüsselmeister durch erneute Navigation zur CMSimple_XH
-Installation umgehen. Lösung: melden Sie sich ordnungsgemäß ab,
-wenn Sie mit der Bearbeitung fertig sind (zumindest sollten Sie
-den Browser schließen).
-
-Nach dem Ändern des Administator Passworts ist Website für die
-Dauer des automatischen Abmelde-Zeitraums gesperrt. Lösung: ändern
-Sie das Administator Passwort nachdem Sie alle anderen
-Bearbeitungsaktivitäten abgeschlossen haben.
-
-Wenn Sie in einer anderen CMSimple_XH Installation in einem
-übergeordneten Ordner angemeldet sind, erlaubt Keymaster das Login
-nicht. Lösung: melden Sie sich zunächst bei der anderen
-Installation ab.
+Es ist nur wichtig sich ornungsgemäß abzumelden, wenn die Bearbeitung
+der Website abgeschlossen ist, so dass andere Adminstratoren nicht
+warten müssen, bis die Sitzung als inaktiv angesehen wird.
 
 ## Fehlerbehebung
 

@@ -58,13 +58,6 @@
     </exec>
     <unzip file="export.zip" todir="export"/>
     <delete file="export.zip"/>
-    <exec executable="uglifyjs" logoutput="true" checkreturn="true">
-      <arg file="export/keymaster.min.js"/>
-      <arg value="--compress"/>
-      <arg value="--mangle"/>
-      <arg value="--toplevel"/>
-      <arg value="--in-situ"/>
-    </exec>
     <move todir="dist">
       <fileset dir="export">
         <include name="templates/*.php"/>
