@@ -63,6 +63,9 @@ final class Keymaster implements Document
 
     public function acceptKey(string $key, int $now, int $duration): bool
     {
+        if ($key === "") {
+            return false;
+        }
         if ($key === $this->key) {
             $this->timestamp = $now;
             return true;

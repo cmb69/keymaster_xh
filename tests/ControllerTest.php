@@ -46,6 +46,9 @@ class ControllerTest extends TestCase
     {
         vfsStream::setup("root");
         $this->store = new DocumentStore(vfsStream::url("root/"));
+        $keymaster = Keymaster::updateIn($this->store);
+        $keymaster->set("12345", strtotime("2025-05-03T16:14:20+00:00"));
+        $this->store->commit();
         $this->random = $this->createStub(Random::class);
         $this->random->method("bytes")->willReturn("123456789ABCDEF");
         $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
@@ -78,25 +81,55 @@ class ControllerTest extends TestCase
         $this->assertSame("", $response->output());
     }
 
-    public function testClaimsKey(): void
+    public function testReportsFailureToRevokeKeyAfterLogout(): void
     {
-        $request = new FakeRequest(["admin" => true]);
+        vfsStream::setQuota(0);
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&logout",
+            "cookie" => ["keymaster_key" => "12345"],
+        ]);
         $response = $this->sut()($request);
-        $this->assertSame(["keymaster_key", "64P36D1L6ORJGEA1891K8HA6", 0], $response->cookie());
+        $this->assertStringContainsString("The key cannot be saved!", $response->output());
     }
 
-    public function testDoesNothingIfKeyIsAccepted(): void
+    public function testAcceptsValidKey(): void
     {
         $request = new FakeRequest(["admin" => true, "cookie" => ["keymaster_key" => "12345"]]);
         $response = $this->sut()($request);
         $this->assertEmpty($response->output());
     }
 
+    public function testReportsFailureToAcceptKey(): void
+    {
+        vfsStream::setQuota(0);
+        $request = new FakeRequest(["admin" => true, "cookie" => ["keymaster_key" => "12345"]]);
+        $response = $this->sut()($request);
+        $this->assertStringContainsString("The key cannot be saved!", $response->output());
+    }
+
+    public function testGrantsKey(): void
+    {
+        $request = new FakeRequest([
+            "admin" => true,
+            "time" => strtotime("2025-05-03T17:14:20+00:00"),
+        ]);
+        $response = $this->sut()($request);
+        $this->assertSame(["keymaster_key", "64P36D1L6ORJGEA1891K8HA6", 0], $response->cookie());
+    }
+
+    public function testReportsFailureToGrantKey(): void
+    {
+        vfsStream::setQuota(0);
+        $request = new FakeRequest([
+            "admin" => true,
+            "time" => strtotime("2025-05-03T17:14:20+00:00"),
+        ]);
+        $response = $this->sut()($request);
+        $this->assertStringContainsString("The key cannot be saved!", $response->output());
+    }
+
     public function testRendersLockingDialog(): void
     {
-        $keymaster = Keymaster::updateIn($this->store);
-        $keymaster->set("12345", strtotime("2025-05-03T16:14:20+00:00"));
-        $this->store->commit();
         $request = new FakeRequest([
             "admin" => true,
             "cookie" => ["keymaster_key" => "12346"],

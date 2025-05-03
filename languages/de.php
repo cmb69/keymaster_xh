@@ -2,7 +2,7 @@
 
 $plugin_tx['keymaster']['editing']="Die Website wird bereits von jemand anderem bearbeitet. Versuchen Sie es später noch einmal.";
 $plugin_tx['keymaster']['label_logout']="Logout";
-$plugin_tx['keymaster']['error_write']="%s kann nicht geschrieben werden";
+$plugin_tx['keymaster']['error_save']="Der Schlüssel konnte nicht gespeichert werden!";
 
 $plugin_tx['keymaster']['syscheck_title']="Systemprüfung";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP-Version ≥ %s";

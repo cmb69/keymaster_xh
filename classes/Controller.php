@@ -59,23 +59,52 @@ class Controller
         }
         $keymaster = Keymaster::updateIn($this->store);
         if (!$request->admin() && !empty($request->cookie("keymaster_key"))) {
-            $keymaster->revokeKey($request->cookie("keymaster_key"));
-            $this->store->commit();
-            return Response::create()->withCookie("keymaster_key", "", 1);
+            return $this->revokeKey($request, $keymaster);
         }
         assert($request->admin());
-        if (empty($request->cookie("keymaster_key")) && ($key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"])) !== null) {
-            $this->store->commit();
-            return Response::create()->withCookie("keymaster_key", $key, 0);
+        if (($response = $this->acceptKey($request, $keymaster)) !== null) {
+            return $response;
         }
-        if ($keymaster->acceptKey($request->cookie("keymaster_key") ?? "", $request->time(), (int) $this->conf["logout"])) {
-            $this->store->commit();
-            return Response::create();
+        if (($response = $this->grantKey($request, $keymaster)) !== null) {
+            return $response;
         }
         $this->store->rollback();
         return Response::error(409, $this->view->render("dialog", [
             "action" => $request->url()->with("logout")->relative(),
         ]));
+    }
+
+    private function revokeKey(Request $request, Keymaster $keymaster): Response
+    {
+        $keymaster->revokeKey($request->cookie("keymaster_key") ?? "");
+        if (!$this->store->commit()) {
+            return Response::create($this->view->message("fail", "error_save"));
+        }
+        return Response::create()->withCookie("keymaster_key", "", 1);
+    }
+
+    private function grantKey(Request $request, Keymaster $keymaster): ?Response
+    {
+        $key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"]);
+        if ($key === null) {
+            return null;
+        }
+        if (!$this->store->commit()) {
+            return Response::create($this->view->message("fail", "error_save"));
+        }
+        return Response::create()->withCookie("keymaster_key", $key, 0);
+    }
+
+    private function acceptKey(Request $request, Keymaster $keymaster): ?Response
+    {
+        $duration = (int) $this->conf["logout"];
+        if (!$keymaster->acceptKey($request->cookie("keymaster_key") ?? "", $request->time(), $duration)) {
+            return null;
+        }
+        if (!$this->store->commit()) {
+            return Response::create($this->view->message("fail", "error_save"));
+        }
+        return Response::create();
     }
 
     public function generateKey(): string
