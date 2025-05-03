@@ -85,7 +85,7 @@ class Gatekeeper
 
     private function grantKey(Request $request, Keymaster $keymaster): ?Response
     {
-        $key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"]);
+        $key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["lock_period"]);
         if ($key === null) {
             return null;
         }
@@ -97,7 +97,7 @@ class Gatekeeper
 
     private function acceptKey(Request $request, Keymaster $keymaster): ?Response
     {
-        $duration = (int) $this->conf["logout"];
+        $duration = (int) $this->conf["lock_period"];
         if (!$keymaster->acceptKey($request->cookie("keymaster_key") ?? "", $request->time(), $duration)) {
             return null;
         }

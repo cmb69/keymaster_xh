@@ -12,6 +12,6 @@ $plugin_tx['keymaster']['syscheck_xhversion']="CMSimple_XH-Version ≥ %s";
 $plugin_tx['keymaster']['syscheck_writable_folder']="Ordner \"%s\" beschreibbar";
 $plugin_tx['keymaster']['syscheck_writable_file']="Datei \"%s\" beschreibbar";
 
-$plugin_tx['keymaster']['cf_logout']="Der Zeitraum der Inaktivität (in Sekunden), nach dem der Anwender automatisch abgemeldet wird.";
+$plugin_tx['keymaster']['cf_lock_period']="Der Zeitraum der Inaktivität (in Sekunden) nach dem die exklusive Sperrung des Backend abläuft.";
 
 ?>

@@ -1,5 +1,5 @@
 <?php
 
-$plugin_cf['keymaster']['logout']="1800";
+$plugin_cf['keymaster']['lock_period']="1800";
 
 ?>
