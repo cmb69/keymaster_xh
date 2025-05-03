@@ -30,6 +30,9 @@ use Plib\View;
 
 class Controller
 {
+    /** @var array<string,string> */
+    private $conf;
+
     /** @var Keymaster */
     private $model;
 
@@ -39,8 +42,10 @@ class Controller
     /** @var View */
     private $view;
 
-    public function __construct(Keymaster $model, Random $random, View $view)
+    /** @param array<string,string> $conf */
+    public function __construct(array $conf, Keymaster $model, Random $random, View $view)
     {
+        $this->conf = $conf;
         $this->model = $model;
         $this->random = $random;
         $this->view = $view;
@@ -56,10 +61,10 @@ class Controller
             return Response::create();
         }
         assert($request->admin());
-        if (empty($request->cookie("keymaster_key")) && ($key = $this->model->claimKey([$this, "generateKey"])) !== null) {
+        if (empty($request->cookie("keymaster_key")) && ($key = $this->model->claimKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"])) !== null) {
             return Response::create()->withCookie("keymaster_key", $key, 0);
         }
-        if ($this->model->checkKey($request->cookie("keymaster_key") ?? "")) {
+        if ($this->model->checkKey($request->cookie("keymaster_key") ?? "", $request->time(), (int) $this->conf["logout"])) {
             return Response::create();
         }
         return Response::error(409, $this->view->render("dialog", [

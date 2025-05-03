@@ -30,7 +30,8 @@ class Dic
 {
     public static function makeController(): Controller
     {
-        return new Controller(self::keymaster(), new Random(), self::view());
+        global $plugin_cf;
+        return new Controller($plugin_cf["keymaster"], self::keymaster(), new Random(), self::view());
     }
 
     public static function makeShowInfo(): ShowInfo
@@ -45,12 +46,8 @@ class Dic
 
     private static function keymaster(): Keymaster
     {
-        global $pth, $plugin_cf;
-        return new Keymaster(
-            $pth["folder"]["plugins"] . "keymaster/key",
-            time(),
-            (int) $plugin_cf["keymaster"]["logout"]
-        );
+        global $pth;
+        return new Keymaster($pth["folder"]["plugins"] . "keymaster/key");
     }
 
     private static function view(): View

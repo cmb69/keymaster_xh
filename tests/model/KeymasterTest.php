@@ -39,24 +39,24 @@ class KeymasterTest extends TestCase
     public function testIsFreeIfNotHasKey()
     {
         $filename = $this->keyfile("");
-        $model = new Keymaster($filename, self::NOW, 1800);
-        $actual = $model->isFree();
+        $model = new Keymaster($filename);
+        $actual = $model->isFree(self::NOW, 1800);
         $this->assertTrue($actual);
     }
 
     public function testIsFreeIfSessionHasExpired()
     {
         $filename = $this->keyfile("");
-        $model = new Keymaster($filename, self::NOW, 999);
-        $actual = $model->isFree();
+        $model = new Keymaster($filename);
+        $actual = $model->isFree(self::NOW, 999);
         $this->assertTrue($actual);
     }
 
     public function testIsNotFreeWhenHasKeyAndSessionHasNotExpired()
     {
         $filename = $this->keyfile("12345");
-        $model = new Keymaster($filename, self::NOW, 1800);
-        $actual = $model->isFree();
+        $model = new Keymaster($filename);
+        $actual = $model->isFree(self::NOW, 1800);
         $this->assertFalse($actual);
     }
 

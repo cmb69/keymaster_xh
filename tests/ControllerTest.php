@@ -50,7 +50,12 @@ class ControllerTest extends TestCase
 
     private function sut(): Controller
     {
-        return new Controller($this->model, $this->random, $this->view);
+        return new Controller(
+            XH_includeVar("./config/config.php", "plugin_cf")["keymaster"],
+            $this->model,
+            $this->random,
+            $this->view
+        );
     }
 
     public function testDoesNothingIfNothingNeedsToBeDone(): void

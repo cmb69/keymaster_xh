@@ -26,17 +26,9 @@ class Keymaster
     /** @var string */
     private $filename;
 
-    /** @var int */
-    private $now;
-
-    /** @var int */
-    private $duration;
-
-    public function __construct(string $filename, int $now, int $duration)
+    public function __construct(string $filename)
     {
         $this->filename = $filename;
-        $this->now = $now;
-        $this->duration = $duration;
     }
 
     public function filename(): string
@@ -49,14 +41,14 @@ class Keymaster
         return filesize($this->filename) > 0;
     }
 
-    public function checkKey(string $key): bool
+    public function checkKey(string $key, int $now, int $duration): bool
     {
         $currentKey = file_get_contents($this->filename);
         if ($key === $currentKey) {
             $this->reset();
             return true;
         }
-        if ($this->isFree()) {
+        if ($this->isFree($now, $duration)) {
             $this->newKey($key);
             return true;
         }
@@ -71,9 +63,9 @@ class Keymaster
         }
     }
 
-    public function claimKey(callable $genKey): ?string
+    public function claimKey(callable $genKey, int $now, int $duration): ?string
     {
-        if (!$this->isFree()) {
+        if (!$this->isFree($now, $duration)) {
             return null;
         }
         $key = $genKey();
@@ -86,9 +78,9 @@ class Keymaster
         file_put_contents($this->filename, $key);
     }
 
-    public function isFree(): bool
+    public function isFree(int $now, int $duration): bool
     {
-        return !$this->hasKey() || $this->now - filemtime($this->filename) > $this->duration;
+        return !$this->hasKey() || $now - filemtime($this->filename) > $duration;
     }
 
     private function reset(): bool
