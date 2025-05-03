@@ -31,4 +31,4 @@ const KEYMASTER_VERSION = "2.0-dev";
 
 /** @var string $o */
 
-$o .= Dic::makeController()(Request::current())();
+$o .= Dic::gatekeeper()(Request::current())();

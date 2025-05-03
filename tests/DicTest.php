@@ -36,7 +36,7 @@ class DicTest extends TestCase
 
     public function testMakesController(): void
     {
-        $this->assertInstanceOf(Controller::class, Dic::makeController());
+        $this->assertInstanceOf(Gatekeeper::class, Dic::gatekeeper());
     }
 
     public function testMakesShowInfo(): void

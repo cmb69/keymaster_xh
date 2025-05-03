@@ -29,7 +29,7 @@ use Plib\Request;
 use Plib\Response;
 use Plib\View;
 
-class Controller
+class Gatekeeper
 {
     /** @var array<string,string> */
     private $conf;

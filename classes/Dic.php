@@ -21,7 +21,6 @@
 
 namespace Keymaster;
 
-use Keymaster\Model\Keymaster;
 use Plib\DocumentStore;
 use Plib\Random;
 use Plib\SystemChecker;
@@ -29,10 +28,10 @@ use Plib\View;
 
 class Dic
 {
-    public static function makeController(): Controller
+    public static function gatekeeper(): Gatekeeper
     {
         global $plugin_cf;
-        return new Controller($plugin_cf["keymaster"], self::store(), new Random(), self::view());
+        return new Gatekeeper($plugin_cf["keymaster"], self::store(), new Random(), self::view());
     }
 
     public static function makeShowInfo(): ShowInfo

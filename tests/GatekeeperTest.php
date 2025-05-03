@@ -31,7 +31,7 @@ use Plib\FakeRequest;
 use Plib\Random;
 use Plib\View;
 
-class ControllerTest extends TestCase
+class GatekeeperTest extends TestCase
 {
     /** @var DocumentStore */
     private $store;
@@ -54,9 +54,9 @@ class ControllerTest extends TestCase
         $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }
 
-    private function sut(): Controller
+    private function sut(): Gatekeeper
     {
-        return new Controller(
+        return new Gatekeeper(
             XH_includeVar("./config/config.php", "plugin_cf")["keymaster"],
             $this->store,
             $this->random,
