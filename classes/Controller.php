@@ -54,14 +54,14 @@ class Controller
 
     public function __invoke(Request $request): Response
     {
-        if (!$request->admin() && $request->cookie("keymaster_key") === null) {
+        if (!$request->admin() && empty($request->cookie("keymaster_key"))) {
             return Response::create();
         }
         $keymaster = Keymaster::updateIn($this->store);
-        if (!$request->admin() && $request->cookie("keymaster_key") !== null) {
+        if (!$request->admin() && !empty($request->cookie("keymaster_key"))) {
             $keymaster->revokeKey($request->cookie("keymaster_key"));
             $this->store->commit();
-            return Response::create();
+            return Response::create()->withCookie("keymaster_key", "", 1);
         }
         assert($request->admin());
         if (empty($request->cookie("keymaster_key")) && ($key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"])) !== null) {
