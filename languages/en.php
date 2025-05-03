@@ -1,7 +1,9 @@
 <?php
 
-$plugin_tx['keymaster']['editing']="Somebody else is editing the site now. Try again later.";
 $plugin_tx['keymaster']['label_logout']="Logout";
+
+$plugin_tx['keymaster']['message_editing']="Somebody else is editing the site now. Try again later.";
+
 $plugin_tx['keymaster']['error_save']="The key cannot be saved!";
 
 $plugin_tx['keymaster']['syscheck_title']="System check";

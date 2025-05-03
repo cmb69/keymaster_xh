@@ -1,7 +1,8 @@
 <?php
 
-$plugin_tx['keymaster']['editing']="Le site est déjà en édition par un autre administrateur. Merci d'essayer plus tard.";
 $plugin_tx['keymaster']['label_logout']="Déconnexion";
+
+$plugin_tx['keymaster']['message_editing']="Le site est déjà en édition par un autre administrateur. Merci d'essayer plus tard.";
 
 $plugin_tx['keymaster']['syscheck_title']="Test système";
 $plugin_tx['keymaster']['syscheck_phpversion']="PHP version ≥ %s";

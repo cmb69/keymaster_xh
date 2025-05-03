@@ -12,7 +12,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {header("HTTP/1.1 403 Forbidden"); exit;}
 <!-- keymaster dialog -->
 <div id="keymaster">
   <div class="keymaster_message">
-    <p><?=$this->text("editing")?></p>
+    <p><?=$this->text("message_editing")?></p>
     <form method="post" action="<?=$this->esc($action)?>" class="keymaster_buttons">
       <button><?=$this->text('label_logout')?></button>
     </form>
