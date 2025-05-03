@@ -57,7 +57,7 @@ class ShowInfo
         ]));
     }
 
-    /** @return list<array{key:string,arg:string,class:string}> */
+    /** @return list<object{key:string,arg:string,class:string}> */
     private function checks(): array
     {
         return [
@@ -72,66 +72,66 @@ class ShowInfo
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkPhpVersion(string $version): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkPhpVersion(string $version)
     {
         $check = $this->systemChecker->checkVersion(PHP_VERSION, $version);
-        return [
+        return (object) [
             "key" => "syscheck_phpversion",
             "arg" => $version,
             "class" => $check ? "xh_success" : "xh_fail",
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkPhpExtension(string $name): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkPhpExtension(string $name)
     {
         $check = $this->systemChecker->checkExtension($name);
-        return [
+        return (object) [
             "key" => "syscheck_extension",
             "arg" => $name,
             "class" => $check ? "xh_success" : "xh_fail",
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkXhVersion(string $version): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkXhVersion(string $version)
     {
         $check = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version");
-        return [
+        return (object) [
             "key" => "syscheck_xhversion",
             "arg" => $version,
             "class" => $check ? "xh_success" : "xh_fail",
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkPlibVersion(string $version): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkPlibVersion(string $version)
     {
         $check = $this->systemChecker->checkPlugin("plib", $version);
-        return [
+        return (object) [
             "key" => "syscheck_plibversion",
             "arg" => $version,
             "class" => $check ? "xh_success" : "xh_fail",
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkFolderWritability(string $foldername): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkFolderWritability(string $foldername)
     {
         $check = $this->systemChecker->checkWritability($foldername);
-        return [
+        return (object) [
             "key" => "syscheck_writable_folder",
             "arg" => $foldername,
             "class" => $check ? "xh_success" : "xh_warning",
         ];
     }
 
-    /** @return array{key:string,arg:string,class:string} */
-    private function checkFileWritability(string $filename): array
+    /** @return object{key:string,arg:string,class:string} */
+    private function checkFileWritability(string $filename)
     {
         $check = $this->systemChecker->checkWritability($filename);
-        return [
+        return (object) [
             "key" => "syscheck_writable_file",
             "arg" => $filename,
             "class" => $check ? "xh_success" : "xh_fail",
