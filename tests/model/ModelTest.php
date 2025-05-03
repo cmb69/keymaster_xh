@@ -19,7 +19,7 @@
  * along with Keymaster_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Keymaster\Infra;
+namespace Keymaster\Model;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;

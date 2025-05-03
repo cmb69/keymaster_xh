@@ -21,7 +21,7 @@
 
 namespace Keymaster;
 
-use Keymaster\Infra\Model;
+use Keymaster\Model\Model;
 use Plib\Random;
 use Plib\SystemChecker;
 use Plib\View;

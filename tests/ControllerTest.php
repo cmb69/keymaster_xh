@@ -22,7 +22,7 @@
 namespace Keymaster;
 
 use ApprovalTests\Approvals;
-use Keymaster\Infra\Model;
+use Keymaster\Model\Model;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
