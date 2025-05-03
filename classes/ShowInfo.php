@@ -21,6 +21,7 @@
 
 namespace Keymaster;
 
+use Plib\DocumentStore;
 use Plib\Request;
 use Plib\Response;
 use Plib\SystemChecker;
@@ -31,15 +32,19 @@ class ShowInfo
     /** @var string */
     private $pluginFolder;
 
+    /** @var DocumentStore */
+    private $store;
+
     /** @var SystemChecker */
     private $systemChecker;
 
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginFolder, SystemChecker $systemChecker, View $view)
+    public function __construct(string $pluginFolder, DocumentStore $store, SystemChecker $systemChecker, View $view)
     {
         $this->pluginFolder = $pluginFolder;
+        $this->store = $store;
         $this->view = $view;
         $this->systemChecker = $systemChecker;
     }
@@ -63,7 +68,7 @@ class ShowInfo
             $this->checkFolderWritability($this->pluginFolder . "config/"),
             $this->checkFolderWritability($this->pluginFolder . "css/"),
             $this->checkFolderWritability($this->pluginFolder . "languages/"),
-            $this->checkFileWritability($this->pluginFolder . "key"),
+            $this->checkFileWritability($this->store->folder() . "key"),
         ];
     }
 

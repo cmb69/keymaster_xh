@@ -24,29 +24,51 @@ namespace Keymaster;
 use function XH_includeVar;
 use PHPUnit\Framework\TestCase;
 use ApprovalTests\Approvals;
-use Keymaster\Infra\Request;
+use org\bovigo\vfs\vfsStream;
+use Plib\DocumentStore;
 use Plib\FakeRequest;
 use Plib\FakeSystemChecker;
 use Plib\View;
 
 class ShowInfoTest extends TestCase
 {
+    /** @var DocumentStore */
+    private $store;
+
+    /** @var FakeSystemChecker */
+    private $systemChecker;
+
+    /** @var View */
+    private $view;
+
+    public function setUp(): void
+    {
+        vfsStream::setup("root");
+        $this->store = new DocumentStore(vfsStream::url("root/"));
+        $this->systemChecker = new FakeSystemChecker();
+        $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster']);
+    }
+
+    private function sut(): ShowInfo
+    {
+        return new ShowInfo(
+            "./plugins/keymaster/",
+            $this->store,
+            $this->systemChecker,
+            $this->view
+        );
+    }
+
     public function testRendersPluginInfoWithAllChecksSucceeding(): void
     {
-        $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(true), $this->view());
-        $response = $sut(new FakeRequest());
+        $this->systemChecker = new FakeSystemChecker(true);
+        $response = $this->sut()(new FakeRequest());
         Approvals::verifyHtml($response->output());
     }
 
     public function testRendersPluginInfoWithAllChecksFailing(): void
     {
-        $sut = new ShowInfo("./plugins/keymaster/", new FakeSystemChecker(false), $this->view());
-        $response = $sut(new FakeRequest());
+        $response = $this->sut()(new FakeRequest());
         Approvals::verifyHtml($response->output());
-    }
-
-    private function view(): View
-    {
-        return new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster']);
     }
 }

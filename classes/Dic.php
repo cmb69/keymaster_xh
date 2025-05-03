@@ -39,6 +39,7 @@ class Dic
         global $pth;
         return new ShowInfo(
             $pth["folder"]["plugins"] . "keymaster/",
+            self::store(),
             new SystemChecker(),
             self::view()
         );
