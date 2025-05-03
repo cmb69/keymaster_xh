@@ -88,12 +88,7 @@ class Keymaster
 
     public function isFree(): bool
     {
-        return !$this->hasKey() || $this->loggedInTime() > $this->duration;
-    }
-
-    private function loggedInTime(): int
-    {
-        return $this->now - filemtime($this->filename);
+        return !$this->hasKey() || $this->now - filemtime($this->filename) > $this->duration;
     }
 
     private function reset(): bool
