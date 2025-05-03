@@ -84,6 +84,7 @@ final class Keymaster implements Document
             return null;
         }
         $this->key = $genKey();
+        $this->timestamp = $now;
         return $this->key;
     }
 

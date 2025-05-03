@@ -71,7 +71,7 @@ class KeymasterTest extends TestCase
         $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:29+00:00"));
         $actual = $keymaster->grantKey(fn () => "67890", strtotime("2025-05-03T16:51:30+00:00"), 1800);
         $this->assertSame("67890", $actual);
-        $this->assertEquals(new Keymaster("67890", strtotime("2025-05-03T16:21:29+00:00")), $keymaster);
+        $this->assertEquals(new Keymaster("67890", strtotime("2025-05-03T16:51:30+00:00")), $keymaster);
     }
 
     public function testRevokesSameKey(): void
