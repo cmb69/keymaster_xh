@@ -23,17 +23,18 @@ namespace Keymaster;
 
 use ApprovalTests\Approvals;
 use Keymaster\Model\Keymaster;
-use PHPUnit\Framework\MockObject\MockObject;
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Plib\DocumentStore;
 use Plib\FakeRequest;
 use Plib\Random;
 use Plib\View;
 
 class ControllerTest extends TestCase
 {
-    /** @var Keymaster&MockObject */
-    private $model;
+    /** @var DocumentStore */
+    private $store;
 
     /** @var Random&Stub */
     private $random;
@@ -43,8 +44,10 @@ class ControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->model = $this->createMock(Keymaster::class);
+        vfsStream::setup("root");
+        $this->store = new DocumentStore(vfsStream::url("root/"));
         $this->random = $this->createStub(Random::class);
+        $this->random->method("bytes")->willReturn("123456789ABCDEF");
         $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }
 
@@ -52,7 +55,7 @@ class ControllerTest extends TestCase
     {
         return new Controller(
             XH_includeVar("./config/config.php", "plugin_cf")["keymaster"],
-            $this->model,
+            $this->store,
             $this->random,
             $this->view
         );
@@ -67,7 +70,6 @@ class ControllerTest extends TestCase
 
     public function testRevokesKeyAfterLogout(): void
     {
-        $this->model->expects($this->once())->method("revokeKey")->with("12345");
         $request = new FakeRequest([
             "url" => "http://example.com/?&logout",
             "cookie" => ["keymaster_key" => "12345"],
@@ -78,15 +80,13 @@ class ControllerTest extends TestCase
 
     public function testClaimsKey(): void
     {
-        $this->model->expects($this->once())->method("claimKey")->willReturn("12345");
         $request = new FakeRequest(["admin" => true]);
         $response = $this->sut()($request);
-        $this->assertSame(["keymaster_key", "12345", 0], $response->cookie());
+        $this->assertSame(["keymaster_key", "64P36D1L6ORJGEA1891K8HA6", 0], $response->cookie());
     }
 
     public function testDoesNothingIfKeyIsAccepted(): void
     {
-        $this->model->expects($this->once())->method("checkKey")->with("12345")->willReturn(true);
         $request = new FakeRequest(["admin" => true, "cookie" => ["keymaster_key" => "12345"]]);
         $response = $this->sut()($request);
         $this->assertEmpty($response->output());
@@ -94,10 +94,13 @@ class ControllerTest extends TestCase
 
     public function testRendersLockingDialog(): void
     {
-        $this->model->expects($this->once())->method("checkKey")->with("12346")->willReturn(false);
+        $keymaster = Keymaster::updateIn($this->store);
+        $keymaster->set("12345", strtotime("2025-05-03T16:14:20+00:00"));
+        $this->store->commit();
         $request = new FakeRequest([
             "admin" => true,
             "cookie" => ["keymaster_key" => "12346"],
+            "time" => strtotime("2025-05-03T16:14:24+00:00"),
         ]);
         $response = $this->sut()($request);
         $this->assertSame(409, $response->status());

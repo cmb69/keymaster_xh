@@ -8,6 +8,9 @@ require_once "./vendor/autoload.php";
 
 require_once "../../cmsimple/functions.php";
 
+require_once "../plib/classes/Codec.php";
+require_once "../plib/classes/Document.php";
+require_once "../plib/classes/DocumentStore.php";
 require_once "../plib/classes/Random.php";
 require_once "../plib/classes/Request.php";
 require_once "../plib/classes/Response.php";

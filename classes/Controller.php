@@ -23,6 +23,7 @@ namespace Keymaster;
 
 use Keymaster\Model\Keymaster;
 use Plib\Codec;
+use Plib\DocumentStore;
 use Plib\Random;
 use Plib\Request;
 use Plib\Response;
@@ -33,8 +34,8 @@ class Controller
     /** @var array<string,string> */
     private $conf;
 
-    /** @var Keymaster */
-    private $model;
+    /** @var DocumentStore */
+    private $store;
 
     /** @var Random */
     private $random;
@@ -43,10 +44,10 @@ class Controller
     private $view;
 
     /** @param array<string,string> $conf */
-    public function __construct(array $conf, Keymaster $model, Random $random, View $view)
+    public function __construct(array $conf, DocumentStore $store, Random $random, View $view)
     {
         $this->conf = $conf;
-        $this->model = $model;
+        $this->store = $store;
         $this->random = $random;
         $this->view = $view;
     }
@@ -56,17 +57,22 @@ class Controller
         if (!$request->admin() && $request->cookie("keymaster_key") === null) {
             return Response::create();
         }
+        $keymaster = Keymaster::updateIn($this->store);
         if (!$request->admin() && $request->cookie("keymaster_key") !== null) {
-            $this->model->revokeKey($request->cookie("keymaster_key"));
+            $keymaster->revokeKey($request->cookie("keymaster_key"));
+            $this->store->commit();
             return Response::create();
         }
         assert($request->admin());
-        if (empty($request->cookie("keymaster_key")) && ($key = $this->model->claimKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"])) !== null) {
+        if (empty($request->cookie("keymaster_key")) && ($key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["logout"])) !== null) {
+            $this->store->commit();
             return Response::create()->withCookie("keymaster_key", $key, 0);
         }
-        if ($this->model->checkKey($request->cookie("keymaster_key") ?? "", $request->time(), (int) $this->conf["logout"])) {
+        if ($keymaster->acceptKey($request->cookie("keymaster_key") ?? "", $request->time(), (int) $this->conf["logout"])) {
+            $this->store->commit();
             return Response::create();
         }
+        $this->store->rollback();
         return Response::error(409, $this->view->render("dialog", [
             "action" => $request->url()->with("logout")->relative(),
         ]));

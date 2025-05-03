@@ -21,70 +21,85 @@
 
 namespace Keymaster\Model;
 
-class Keymaster
+use Plib\Document;
+use Plib\DocumentStore;
+
+final class Keymaster implements Document
 {
     /** @var string */
-    private $filename;
+    private $key;
 
-    public function __construct(string $filename)
+    /** @var int */
+    private $timestamp;
+
+    public static function updateIn(DocumentStore $store): self
     {
-        $this->filename = $filename;
+        $that = $store->update("key", self::class);
+        assert($that instanceof self);
+        return $that;
     }
 
-    public function filename(): string
+    public static function fromString(string $contents, string $key): self
     {
-        return $this->filename;
+        $record = explode(",", rtrim($contents), 2);
+        return new self($record[0], count($record) === 2 ? (int) $record[1] : 0);
+    }
+
+    public function __construct(string $key, int $timestamp)
+    {
+        $this->key = $key;
+        $this->timestamp = $timestamp;
+    }
+
+    public function toString(): string
+    {
+        return $this->key . "," . $this->timestamp;
     }
 
     private function hasKey(): bool
     {
-        return filesize($this->filename) > 0;
+        return $this->key !== "";
     }
 
-    public function checkKey(string $key, int $now, int $duration): bool
+    public function acceptKey(string $key, int $now, int $duration): bool
     {
-        $currentKey = file_get_contents($this->filename);
-        if ($key === $currentKey) {
-            $this->reset();
+        if ($key === $this->key) {
+            $this->timestamp = $now;
             return true;
         }
         if ($this->isFree($now, $duration)) {
-            $this->newKey($key);
+            $this->key = $key;
+            $this->timestamp = $now;
             return true;
         }
         return false;
     }
 
-    public function revokeKey(string $key): void
-    {
-        $currentKey = file_get_contents($this->filename);
-        if ($key === $currentKey) {
-            file_put_contents($this->filename, "");
-        }
-    }
-
-    public function claimKey(callable $genKey, int $now, int $duration): ?string
+    public function grantKey(callable $genKey, int $now, int $duration): ?string
     {
         if (!$this->isFree($now, $duration)) {
             return null;
         }
-        $key = $genKey();
-        $this->newKey($key);
-        return $key;
+        $this->key = $genKey();
+        return $this->key;
     }
 
-    private function newKey(string $key): void
+    public function revokeKey(string $key): void
     {
-        file_put_contents($this->filename, $key);
+        if ($this->key === $key) {
+            $this->key = "";
+            $this->timestamp = 0;
+        }
     }
 
     public function isFree(int $now, int $duration): bool
     {
-        return !$this->hasKey() || $now - filemtime($this->filename) > $duration;
+        return !$this->hasKey() || $now - $this->timestamp > $duration;
     }
 
-    private function reset(): bool
+    public function set(string $key, int $timestamp): void
     {
-        return touch($this->filename);
+        $this->key = $key;
+        $this->timestamp = $timestamp;
     }
 }

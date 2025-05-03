@@ -21,51 +21,70 @@
 
 namespace Keymaster\Model;
 
-use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
+/** @small */
 class KeymasterTest extends TestCase
 {
-    const NOW = 1678301321;
-
-    public function testTellsCorrectFilename()
+    public function testAcceptsCorrectKey(): void
     {
-        $filename = $this->keyfile("");
-        $model = new Keymaster($filename, 1678301321, 1800);
-        $actual = $model->filename();
-        $this->assertEquals($filename, $actual);
-    }
-
-    public function testIsFreeIfNotHasKey()
-    {
-        $filename = $this->keyfile("");
-        $model = new Keymaster($filename);
-        $actual = $model->isFree(self::NOW, 1800);
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:50:30+00:00"));
+        $actual = $keymaster->acceptKey("12345", strtotime("2025-05-03T16:51:30+00:00"), 1800);
         $this->assertTrue($actual);
+        $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:51:30+00:00")), $keymaster);
     }
 
-    public function testIsFreeIfSessionHasExpired()
+    public function testAcceptsNewKey(): void
     {
-        $filename = $this->keyfile("");
-        $model = new Keymaster($filename);
-        $actual = $model->isFree(self::NOW, 999);
+        $keymaster = new Keymaster("", strtotime("2025-05-03T16:50:30+00:00"));
+        $actual = $keymaster->acceptKey("12345", strtotime("2025-05-03T16:51:30+00:00"), 1800);
         $this->assertTrue($actual);
+        $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:51:30+00:00")), $keymaster);
     }
 
-    public function testIsNotFreeWhenHasKeyAndSessionHasNotExpired()
+    public function testAcceptsOtherKeyIfExpired(): void
     {
-        $filename = $this->keyfile("12345");
-        $model = new Keymaster($filename);
-        $actual = $model->isFree(self::NOW, 1800);
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:29+00:00"));
+        $actual = $keymaster->acceptKey("67890", strtotime("2025-05-03T16:51:30+00:00"), 1800);
+        $this->assertTrue($actual);
+        $this->assertEquals(new Keymaster("67890", strtotime("2025-05-03T16:51:30+00:00")), $keymaster);
+    }
+
+    public function testRejectsOtherKeyIfNotExpired(): void
+    {
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00"));
+        $actual = $keymaster->acceptKey("67890", strtotime("2025-05-03T16:51:30+00:00"), 1800);
         $this->assertFalse($actual);
+        $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00")), $keymaster);
     }
 
-    private function keyfile(bool $content): string
+    public function testDoesNotGrantKeyIfNotExpired(): void
     {
-        vfsStream::setup("root");
-        $filename = "vfs://root/key";
-        file_put_contents($filename, $content);
-        touch($filename, self::NOW - 1000);
-        return $filename;
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00"));
+        $actual = $keymaster->grantKey(fn () => "67890", strtotime("2025-05-03T16:51:30+00:00"), 1800);
+        $this->assertNull($actual);
+        $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00")), $keymaster);
+    }
+
+    public function testGrantsKeyIfExpired(): void
+    {
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:29+00:00"));
+        $actual = $keymaster->grantKey(fn () => "67890", strtotime("2025-05-03T16:51:30+00:00"), 1800);
+        $this->assertSame("67890", $actual);
+        $this->assertEquals(new Keymaster("67890", strtotime("2025-05-03T16:21:29+00:00")), $keymaster);
+    }
+
+    public function testRevokesSameKey(): void
+    {
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00"));
+        $keymaster->revokeKey("12345");
+        $this->assertEquals(new Keymaster("", 0), $keymaster);
+    }
+
+    public function testDoesNotRevokeOtherKey(): void
+    {
+        $keymaster = new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00"));
+        $keymaster->revokeKey("67890");
+        $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:21:30+00:00")), $keymaster);
     }
 }
