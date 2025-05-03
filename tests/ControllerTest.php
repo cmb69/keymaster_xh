@@ -22,7 +22,7 @@
 namespace Keymaster;
 
 use ApprovalTests\Approvals;
-use Keymaster\Model\Model;
+use Keymaster\Model\Keymaster;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,7 @@ use Plib\View;
 
 class ControllerTest extends TestCase
 {
-    /** @var Model&MockObject */
+    /** @var Keymaster&MockObject */
     private $model;
 
     /** @var Random&Stub */
@@ -43,7 +43,7 @@ class ControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->model = $this->createMock(Model::class);
+        $this->model = $this->createMock(Keymaster::class);
         $this->random = $this->createStub(Random::class);
         $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }

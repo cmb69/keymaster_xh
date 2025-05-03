@@ -21,7 +21,7 @@
 
 namespace Keymaster\Model;
 
-class Model
+class Keymaster
 {
     /** @var string */
     private $filename;

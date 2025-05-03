@@ -24,14 +24,14 @@ namespace Keymaster\Model;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
-class ModelTest extends TestCase
+class KeymasterTest extends TestCase
 {
     const NOW = 1678301321;
 
     public function testTellsCorrectFilename()
     {
         $filename = $this->keyfile("");
-        $model = new Model($filename, 1678301321, 1800);
+        $model = new Keymaster($filename, 1678301321, 1800);
         $actual = $model->filename();
         $this->assertEquals($filename, $actual);
     }
@@ -39,7 +39,7 @@ class ModelTest extends TestCase
     public function testIsFreeIfNotHasKey()
     {
         $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 1800);
+        $model = new Keymaster($filename, self::NOW, 1800);
         $actual = $model->isFree();
         $this->assertTrue($actual);
     }
@@ -47,7 +47,7 @@ class ModelTest extends TestCase
     public function testIsFreeIfSessionHasExpired()
     {
         $filename = $this->keyfile("");
-        $model = new Model($filename, self::NOW, 999);
+        $model = new Keymaster($filename, self::NOW, 999);
         $actual = $model->isFree();
         $this->assertTrue($actual);
     }
@@ -55,7 +55,7 @@ class ModelTest extends TestCase
     public function testIsNotFreeWhenHasKeyAndSessionHasNotExpired()
     {
         $filename = $this->keyfile("12345");
-        $model = new Model($filename, self::NOW, 1800);
+        $model = new Keymaster($filename, self::NOW, 1800);
         $actual = $model->isFree();
         $this->assertFalse($actual);
     }

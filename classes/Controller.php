@@ -21,7 +21,7 @@
 
 namespace Keymaster;
 
-use Keymaster\Model\Model;
+use Keymaster\Model\Keymaster;
 use Plib\Codec;
 use Plib\Random;
 use Plib\Request;
@@ -30,7 +30,7 @@ use Plib\View;
 
 class Controller
 {
-    /** @var Model */
+    /** @var Keymaster */
     private $model;
 
     /** @var Random */
@@ -39,7 +39,7 @@ class Controller
     /** @var View */
     private $view;
 
-    public function __construct(Model $model, Random $random, View $view)
+    public function __construct(Keymaster $model, Random $random, View $view)
     {
         $this->model = $model;
         $this->random = $random;

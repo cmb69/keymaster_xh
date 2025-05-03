@@ -21,7 +21,7 @@
 
 namespace Keymaster;
 
-use Keymaster\Model\Model;
+use Keymaster\Model\Keymaster;
 use Plib\Random;
 use Plib\SystemChecker;
 use Plib\View;
@@ -30,7 +30,7 @@ class Dic
 {
     public static function makeController(): Controller
     {
-        return new Controller(self::makeModel(), new Random(), self::view());
+        return new Controller(self::keymaster(), new Random(), self::view());
     }
 
     public static function makeShowInfo(): ShowInfo
@@ -43,10 +43,10 @@ class Dic
         );
     }
 
-    private static function makeModel(): Model
+    private static function keymaster(): Keymaster
     {
         global $pth, $plugin_cf;
-        return new Model(
+        return new Keymaster(
             $pth["folder"]["plugins"] . "keymaster/key",
             time(),
             (int) $plugin_cf["keymaster"]["logout"]
