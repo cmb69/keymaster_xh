@@ -34,6 +34,14 @@ class KeymasterTest extends TestCase
         $this->assertEquals(new Keymaster("12345", strtotime("2025-05-03T16:51:30+00:00")), $keymaster);
     }
 
+    public function testDoesNotAcceptEmptyKey(): void
+    {
+        $keymaster = new Keymaster("", strtotime("2025-05-03T16:50:30+00:00"));
+        $actual = $keymaster->acceptKey("", strtotime("2025-05-03T16:51:30+00:00"), 1800);
+        $this->assertFalse($actual);
+        $this->assertEquals(new Keymaster("", strtotime("2025-05-03T16:50:30+00:00")), $keymaster);
+    }
+
     public function testAcceptsNewKey(): void
     {
         $keymaster = new Keymaster("", strtotime("2025-05-03T16:50:30+00:00"));

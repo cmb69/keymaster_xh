@@ -56,11 +56,6 @@ final class Keymaster implements Document
         return $this->key . "," . $this->timestamp;
     }
 
-    private function hasKey(): bool
-    {
-        return $this->key !== "";
-    }
-
     public function acceptKey(string $key, int $now, int $duration): bool
     {
         if ($key === "") {
@@ -96,9 +91,9 @@ final class Keymaster implements Document
         }
     }
 
-    public function isFree(int $now, int $duration): bool
+    private function isFree(int $now, int $duration): bool
     {
-        return !$this->hasKey() || $now - $this->timestamp > $duration;
+        return $this->key === "" || $now - $this->timestamp > $duration;
     }
 
     public function set(string $key, int $timestamp): void
