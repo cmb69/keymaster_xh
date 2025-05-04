@@ -85,13 +85,13 @@
     <delete dir="export"/>
     <copy file="dist/config/config.php" tofile="dist/config/defaultconfig.php"/>
     <copy file="dist/languages/en.php" tofile="dist/languages/default.php"/>
-    <zip destfile="Keymaster_XH-2.0-dev.zip" basedir="dist" prefix="keymaster/"/>
+    <zip destfile="Keymaster_XH-2.0.zip" basedir="dist" prefix="keymaster/"/>
     <delete dir="dist"/>
   </target>
 
   <target name="build-patch" description="builds a distributable update package">
     <fail unless="patchee" message="patchee is not defined!"/>
-    <unzip file="Keymaster_XH-2.0-dev.zip" todir="current"/>
+    <unzip file="Keymaster_XH-2.0.zip" todir="current"/>
     <unzip file="${patchee}" todir="patchee"/>
     <copy todir="dist">
       <fileset dir="current">
@@ -107,10 +107,10 @@
     <if>
       <available file="dist/keymaster/css/stylesheet.css"/>
       <then>
-        <move file="dist/keymaster/css/stylesheet.css" tofile="dist/keymaster/css/stylesheet-2.0-dev.css"/>
+        <move file="dist/keymaster/css/stylesheet.css" tofile="dist/keymaster/css/stylesheet-2.0.css"/>
       </then>
     </if>
-    <zip destfile="Keymaster_XH-2.0-dev-update-from-2.x.zip" basedir="dist" includeemptydirs="false"/>
+    <zip destfile="Keymaster_XH-2.0-update-from-2.x.zip" basedir="dist" includeemptydirs="false"/>
     <delete dir="patchee" quiet="true"/>
     <delete dir="current" quiet="true"/>
     <delete dir="dist" quiet="true"/>
