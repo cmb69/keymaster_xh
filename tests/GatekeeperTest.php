@@ -51,7 +51,7 @@ class GatekeeperTest extends TestCase
         $this->store->commit();
         $this->random = $this->createStub(Random::class);
         $this->random->method("bytes")->willReturn("123456789ABCDEF");
-        $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
+        $this->view = new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["keymaster"]);
     }
 
     private function sut(): Gatekeeper

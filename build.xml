@@ -60,7 +60,7 @@
     <delete file="export.zip"/>
     <move todir="dist">
       <fileset dir="export">
-        <include name="templates/*.php"/>
+        <include name="views/*.php"/>
       </fileset>
       <filterchain>
         <replaceregexp>

@@ -60,6 +60,6 @@ class Dic
     private static function view(): View
     {
         global $pth, $plugin_tx;
-        return new View($pth["folder"]["plugins"] . "keymaster/templates/", $plugin_tx["keymaster"]);
+        return new View($pth["folder"]["plugins"] . "keymaster/views/", $plugin_tx["keymaster"]);
     }
 }

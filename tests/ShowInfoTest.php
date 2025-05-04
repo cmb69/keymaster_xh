@@ -46,7 +46,7 @@ class ShowInfoTest extends TestCase
         vfsStream::setup("root");
         $this->store = new DocumentStore(vfsStream::url("root/"));
         $this->systemChecker = new FakeSystemChecker();
-        $this->view = new View("./templates/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster']);
+        $this->view = new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")['keymaster']);
     }
 
     private function sut(): ShowInfo
