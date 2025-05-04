@@ -101,13 +101,16 @@
     <delete>
       <fileset dir="dist/keymaster">
         <include name="config/config.php"/>
-        <include name="data/**"/>
         <include name="languages/??.php"/>
-        <include name="css/stylesheet.css"/>
       </fileset>
     </delete>
-    <zip destfile="Keymaster_XH-2.0-dev-PATCH.zip" basedir="dist"
-       includeemptydirs="false"/>
+    <if>
+      <available file="dist/keymaster/css/stylesheet.css"/>
+      <then>
+        <move file="dist/keymaster/css/stylesheet.css" tofile="dist/keymaster/css/stylesheet-2.0-dev.css"/>
+      </then>
+    </if>
+    <zip destfile="Keymaster_XH-2.0-dev-update-from-2.x.zip" basedir="dist" includeemptydirs="false"/>
     <delete dir="patchee" quiet="true"/>
     <delete dir="current" quiet="true"/>
     <delete dir="dist" quiet="true"/>
