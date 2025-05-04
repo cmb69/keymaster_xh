@@ -1,5 +1,6 @@
 <?php
 
-$plugin_cf['keymaster']['lock_period']="1800";
+$plugin_cf['keymaster']['period_lock']="20";
+$plugin_cf['keymaster']['period_retry']="5";
 
 ?>

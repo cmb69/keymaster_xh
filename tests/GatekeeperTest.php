@@ -57,6 +57,7 @@ class GatekeeperTest extends TestCase
     private function sut(): Gatekeeper
     {
         return new Gatekeeper(
+            "./plugins/keymaster/",
             XH_includeVar("./config/config.php", "plugin_cf")["keymaster"],
             $this->store,
             $this->random,
@@ -128,7 +129,7 @@ class GatekeeperTest extends TestCase
         $this->assertStringContainsString("The key cannot be saved!", $response->output());
     }
 
-    public function testRendersLockingDialog(): void
+    public function testRendersLockScreen(): void
     {
         $request = new FakeRequest([
             "admin" => true,

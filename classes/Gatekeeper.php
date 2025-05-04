@@ -31,6 +31,9 @@ use Plib\View;
 
 class Gatekeeper
 {
+    /** @var string */
+    private $pluginFolder;
+
     /** @var array<string,string> */
     private $conf;
 
@@ -44,8 +47,14 @@ class Gatekeeper
     private $view;
 
     /** @param array<string,string> $conf */
-    public function __construct(array $conf, DocumentStore $store, Random $random, View $view)
-    {
+    public function __construct(
+        string $pluginFolder,
+        array $conf,
+        DocumentStore $store,
+        Random $random,
+        View $view
+    ) {
+        $this->pluginFolder = $pluginFolder;
         $this->conf = $conf;
         $this->store = $store;
         $this->random = $random;
@@ -69,9 +78,7 @@ class Gatekeeper
             return $response;
         }
         $this->store->rollback();
-        return Response::error(409, $this->view->render("dialog", [
-            "action" => $request->url()->with("logout")->relative(),
-        ]));
+        return Response::error(409, $this->renderLockScreen($request));
     }
 
     private function revokeKey(Request $request, Keymaster $keymaster): Response
@@ -85,7 +92,7 @@ class Gatekeeper
 
     private function grantKey(Request $request, Keymaster $keymaster): ?Response
     {
-        $key = $keymaster->grantKey([$this, "generateKey"], $request->time(), (int) $this->conf["lock_period"]);
+        $key = $keymaster->grantKey([$this, "generateKey"], $request->time(), 60 * (int) $this->conf["period_lock"]);
         if ($key === null) {
             return null;
         }
@@ -97,7 +104,7 @@ class Gatekeeper
 
     private function acceptKey(Request $request, Keymaster $keymaster): ?Response
     {
-        $duration = (int) $this->conf["lock_period"];
+        $duration = 60 * (int) $this->conf["period_lock"];
         if (!$keymaster->acceptKey($request->cookie("keymaster_key") ?? "", $request->time(), $duration)) {
             return null;
         }
@@ -105,6 +112,16 @@ class Gatekeeper
             return Response::create($this->view->message("fail", "error_save"));
         }
         return Response::create();
+    }
+
+    private function renderLockScreen(Request $request): string
+    {
+        return $this->view->render("lock_screen", [
+            "action" => $request->url()->with("logout")->relative(),
+            "stylesheet" => $request->url()->path($this->pluginFolder . "css/stylesheet.css")->relative(),
+            "retry_min" => (int) $this->conf["period_retry"],
+            "retry_sec" => 60 * (int) $this->conf["period_retry"],
+        ]);
     }
 
     public function generateKey(): string

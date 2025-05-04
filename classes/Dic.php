@@ -30,8 +30,14 @@ class Dic
 {
     public static function gatekeeper(): Gatekeeper
     {
-        global $plugin_cf;
-        return new Gatekeeper($plugin_cf["keymaster"], self::store(), new Random(), self::view());
+        global $pth, $plugin_cf;
+        return new Gatekeeper(
+            $pth["folder"]["plugins"] . "keymaster/",
+            $plugin_cf["keymaster"],
+            self::store(),
+            new Random(),
+            self::view()
+        );
     }
 
     public static function makeShowInfo(): ShowInfo
