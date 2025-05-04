@@ -2,7 +2,7 @@
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
 const CMSIMPLE_URL = "http://example.com/";
-const KEYMASTER_VERSION = "2.0";
+const KEYMASTER_VERSION = "2.1-dev";
 
 require_once "./vendor/autoload.php";
 

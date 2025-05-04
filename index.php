@@ -27,7 +27,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
-const KEYMASTER_VERSION = "2.0";
+const KEYMASTER_VERSION = "2.1-dev";
 
 /** @var string $o */
 
